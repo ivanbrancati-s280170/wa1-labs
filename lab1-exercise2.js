@@ -3,7 +3,7 @@
 const sqlite = require('sqlite3') ;
 const dayjs = require('dayjs') ;
 
-//function to create a Task object
+//Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined){
     if (!id) throw new Error('ID is required!') ;
     else if (!description) throw new Error('Description is required!') ;
@@ -16,28 +16,40 @@ function Task(id, description, urgent = false, privacy = true, deadline = undefi
     this.toString = () => `Id: ${this.id}, Description: ${this.description}, Urgent: ${this.urgent}, Private: ${this.privacy}, Deadline: ${this.deadline?this.deadline.format("MMMM DD, YYYY hh:mmA"):"<not defined>"}`
 } ;
 
-//function to create a TaskList object
+//TaskList object constructor
 function TaskList(){
     this.tasks = [] ;
 
+    //method to add a task to the tasks list
     this.addTask = (task) => this.tasks.push(task) ;
-    this.sortAndPrint = () => {
-        this.tasks.sort((a,b) => {
+
+    //method to sort tasks by deadline (the ones without deadline will be the last ones)
+    this.sortByDeadline = () => this.tasks.sort((a,b) => {
         if(a.deadline&&b.deadline) return a.deadline.subtract(b.deadline) ;
         else if (a.deadline == undefined) return 1 ;
         else if (b.deadline == undefined) return -1 ;
         }) ;
-    const printList = this.tasks.map( (task) => task.toString()) ;
+        
+
+    //method to filter only urgent tasks
+    this.filterUrgent = () => this.tasks.filter( (task) => task.urgent )
+
+    //method to print sorted tasks
+    this.sortAndPrint = () => {
+    const printList = this.sortByDeadline().map( (task) => task.toString()) ;
     printList.unshift("****** Tasks sorted by deadline (most recent first): ******") ;
     console.log(printList.join("\n")) ;
     } ;
+
+    //method to print urgent tasks
     this.filterAndPrint = () => {
-        const printList = this.tasks.filter( (task) => task.urgent ).map( (task) => task.toString()) ;
+        const printList = this.filterUrgent().map( (task) => task.toString()) ;
         printList.unshift("****** Tasks filtered, only (urgent == true): ******") ;
         console.log(printList.join("\n")) ;
         } ;
     } ;
 
+//TODO: change db access and methods
 //open db
 const db = new sqlite.Database( 'tasks.db',
 (err) => { if(err) throw err; }) ;
@@ -98,4 +110,5 @@ async function addFromDb(tasklist, select, parameters) {
 const tl = new TaskList() ; 
 //addFromDb(tl, getAll) ;
 //addFromDb(tl, getAfterDate, "2020-11-11") ;
-addFromDb(tl, getFromDescription, "lab") ;
+//addFromDb(tl, getFromDescription, "lab") ;
+
