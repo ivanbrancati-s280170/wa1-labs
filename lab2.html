@@ -15,7 +15,7 @@
     <body>
         <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-success">
             <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#CollapsableSidebar" aria-controls="CollapsableSidebar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand text-light col-4" href="#">
@@ -25,11 +25,9 @@
                       </svg>
                     ToDo Manager
                 </a>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                    <form class="d-flex">
+                    <form class="d-sm-flex d-none">
                         <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                     </form>
-                </div>
                 <svg class="text-light" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
@@ -38,8 +36,8 @@
         </nav>
         <div class="container-fluid">
             <div class="row">
-                <!---TODO: List that disappears-->
-                <nav class="col-sm-4 pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left">
+                <!---List that disappears in small screens-->
+                <nav class="d-none d-sm-flex col-sm-4 pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left">
                     <a href="#" class="list-group-item list-group-item-action" id="sidebar-left-elem-active" aria-current="true">All</a>
                     <a href="#" class="list-group-item list-group-item-action sidebar-left-elem">Important</a>
                     <a href="#" class="list-group-item list-group-item-action sidebar-left-elem">Today</a>
@@ -47,7 +45,16 @@
                     <a href="#" class="list-group-item list-group-item-action sidebar-left-elem">Private</a>
                 </nav>
 
-                <main class="col-8">
+                <!---Only for small screens-->
+                <nav class="col-sm-4 pt-3 pl-3 pr-3 d-md-none collapse list-group list-group-flush sidebar-left" id="CollapsableSidebar">
+                    <a href="#" class="list-group-item list-group-item-action" id="sidebar-left-elem-active" aria-current="true">All</a>
+                    <a href="#" class="list-group-item list-group-item-action sidebar-left-elem">Important</a>
+                    <a href="#" class="list-group-item list-group-item-action sidebar-left-elem">Today</a>
+                    <a href="#" class="list-group-item list-group-item-action sidebar-left-elem">Next 7 Days</a>
+                    <a href="#" class="list-group-item list-group-item-action sidebar-left-elem">Private</a>
+                </nav>
+
+                <main class="col-sm-8">
                     <h1 class="tasks-title">All</h1>
                         <ul class="list-group list-group-flush tasklist">
                             <li class="list-group-item tasklist-elem">
