@@ -1,0 +1,22 @@
+#sidebar-left-elem-active{
+    background-color: #198754;
+    color: white
+}
+
+.important-task{
+    color: red
+}
+
+.sidebar-left{
+    background: #f7f8f9;
+}
+.sidebar-left > .list-group-item {
+    background: #f7f8f9;
+}
+
+.add-button{
+    color: #198754;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
