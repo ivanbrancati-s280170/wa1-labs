@@ -2,7 +2,7 @@ body{
     font-family: sans-serif;
 }
 #sidebar-left-elem-active{
-    background-color: #198754;
+    background-color: #28a745;
     color: white
 }
 
@@ -18,7 +18,7 @@ body{
 }
 
 .add-button{
-    color: #198754;
+    color: #28a745;
     position: absolute;
     bottom: 10px;
     right: 10px;
