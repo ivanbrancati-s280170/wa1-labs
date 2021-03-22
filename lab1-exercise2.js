@@ -49,50 +49,51 @@ function TaskList(){
         } ;
     } ;
 
-//TODO: change db access and methods
+//Part related to the access to the db
+
 //open db
 const db = new sqlite.Database( 'tasks.db',
 (err) => { if(err) throw err; }) ;
 
-//function that returns all the tasks in the db
+//function that returns a list of all the tasks in the db
 function getAll() {
     return new Promise( (resolve, reject) => {
         db.all("SELECT * FROM tasks", 
             (err, rows) => {
                 if (err) reject (err) ;
                 else {
-                    resolve(rows);
+                    resolve(rows.map( (row) => new Task(row.id, row.description, row.urgent, row.private, row.deadline))) ;
                 } ;
                 }) ;
     }) ;
 } ;
 
-//function that returns the tasks in the db with the deadline after a certain date
+//function that returns a list of the tasks in the db with the deadline after a certain date
 function getAfterDate(date) {
     return new Promise( (resolve, reject) => {
         db.all("SELECT * FROM tasks WHERE deadline > ?",[date], 
             (err, rows) => {
                 if (err) reject (err) ;
                 else {
-                    resolve(rows);
+                    resolve(rows.map( (row) => new Task(row.id, row.description, row.urgent, row.private, row.deadline))) ;
                 } ;
                 }) ;
     }) ;
 } ;
 
-//function that returns the tasks in the db with the description with a certain word
+//function that returns a list of the tasks in the db with the description with a certain word
 function getFromDescription(word) {
     return new Promise( (resolve, reject) => {
         db.all("SELECT * FROM tasks WHERE description LIKE ?",[`%${word}%`], 
             (err, rows) => {
                 if (err) reject (err) ;
                 else {
-                    resolve(rows);
+                    resolve(rows.map( (row) => new Task(row.id, row.description, row.urgent, row.private, row.deadline))) ;
                 } ;
                 }) ;
     }) ;
 } ;
-
+/*
 //function to add tasks to the task list
 //select is the function to get the tasks
 //parameters are the (optional) parameters to give to the select function
@@ -101,13 +102,42 @@ async function addFromDb(tasklist, select, parameters) {
     DBtasks.forEach( (task) => tasklist.addTask(new Task(task.id, task.description, task.urgent, task.privacy, task.deadline))) ;
     tasklist.sortAndPrint() ;
 } ;
+*/
+async function main(){
+    const tl = new TaskList() ;
+    const tl2 = new TaskList() ;
+    const tl3 = new TaskList() ;
+    
+    //get all the tasks
+    console.log("---First tasks list---") ;
+    const tasks = await getAll() ;
+    tasks.forEach( (task) => {
+        tl.addTask(task) ;
+    }) ; ;
+    tl.sortAndPrint() ;
+
+     //get the tasks after 2020-11-11
+     console.log("---Second tasks list---") ;
+     const tasks2 = await getAfterDate('2020-11-11') ;
+     tasks2.forEach( (task) => {
+        tl2.addTask(task) ;
+    }) ; ;
+    tl2.sortAndPrint() ;
+
+     //get the tasks with word 'lab' in the description
+     console.log("---Third tasks list---") ;
+     const tasks3 = await getFromDescription('lab') ;
+     tasks3.forEach( (task) => {
+        tl3.addTask(task) ;
+    }) ; ;
+    tl3.sortAndPrint() ;
+}
 
 
 
+main() ;
 
-
-
-const tl = new TaskList() ; 
+//const tl = new TaskList() ; 
 //addFromDb(tl, getAll) ;
 //addFromDb(tl, getAfterDate, "2020-11-11") ;
 //addFromDb(tl, getFromDescription, "lab") ;
