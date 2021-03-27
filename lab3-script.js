@@ -6,6 +6,7 @@ function Task(id, description, urgent = false, privacy = true, deadline = undefi
     this.description = description ;
     this.urgent = urgent ;
     this.privacy = privacy ;
+    //deadline format: "YYYY-MM-DD hh:mm"
     this.deadline = deadline? dayjs(deadline) : undefined ;
 
     this.toString = () => `Id: ${this.id}, Description: ${this.description}, Urgent: ${this.urgent}, Private: ${this.privacy}, Deadline: ${this.deadline?this.deadline.format("MMMM DD, YYYY hh:mmA"):"<not defined>"}`
@@ -37,16 +38,17 @@ function TaskList(){
 } ;
 
 //creating the tasks
-const t1 = new Task(1, "Play tennis", true , true, "2021-01-12") ;
-const t2 = new Task(2, "Study", false, true ,  "2020-04-04") ;
-const t3 = new Task(3, "Gym", true , true) ;
-const t4 = new Task(4, "prova", true , true) ;
-const t5 = new Task(5, undefined, true , true) ;
-const t6 = new Task(6, "Play tennis", false , false, "2021-01-12") ;
-const t7 = new Task(7, "Study", false, true ,  "2020-04-04") ;
-const t8 = new Task(8, "Gym", true , true) ;
-const t9 = new Task(9, "prova", true , true) ;
-const t10 = new Task(10, undefined, true , true) ;
+const t1 = new Task(1, "Play tennis", false , true, "2021-04-04 11:00") ;
+const t2 = new Task(2, "Study", true, false ,  "2020-04-03 15:00") ;
+const t3 = new Task(3, "Gym", true , false, "2021-04-05 20:00") ;
+const t4 = new Task(4, "Complete Lab 3", true , true, "2021-03-29 16:00") ;
+const t5 = new Task(5, "Work meeting", true , true, "2021-05-12 10:00") ;
+const t6 = new Task(6, "Watch a movie", false , false, "2021-04-13 21:00") ;
+const t7 = new Task(7, "Study Again", false, true ,  "2020-04-04 15:00") ;
+const t8 = new Task(8, "Gym Again", true , false, "2021-04-16 13:00") ;
+const t9 = new Task(9, "Supermarket", false , false, "2021-04-12 18:00") ;
+const t10 = new Task(10, "Complete lab 4", true , true, "2021-04-12 16:00") ;
+const t11 = new Task(10, "Read a good book!", true , false) ;
 
 
 //creating the task list
@@ -61,8 +63,22 @@ tl.addTask(t7) ;
 tl.addTask(t8) ;
 tl.addTask(t9) ;
 tl.addTask(t10) ;
+tl.addTask(t11) ;
 
+//TODO: continua da qui
+/* //Function to get an html element from a task
+function taskHtmlElement(task){
+    const taskElem = document.createElement()
+} */
 //Function for event listeners callbacks
 document.addEventListener('DOMContentLoaded', (event) => {
+    const tasklistContainer = document.getElementById("tasklist-container") ;
+    const tasksTitle = document.createElement('h1') ;
+    tasksTitle.id = "tasks-title" ;
+    tasksTitle.innerText = "All" ;
+    tasklistContainer.appendChild(tasksTitle) ;
+/*     tl.tasks.forEach( (task) => {
 
+        tasklistContainer.appendChild
+    }) ; */
 }) ;
