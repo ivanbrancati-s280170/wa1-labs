@@ -72,11 +72,48 @@ tl.addTask(t9) ;
 tl.addTask(t10) ;
 tl.addTask(t11) ;
 
-//TODO: continua da qui
-/* //Function to get an html element from a task
+//Function to get an html element from a task
 function taskHtmlElement(task){
-    const taskElem = document.createElement()
-} */
+    const taskList = document.getElementById("tasklist") ;
+    const elemList = document.createElement('li') ;
+    elemList.classList.add("list-group-item", "tasklist-elem") ;
+    taskList.appendChild(elemList) ;
+
+    const elemDiv = document.createElement('div') ;
+    elemDiv.classList.add("d-flex", "w-100", "justify-content-between", "pt-1") ;
+    elemList.appendChild(elemDiv) ;
+
+    //task label + checkbox
+    const elemCheckBoxLabel = document.createElement('label') ;
+    elemCheckBoxLabel.innerHTML = `<input class="form-check-input me-1" type="checkbox" value=""></input>\n${task.description}`
+    elemDiv.appendChild(elemCheckBoxLabel) ;
+
+    
+
+    if(task.privacy) {
+        const elemSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg") ;
+        elemSvg.setAttributeNS(null, "width", 20) ;
+        elemSvg.setAttributeNS(null, "height", 20) ;
+        elemSvg.setAttributeNS(null, "fill", "currentColor") ;
+        elemSvg.classList.add("bi", "bi-person-square") ;
+        elemSvg.setAttributeNS(null, "viewBox", "0 0 16 16") ;
+        const svgPath= document.createElementNS("http://www.w3.org/2000/svg", "path") ;
+        svgPath.setAttributeNS(null, "d", "M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z") ;
+        const svgPath2= document.createElementNS("http://www.w3.org/2000/svg", "path") ;
+        svgPath2.setAttributeNS(null, "d", "M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z") ;
+        elemSvg.appendChild(svgPath) ;
+        elemSvg.appendChild(svgPath2) ;
+        elemDiv.appendChild(elemSvg) ;
+    } ;
+
+    //deadline
+    if(task.deadline) {
+                        const elemDeadline = document.createElement("p") ;
+                        elemDeadline.classList.add("deadline") ;
+                        elemDeadline.innerText = task.deadline.format("dddd D MMMM YYYY [at] HH:mm") ;
+                        elemDiv.appendChild(elemDeadline) ;
+    } ;
+} ;
 //Function for event listeners callbacks
 document.addEventListener('DOMContentLoaded', (event) => {
     const tasklistContainer = document.getElementById("tasklist-container") ;
@@ -86,45 +123,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     tasksTitle.innerText = "All" ;
     
     const taskList = document.createElement('ul') ;
-    taskList.classList.add("list-group", "list-group-flush", "tasklist") ;
+    taskList.classList.add("list-group", "list-group-flush") ;
+    taskList.id = "tasklist" ;
 
     tasklistContainer.appendChild(tasksTitle) ;
     tasklistContainer.appendChild(taskList) ;
-    tl.tasks.forEach( (task) => {
-                                    const elemList = document.createElement('li') ;
-                                    elemList.classList.add("list-group-item", "tasklist-elem") ;
-                                    document.taskList.appendChild(elemList) ;
-
-                                    const elemDiv = document.createElement('div') ;
-                                    elemDiv.classList.add("d-flex", "w-100", "justify-content-between", "pt-1") ;
-                                    document.elemList.appendChild(elemDiv)
-
-                                    const elemCheckBoxLabel = document.createElement('label') ;
-                                    document.elemDiv.appendChild(elemCheckBoxLabel) ;
-
-                                    //task label + checkbox
-                                    const elemCheckBoxInput = document.createElement('input') ;
-                                    elemCheckBoxInput.classList.add("form-check-input", "me-1") ;
-                                    elemCheckBoxInput.type = "checkbox" ;
-                                    elemCheckBoxInput.value = "" ;
-                                    elemCheckBoxInput.textContent = task.description ;
-
-
-                                    //icon only if private
-                                    if(task.privacy) {
-                                        const elemSvg = document.createElement('svg') ;
-                                        elemSvg.classList.add("bi", "bi-person-square") ;
-                                        
-                                    }
-                                    {/* <label>
-                                        <input class="form-check-input me-1" type="checkbox" value="">
-                                        Buy some groceries
-                                    </label>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16">
-                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z"/>
-                                    </svg>
-                                    <p class="deadline">Today at 14:00</p> */}
-        tasklistContainer.appendChild
-    }) ;
+    tl.tasks.forEach( (task) => taskHtmlElement(task) ) ;
 }) ;

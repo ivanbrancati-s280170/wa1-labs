@@ -27,7 +27,7 @@ body{
 
 .add-button{
     color: #28a745;
-    position: absolute;
+    position: fixed;
     bottom: 15px;
     right: 15px;
 }
