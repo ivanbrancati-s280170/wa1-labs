@@ -72,7 +72,7 @@ tl.addTask(t9) ;
 tl.addTask(t10) ;
 tl.addTask(t11) ;
 
-//Function to get an html element from a task
+//Function(callback) to get an html element from a task
 function taskHtmlElement(task){
     const taskList = document.getElementById("tasklist") ;
     const elemList = document.createElement('li') ;
@@ -89,7 +89,7 @@ function taskHtmlElement(task){
     elemDiv.appendChild(elemCheckBoxLabel) ;
 
     
-
+    //icon only if the task is private
     if(task.privacy) {
         const elemSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg") ;
         elemSvg.setAttributeNS(null, "width", 20) ;
