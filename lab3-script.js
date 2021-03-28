@@ -28,13 +28,20 @@ function TaskList(){
         
 
     //method to filter only urgent tasks
-    this.filterUrgent = () => this.tasks.filter( (task) => task.urgent )
+    this.filterUrgent = () => this.tasks.filter( (task) => task.urgent ) ;
 
     //method to filter only private tasks
-
+    this.filterPrivate = () => this.tasks.filter( (task) => task.privacy ) ;
+    
     //method to filter today tasks
+    this.filterToday = () => this.tasks.filter( (task) => { if (task.deadline == undefined) return false ;
+                                                            else return dayjs().isSame(task.deadline, 'day') ;
+                                                            }) ;
 
     //method to filter next 7 days tasks
+    this.filterWeek = () => this.tasks.filter( (task) => { if (task.deadline == undefined) return false ;
+                                                           else return task.deadline.isAfter(dayjs(), 'day') && task.deadline.isBefore(dayjs().add(9, 'day'), 'day');
+                                                            }) ;
 } ;
 
 //creating the tasks
