@@ -28,7 +28,7 @@ function TaskList(){
         
 
     //method to filter only urgent tasks
-    this.filterUrgent = () => this.tasks.filter( (task) => task.urgent ) ;
+    this.filterImportant = () => this.tasks.filter( (task) => task.urgent ) ;
 
     //method to filter only private tasks
     this.filterPrivate = () => this.tasks.filter( (task) => task.privacy ) ;
@@ -39,7 +39,7 @@ function TaskList(){
                                                             }) ;
 
     //method to filter next 7 days tasks
-    this.filterWeek = () => this.tasks.filter( (task) => { if (task.deadline == undefined) return false ;
+    this.filterNext7Days = () => this.tasks.filter( (task) => { if (task.deadline == undefined) return false ;
                                                            else return task.deadline.isAfter(dayjs(), 'day') && task.deadline.isBefore(dayjs().add(9, 'day'), 'day');
                                                             }) ;
 } ;
@@ -71,6 +71,34 @@ tl.addTask(t8) ;
 tl.addTask(t9) ;
 tl.addTask(t10) ;
 tl.addTask(t11) ;
+
+//Function to initialize the page content
+function initializePage(){
+    const tasklistContainer = document.getElementById("tasklist-container") ;
+    
+    const tasksTitle = document.createElement('h1') ;
+    tasksTitle.id = "tasks-title" ;
+    tasksTitle.innerText = "All" ;
+    
+    const taskList = document.createElement('ul') ;
+    taskList.classList.add("list-group", "list-group-flush") ;
+    taskList.id = "tasklist" ;
+
+    tasklistContainer.appendChild(tasksTitle) ;
+    tasklistContainer.appendChild(taskList) ;
+} ;
+
+//Function to clear the page content
+function clearPage(){
+    document.getElementById("tasklist").innerHTML = "" ;
+} ;
+
+//Function to update the page content
+function updatePage(filterFunction){
+    var tasksToPrint ;
+    filterFunction == "filterAll" ? tasksToPrint = tl.tasks : tasksToPrint = tl[filterFunction]() ;
+    tasksToPrint.forEach( (task) => taskHtmlElement(task)) ;
+}
 
 //Function(callback) to get an html element from a task
 function taskHtmlElement(task){
@@ -114,37 +142,40 @@ function taskHtmlElement(task){
                         elemDiv.appendChild(elemDeadline) ;
     } ;
 } ;
+
+//Function(callback) for mouse over events
+function mouseOver(elem){
+                            elem.addEventListener("mouseover", event => {
+                                if(document.getElementsByClassName("mouseover").length > 0) Array.from(document.getElementsByClassName("mouseover")).forEach( (elem) => elem.classList.remove("mouseover") ) ;
+                                event.target.classList.add("mouseover") ;
+                            }) ;
+} ;
+
+//Function(callback) for click events
+function mouseClick(elem){
+    
+} ;
+
 //Function for event listeners callbacks
 document.addEventListener('DOMContentLoaded', (event) => {
-    const tasklistContainer = document.getElementById("tasklist-container") ;
+    initializePage() ;
     
-    const tasksTitle = document.createElement('h1') ;
-    tasksTitle.id = "tasks-title" ;
-    tasksTitle.innerText = "All" ;
-    
-    const taskList = document.createElement('ul') ;
-    taskList.classList.add("list-group", "list-group-flush") ;
-    taskList.id = "tasklist" ;
-
-    tasklistContainer.appendChild(tasksTitle) ;
-    tasklistContainer.appendChild(taskList) ;
     tl.tasks.forEach( (task) => taskHtmlElement(task) ) ;
 
-    document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => {
-                                                                            elem.addEventListener("mouseover", event => {
-                                                                                    if(document.getElementsByClassName("mouseover").length > 0) Array.from(document.getElementsByClassName("mouseover")).forEach( (elem) => elem.classList.remove("mouseover") ) ;
-                                                                                    event.target.classList.add("mouseover") ;
-                                                                                }) ;
-                                                                            }) ;
+    document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => mouseOver(elem) ) ;
 
-    //TODO: filters
+    //TODO: active non funziona in mobile
     document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => {
         elem.addEventListener("click", event => {
                                                     document.getElementById('tasks-title').innerText = event.target.innerText ;
                                                     Array.from(document.getElementsByClassName("sidebar-left-elem-active")).forEach( (elem) => elem.classList.remove("sidebar-left-elem-active")) ;
                                                     document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar`).classList.add("sidebar-left-elem-active") ;
                                                     document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar-mobile`).classList.add("sidebar-left-elem-active") ;
-                                                    //TODO: popolazione lista task con filtro
+                                                    clearPage() ;
+                                                    console.log(event.target.innerText.split(" ").join(""))
+                                                    updatePage(`filter${event.target.innerText.split(" ").join("")}`) ;
+                                                    
+                                                    
                                                 }) ;
     }) ;
 }) ;
