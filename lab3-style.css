@@ -1,10 +1,7 @@
 body{
     font-family: sans-serif;
 }
-#sidebar-left-elem-active{
-    background-color: #28a745;
-    color: white
-}
+
 
 .important-task{
     color: red
@@ -25,9 +22,32 @@ body{
     background: #f7f8f9;
 }
 
+
+.sidebar-left > .sidebar-left-elem-active{
+    background-color: #28a745;
+    color: white
+}
+
+.mobile-sidebar > .sidebar-left-elem-active{
+    background-color: #28a745;
+    color: white
+}
+
+.sidebar-left > .mouseover{
+    background-color:#9ce29a;
+    color: #28a745
+}
+
+.mobile-sidebar> .mouseover{
+    background-color:#9ce29a;
+    color: #28a745
+}
+
 .add-button{
     color: #28a745;
     position: fixed;
     bottom: 15px;
     right: 15px;
 }
+
+

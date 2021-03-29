@@ -129,4 +129,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
     tasklistContainer.appendChild(tasksTitle) ;
     tasklistContainer.appendChild(taskList) ;
     tl.tasks.forEach( (task) => taskHtmlElement(task) ) ;
+
+    document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => {
+                                                                            elem.addEventListener("mouseover", event => {
+                                                                                    if(document.getElementsByClassName("mouseover").length > 0) Array.from(document.getElementsByClassName("mouseover")).forEach( (elem) => elem.classList.remove("mouseover") ) ;
+                                                                                    event.target.classList.add("mouseover") ;
+                                                                                }) ;
+                                                                            }) ;
+
+    //TODO: filters
+    document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => {
+        elem.addEventListener("click", event => {
+                                                    document.getElementById('tasks-title').innerText = event.target.innerText ;
+                                                    Array.from(document.getElementsByClassName("sidebar-left-elem-active")).forEach( (elem) => elem.classList.remove("sidebar-left-elem-active")) ;
+                                                    document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar`).classList.add("sidebar-left-elem-active") ;
+                                                    document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar-mobile`).classList.add("sidebar-left-elem-active") ;
+                                                    //TODO: popolazione lista task con filtro
+                                                }) ;
+    }) ;
 }) ;
