@@ -113,6 +113,7 @@ function taskHtmlElement(task){
 
     //task label + checkbox
     const elemCheckBoxLabel = document.createElement('label') ;
+    if (task.urgent) elemCheckBoxLabel.classList.add("important-task") ;
     elemCheckBoxLabel.innerHTML = `<input class="form-check-input me-1" type="checkbox" value=""></input>\n${task.description}`
     elemDiv.appendChild(elemCheckBoxLabel) ;
 
