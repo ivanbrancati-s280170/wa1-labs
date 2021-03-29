@@ -23,16 +23,6 @@ body{
 }
 
 
-.sidebar-left > .sidebar-left-elem-active{
-    background-color: #28a745;
-    color: white
-}
-
-.mobile-sidebar > .sidebar-left-elem-active{
-    background-color: #28a745;
-    color: white
-}
-
 .sidebar-left > .mouseover{
     background-color:#9ce29a;
     color: #28a745
@@ -41,6 +31,16 @@ body{
 .mobile-sidebar> .mouseover{
     background-color:#9ce29a;
     color: #28a745
+}
+
+.sidebar-left > .sidebar-left-elem-active{
+    background-color: #28a745;
+    color: white
+}
+
+.mobile-sidebar > .sidebar-left-elem-active{
+    background-color: #28a745;
+    color: white
 }
 
 .add-button{

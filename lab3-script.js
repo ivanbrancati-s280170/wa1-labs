@@ -153,29 +153,24 @@ function mouseOver(elem){
 
 //Function(callback) for click events
 function mouseClick(elem){
-    
+    elem.addEventListener("click", event => {
+        document.getElementById('tasks-title').innerText = event.target.innerText ;
+        Array.from(document.getElementsByClassName("sidebar-left-elem-active")).forEach( (elem) => elem.classList.remove("sidebar-left-elem-active")) ;
+        document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar`).classList.add("sidebar-left-elem-active") ;
+        document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar-mobile`).classList.add("sidebar-left-elem-active") ;
+        clearPage() ;
+        updatePage(`filter${event.target.innerText.split(" ").join("")}`) ;   
+    }) ;
 } ;
 
-//Function for event listeners callbacks
+//Function for event listeners callbacks after the DOM has been loaded
 document.addEventListener('DOMContentLoaded', (event) => {
     initializePage() ;
     
     tl.tasks.forEach( (task) => taskHtmlElement(task) ) ;
 
+    document.querySelectorAll(".mobile-sidebar").forEach( (elem) => mouseOver(elem) ) ;
     document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => mouseOver(elem) ) ;
 
-    //TODO: active non funziona in mobile
-    document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => {
-        elem.addEventListener("click", event => {
-                                                    document.getElementById('tasks-title').innerText = event.target.innerText ;
-                                                    Array.from(document.getElementsByClassName("sidebar-left-elem-active")).forEach( (elem) => elem.classList.remove("sidebar-left-elem-active")) ;
-                                                    document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar`).classList.add("sidebar-left-elem-active") ;
-                                                    document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar-mobile`).classList.add("sidebar-left-elem-active") ;
-                                                    clearPage() ;
-                                                    console.log(event.target.innerText.split(" ").join(""))
-                                                    updatePage(`filter${event.target.innerText.split(" ").join("")}`) ;
-                                                    
-                                                    
-                                                }) ;
-    }) ;
+    document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => mouseClick(elem) ) ;
 }) ;
