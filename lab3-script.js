@@ -152,6 +152,13 @@ function mouseOver(elem){
                             }) ;
 } ;
 
+//Function(callback) for mouse out events
+function mouseOut(elem){
+    elem.addEventListener("mouseout", event => {
+        if(document.getElementsByClassName("mouseover").length > 0) Array.from(document.getElementsByClassName("mouseover")).forEach( (elem) => elem.classList.remove("mouseover") ) ;
+    }) ;
+} ;
+
 //Function(callback) for click events
 function mouseClick(elem){
     elem.addEventListener("click", event => {
@@ -172,6 +179,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     document.querySelectorAll(".mobile-sidebar").forEach( (elem) => mouseOver(elem) ) ;
     document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => mouseOver(elem) ) ;
+
+    document.querySelectorAll(".mobile-sidebar").forEach( (elem) => mouseOut(elem) ) ;
+    document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => mouseOut(elem) ) ;
 
     document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => mouseClick(elem) ) ;
 }) ;
