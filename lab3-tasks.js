@@ -46,7 +46,7 @@ function TaskList(){
 
 //creating the tasks
 const t1 = new Task(1, "Play tennis", false , true, "2021-04-10 11:00") ;
-const t2 = new Task(2, "Study", true, false ,  "2020-04-07 15:00") ;
+const t2 = new Task(2, "Study", true, false ,  "2021-04-07 15:00") ;
 const t3 = new Task(3, "Gym", true , false, "2021-04-09 20:00") ;
 const t4 = new Task(4, "Complete Lab 3", true , true, "2021-05-29 16:00") ;
 const t5 = new Task(5, "Work meeting", true , true, "2021-05-07 10:00") ;

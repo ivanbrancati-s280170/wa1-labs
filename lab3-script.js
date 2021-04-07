@@ -167,7 +167,7 @@ function mouseClick(elem){
         document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar`).classList.add("sidebar-left-elem-active") ;
         document.getElementById(`${event.target.innerText.split(" ").map( (elem) => elem.charAt(0).toLowerCase() + elem.slice(1, elem.length) ).join("_")}-sidebar-mobile`).classList.add("sidebar-left-elem-active") ;
         clearPage() ;
-        updatePage(`filter${event.target.innerText.split(" ").join("")}`) ;   
+        updatePage(`filter${event.target.innerText.split(" ").join("")}`) ; 
     }) ;
 } ;
 
