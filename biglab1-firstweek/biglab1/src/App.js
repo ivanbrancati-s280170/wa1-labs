@@ -1,8 +1,7 @@
-//import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './Navbar.js'
-import Sidebar from './Sidebar.js';
+import Sidebar2 from './Sidebar.js';
 import Main from './Main.js' ;
 import AddButton from './AddButton.js' ;
 
@@ -12,7 +11,7 @@ function App() {
       <Navbar></Navbar>
       <div className="container-fluid">
             <div className="row">
-              <Sidebar></Sidebar>
+              <Sidebar2></Sidebar2>
               <Main></Main>
               <AddButton></AddButton>
             </div>
