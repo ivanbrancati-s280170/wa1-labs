@@ -1,38 +1,51 @@
-.App {
-  text-align: center;
+body{
+  font-family: sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+.important-task{
+  color: red
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.sidebar-left{
+  background: #f7f8f9;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+.sidebar-left > .list-group-item {
+  background: #f7f8f9;
 }
 
-.App-link {
-  color: #61dafb;
+.mobile-sidebar{
+  background: #f7f8f9;
+}
+.mobile-sidebar > .list-group-item {
+  background: #f7f8f9;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.sidebar-left > .mouseover{
+  background-color:#9ce29a;
+  color: #28a745
+}
+
+.mobile-sidebar> .mouseover{
+  background-color:#9ce29a;
+  color: #28a745
+}
+
+.sidebar-left > .sidebar-left-elem-active{
+  background-color: #28a745;
+  color: white
+}
+
+.mobile-sidebar > .sidebar-left-elem-active{
+  background-color: #28a745;
+  color: white
+}
+
+.add-button{
+  color: #28a745;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
 }
