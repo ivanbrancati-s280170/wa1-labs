@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './Navbar.js'
-import Sidebar2 from './Sidebar.js';
+import Sidebar from './Sidebar.js';
 import Main from './Main.js' ;
 import AddButton from './AddButton.js' ;
 
@@ -10,8 +10,8 @@ function App() {
     <div className="App">
       <Navbar></Navbar>
       <div className="container-fluid">
-            <div className="row">
-              <Sidebar2></Sidebar2>
+            <div className="row vheight-100">
+              <Sidebar></Sidebar>
               <Main></Main>
               <AddButton></AddButton>
             </div>
