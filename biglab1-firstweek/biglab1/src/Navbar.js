@@ -1,3 +1,4 @@
+//TODO: sistemare versione doppie -> versione singola
 const Logo = (props) => {
     return (
             <a className="navbar-brand text-light col-4 d-none d-sm-block" href="#">

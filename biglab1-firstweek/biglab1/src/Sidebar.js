@@ -1,3 +1,4 @@
+//TODO: sistemare versione doppie -> versione singola
 const Sidebar = (props) => {
     return ( 
             <nav className="d-none d-sm-flex col-sm-4 pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left">

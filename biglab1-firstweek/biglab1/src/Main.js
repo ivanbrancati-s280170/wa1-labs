@@ -1,3 +1,6 @@
+//TODO: sistemare versione doppie -> versione singola
+//TODO: creare list con keys (vedi funzione numberlist)
+//TODO: sistemare 'scorrimento' pagina
 const Title = (props) => <h1 className="tasks-title">All</h1> ;
 
 const TaskList = (props) => {
