@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import ToDoNavbar from './Navbar.js'
-import Sidebar from './Sidebar.js';
+import ToDoNavbar from './ToDoNavbar.js'
+import ToDoSidebar from './ToDoSidebar.js';
 import Main from './Main.js' ;
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
       <ToDoNavbar></ToDoNavbar>
       <div className="container-fluid">
             <div className="row vheight-100">
-              <Sidebar></Sidebar>
+              <ToDoSidebar></ToDoSidebar>
               <Main></Main>
             </div>
       </div>

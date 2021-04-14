@@ -1,11 +1,12 @@
 //TODO: creare list con keys (vedi funzione numberlist)
 //TODO: sistemare 'scorrimento' pagina
+import {ListGroup} from 'react-bootstrap' ;
 const Title = (props) => <h1 className="tasks-title">All</h1> ;
 
 const TaskList = (props) => {
     return (
-            <ul className="list-group list-group-flush tasklist">
-                <li className="list-group-item tasklist-elem">
+            <ListGroup as="ul" variant="flush" className="tasklist">
+                <ListGroup.Item className="tasklist-elem">
                     <div className="d-flex w-100 justify-content-between pt-1">
                         <label >
                             <input className="form-check-input me-1" type="checkbox" value=""/>
@@ -13,8 +14,8 @@ const TaskList = (props) => {
                         </label>
                         <p className="deadline">Monday 22 March at 14:30</p>
                     </div>
-                </li>
-                <li className="list-group-item tasklist-elem">
+                </ListGroup.Item>
+                <ListGroup.Item className="tasklist-elem">
                     <div className="d-flex w-100 justify-content-between pt-1">
                         <label>
                             <input className="form-check-input me-1" type="checkbox" value=""/>
@@ -26,16 +27,16 @@ const TaskList = (props) => {
                         </svg>
                         <p className="deadline">Today at 14:00</p>
                     </div>
-                </li>
-                <li className="list-group-item tasklist-elem">
+                </ListGroup.Item>
+                <ListGroup.Item className="tasklist-elem">
                     <div className="d-flex w-100 justify-content-between pt-1">
                         <label className="important-task">
                             <input className="form-check-input me-1" type="checkbox" value=""/>
                             Read a good book!
                         </label>
                     </div>
-                </li>
-            </ul>
+                </ListGroup.Item>
+            </ListGroup>
             ) ;
 } ;
 

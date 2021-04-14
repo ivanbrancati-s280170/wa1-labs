@@ -1,5 +1,5 @@
 //TODO: toggle button non funziona
-import {Navbar, Form, Nav, Button} from 'react-bootstrap'
+import {Navbar, Form, Nav, Button, FormControl} from 'react-bootstrap'
 
 const Logo = (props) => {
     return (
@@ -16,7 +16,7 @@ const Logo = (props) => {
 const SearchForm = (props) => {
     return (
             <Form inline className="d-none d-sm-block mx-auto">
-                <input className="form-control" type="search" placeholder="Search" aria-label="Search"/>
+                <FormControl type="search" placeholder="Search" aria-label="Search"/>  
             </Form >
            ) ;
 } ;
@@ -35,20 +35,7 @@ const UserIcon = (props) => {
 const ToDoNavbar = (props) => {
     return (
             <Navbar bg="success" variant="dark" expand="sm" sticky="top">
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#CollapsableSidebar" aria-controls="CollapsableSidebar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <Logo></Logo>    
-                <SearchForm></SearchForm>
-                <UserIcon></UserIcon>
-            </Navbar>  
-            ) ;
-} ;
-
-const ToDoNavbar2 = (props) => {
-    return (
-            <Navbar bg="success" variant="dark" expand="sm" sticky="top">
-                <Navbar.Toggle aria-controls="CollapsableSidebar" />
+                <Navbar.Toggle data-toggle="collapse" data-target="#CollapsableSidebar" aria-controls="CollapsableSidebar" aria-expanded="false" aria-label="Toggle navigation"/>
                 <Logo></Logo>    
                 <SearchForm></SearchForm>
                 <UserIcon></UserIcon>
@@ -58,7 +45,7 @@ const ToDoNavbar2 = (props) => {
 
 
 
-/*
+/* 
 <!-- Navbar -->
 <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-success">
     <!-- Desktop version -->
