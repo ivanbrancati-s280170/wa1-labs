@@ -1,13 +1,13 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Navbar from './Navbar.js'
+import ToDoNavbar from './Navbar.js'
 import Sidebar from './Sidebar.js';
 import Main from './Main.js' ;
 
 function App() {
   return (
     <div className="App">
-      <Navbar></Navbar>
+      <ToDoNavbar></ToDoNavbar>
       <div className="container-fluid">
             <div className="row vheight-100">
               <Sidebar></Sidebar>
