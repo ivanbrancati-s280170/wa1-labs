@@ -1,3 +1,4 @@
+//TODO: sistemare callback per versione aggiornata
 //Function to initialize the page content
 function initializePage(){
     const tasklistContainer = document.getElementById("tasklist-container") ;
