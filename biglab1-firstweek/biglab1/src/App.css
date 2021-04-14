@@ -2,24 +2,43 @@ body{
   font-family: sans-serif;
 }
 
+
 .important-task{
   color: red
 }
 
 .sidebar-left{
   background: #f7f8f9;
+  min-height: 100vh;
 }
-
 .sidebar-left > .list-group-item {
   background: #f7f8f9;
 }
+
+.mobile-sidebar{
+  background: #f7f8f9;
+}
+.mobile-sidebar > .list-group-item {
+  background: #f7f8f9;
+}
+
 
 .sidebar-left > .mouseover{
   background-color:#9ce29a;
   color: #28a745
 }
 
+.mobile-sidebar> .mouseover{
+  background-color:#9ce29a;
+  color: #28a745
+}
+
 .sidebar-left > .sidebar-left-elem-active{
+  background-color: #28a745;
+  color: white
+}
+
+.mobile-sidebar > .sidebar-left-elem-active{
   background-color: #28a745;
   color: white
 }

@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './Navbar.js'
 import Sidebar from './Sidebar.js';
 import Main from './Main.js' ;
-import AddButton from './AddButton.js' ;
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
             <div className="row vheight-100">
               <Sidebar></Sidebar>
               <Main></Main>
-              <AddButton></AddButton>
             </div>
       </div>
     
