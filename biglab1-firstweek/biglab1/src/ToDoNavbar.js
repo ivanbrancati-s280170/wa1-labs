@@ -1,5 +1,5 @@
-//TODO: toggle button non funziona
-import {Navbar, Form, Nav, Button, FormControl} from 'react-bootstrap'
+//TODO: toggle button non funziona (hooks?)
+import {Navbar, Form, Nav, FormControl} from 'react-bootstrap'
 
 const Logo = (props) => {
     return (

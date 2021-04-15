@@ -1,4 +1,4 @@
-//TODO: toggler non funziona
+//TODO: toggler non funziona (hooks?)
 import {Col, ListGroup} from 'react-bootstrap'
 const filters = ['Important', 'Today', 'Next 7 Days', 'Private'] ;
 
