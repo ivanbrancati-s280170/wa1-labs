@@ -1,6 +1,6 @@
 //TODO: creare list con keys (vedi funzione numberlist)
 //TODO: sistemare 'scorrimento' pagina
-import {ListGroup} from 'react-bootstrap' ;
+import {ListGroup, Col} from 'react-bootstrap' ;
 const Title = (props) => <h1 className="tasks-title">All</h1> ;
 
 const TaskList = (props) => {
@@ -50,16 +50,16 @@ const AddButton = (props) => {
             ) ;
 } ;
 
-const Main = (props) => {
+const ToDoMain = (props) => {
     return (
-            <main className="col-12 col-sm-8">
+            <Col as='main' xs={12} md={8}>
                 <div id="tasklist-container">
                     <Title></Title>   
                     <TaskList></TaskList>
                     <AddButton></AddButton>
                 </div>
-            </main>
+            </Col>
             ) ;
 } ;
 
-export default Main ;
+export default ToDoMain ;

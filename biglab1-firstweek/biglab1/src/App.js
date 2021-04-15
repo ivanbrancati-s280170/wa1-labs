@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ToDoNavbar from './ToDoNavbar.js'
 import ToDoSidebar from './ToDoSidebar.js';
-import Main from './Main.js' ;
+import ToDoMain from './ToDoMain.js' ;
 import {Container, Row} from 'react-bootstrap'
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <Container fluid>
             <Row className="vheight-100">
               <ToDoSidebar></ToDoSidebar>
-              <Main></Main>
+              <ToDoMain></ToDoMain>
             </Row>
       </Container>
     </div>
