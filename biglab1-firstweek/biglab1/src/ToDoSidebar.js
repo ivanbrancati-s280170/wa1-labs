@@ -1,12 +1,12 @@
 //TODO: toggler non funziona
-import {Col} from 'react-bootstrap'
+import {Col, ListGroup} from 'react-bootstrap'
 const filters = ['Important', 'Today', 'Next 7 Days', 'Private'] ;
 
 const SidebarListElements = (props) => {
     const elements = props.elements ;
-    const listItems = elements.map( (element) => <a href="#" className="list-group-item list-group-item-action sidebar-left-elem" key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"}>{element}</a>) ;
+    const listItems = elements.map( (element) => <ListGroup.Item action href="#" className="sidebar-left-elem" key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"}>{element}</ListGroup.Item>) ;
     // Unshift of 'All' list element that is the active one by default
-    listItems.unshift(<a href="#" className="list-group-item list-group-item-action sidebar-left-elem sidebar-left-elem-active" key = "all-sidebar" id = "all-sidebar">All</a>) ;
+    listItems.unshift(<ListGroup.Item action href="#" className="sidebar-left-elem sidebar-left-elem-active" key = "all-sidebar" id = "all-sidebar">All</ListGroup.Item>) ;
     return listItems
 } ;                
 
