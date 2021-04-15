@@ -1,4 +1,5 @@
 //TODO: toggler non funziona
+import {Col} from 'react-bootstrap'
 const filters = ['Important', 'Today', 'Next 7 Days', 'Private'] ;
 
 const SidebarListElements = (props) => {
@@ -12,9 +13,9 @@ const SidebarListElements = (props) => {
 
 const ToDoSidebar = (props) => {
     return ( 
-            <aside className="collapse d-sm-flex col-sm-4 pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left" id="CollapsableSidebar">
+            <Col sm={4} as="aside" className="collapse d-sm-flex pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left" id="CollapsableSidebar">
                 <SidebarListElements elements={filters}></SidebarListElements>        
-            </aside> 
+            </Col> 
             ) ;  
 } ;
 
