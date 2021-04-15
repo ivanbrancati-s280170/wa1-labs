@@ -8,7 +8,7 @@ const TaskList = (props) => {
             <ListGroup as="ul" variant="flush" className="tasklist">
                 <ListGroup.Item className="tasklist-elem">
                     <div className="d-flex w-100 justify-content-between pt-1">
-                        <label >
+                        <label>
                             <input className="form-check-input me-1" type="checkbox" value=""/>
                             Complete Lab 2
                         </label>
