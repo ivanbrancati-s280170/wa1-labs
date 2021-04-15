@@ -1,4 +1,3 @@
-//TODO: creare list con keys (vedi funzione numberlist) / sistema todotasklist2
 //TODO: sistemare 'scorrimento' pagina
 import {ListGroup, Col, Form} from 'react-bootstrap' ;
 
@@ -31,12 +30,13 @@ tl.addTask(t1) ;
 tl.addTask(t2) ;
 tl.addTask(t3) ;
 
+
 const ToDoTitle = (props) => <h1 className="tasks-title">All</h1> ;
 
 const ToDoTaskListElements = (props) => {
     const elements = props.elements ;
     const taskItems = elements.map( (element) =>  { 
-        return (<ListGroup.Item className="tasklist-elem">
+        return (<ListGroup.Item className="tasklist-elem" key={element.id}>
                 <div className="d-flex w-100 justify-content-between pt-1">
                     <Form.Label>
                         <Form.Check.Input className="me-1" type="checkbox" value=""/>
@@ -53,9 +53,11 @@ const ToDoTaskListElements = (props) => {
                 </div>
                 </ListGroup.Item>)
                 }) ;
+    console.log(taskItems) ;
     return taskItems ;
 } ;
 
+/* Static version
 const ToDoTaskList = (props) => {
     return (
             <ListGroup as="ul" variant="flush" className="tasklist">
@@ -91,12 +93,13 @@ const ToDoTaskList = (props) => {
                 </ListGroup.Item>
             </ListGroup>
             ) ;
-} ;
+} ; */
 
-const ToDoTaskList2 = (props) => {
+//From tasks list
+const ToDoTaskList = (props) => {
     return (
             <ListGroup as="ul" variant="flush" className="tasklist">
-               <ToDoTaskListElements elements = {tl}/>
+               <ToDoTaskListElements elements = {tl.tasks}/>
             </ListGroup>
             ) ;
 } ;
