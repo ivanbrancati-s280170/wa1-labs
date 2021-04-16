@@ -1,17 +1,17 @@
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import ToDoNavbar from './ToDoNavbar.js'
-import ToDoSidebar from './ToDoSidebar.js';
-import ToDoMain from './ToDoMain.js' ;
-import {Container, Row} from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css' ;
+import ToDoNavbar from './NavbarComponents.js' ;
+import { ToDoSidebar, ToDoMain } from './MainComponents.js' ;
+import {Container, Row} from 'react-bootstrap' ;
 
 function App() {
+  const filters = ['Important', 'Today', 'Next 7 Days', 'Private'] ;
   return (
     <div className="App">
       <ToDoNavbar></ToDoNavbar>
       <Container fluid>
             <Row className="vheight-100">
-              <ToDoSidebar></ToDoSidebar>
+              <ToDoSidebar elements={filters}></ToDoSidebar>
               <ToDoMain></ToDoMain>
             </Row>
       </Container>
