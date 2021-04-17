@@ -1,34 +1,6 @@
 //TODO: sistemare 'scorrimento' pagina
 import {ListGroup, Col, Form} from 'react-bootstrap' ;
-import dayjs from 'dayjs' ;
-
-//Task object constructor
-function Task(id, description, urgent = false, privacy = true, deadline = undefined){
-    if (!id) throw new Error('ID is required!') ;
-    else if (!description) throw new Error('Description is required!') ;
-    this.id = id ; 
-    this.description = description ;
-    this.urgent = urgent ;
-    this.privacy = privacy ;
-    this.deadline = deadline? dayjs(deadline) : undefined ;
-} ;
-
-//TaskList object constructor
-function TaskList(){
-    this.tasks = [] ;
-
-    //method to add a task to the tasks list
-    this.addTask = (task) => this.tasks.push(task) ;
-} ;
-
-const t1 = new Task(1, "Complete Lab 2", false, false, "2021-03-22 14:30") ;
-const t2 = new Task(2, "Buy some groceries", false, true,  "2021-04-10 11:00") ;
-const t3 = new Task(3, "Read a good book!", true, false) ;
-
-const tl = new TaskList() ;
-tl.addTask(t1) ;
-tl.addTask(t2) ;
-tl.addTask(t3) ;
+//import dayjs from 'dayjs' ;
 
 const ToDoSidebar = (props) => {
     const elements = props.elements ;
@@ -111,7 +83,7 @@ const ToDoMain = (props) => {
             <Col as='main' xs={12} sm={8}>
                 <div id="tasklist-container">
                     <FilterTitle></FilterTitle>   
-                    <ToDoTaskList elements={tl.tasks}></ToDoTaskList>
+                    <ToDoTaskList elements={props.tasks}></ToDoTaskList>
                     <AddButton></AddButton>
                 </div>
             </Col>
