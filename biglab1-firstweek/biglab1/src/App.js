@@ -1,3 +1,4 @@
+//TODO: sistemare 'reset' sidebar (quando si passa da mobile a desktop)
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css' ;
 import dayjs from 'dayjs' ;
