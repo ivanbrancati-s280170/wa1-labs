@@ -1,6 +1,6 @@
 //TODO: sistemare 'scorrimento' pagina
-//TODO: aggungere dayjs
 import {ListGroup, Col, Form} from 'react-bootstrap' ;
+import dayjs from 'dayjs' ;
 
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined){
@@ -10,9 +10,7 @@ function Task(id, description, urgent = false, privacy = true, deadline = undefi
     this.description = description ;
     this.urgent = urgent ;
     this.privacy = privacy ;
-    //deadline as a string for now
-    //this.deadline = deadline? dayjs(deadline) : undefined ;
-    this.deadline= deadline ;
+    this.deadline = deadline? dayjs(deadline) : undefined ;
 } ;
 
 //TaskList object constructor
@@ -23,8 +21,8 @@ function TaskList(){
     this.addTask = (task) => this.tasks.push(task) ;
 } ;
 
-const t1 = new Task(1, "Complete Lab 2", false, false, "Monday 22 March at 14:30") ;
-const t2 = new Task(2, "Buy some groceries", false, true,  "Today at 14:00") ;
+const t1 = new Task(1, "Complete Lab 2", false, false, "2021-03-22 14:30") ;
+const t2 = new Task(2, "Buy some groceries", false, true,  "2021-04-10 11:00") ;
 const t3 = new Task(3, "Read a good book!", true, false) ;
 
 const tl = new TaskList() ;
@@ -70,7 +68,7 @@ const TaskInfo = (props) => {
             </svg>)}
             
             {/*if deadline is defined print it otherwise don't*/
-            props.task.deadline && <p className="deadline">{props.task.deadline}</p>} 
+            props.task.deadline && <p className="deadline">{props.task.deadline.format("dddd D MMMM YYYY [at] HH:mm")}</p>} 
             </>
             ) ;
 } ;

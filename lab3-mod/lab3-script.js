@@ -96,12 +96,24 @@ function mouseClick(elem){
         updatePage(`filter${event.target.innerText.split(" ").join("")}`) ; 
     }) ;
 } ;
+/*TODO: sistema questa parte per sidebar
+//Function (callback) for resize events
+function windowResize(elem){
+    elem.addEventListener("resize", event => {
+        if (document.body.clientWidth >= 576) document.querySelector("sticky-top").classList.add("sidebar-desktop") ;
+        else document.querySelector(".sidebar-left").classList.remove("sticky-top") ;
+    })
+}*/
 
 //Function for event listeners callbacks after the DOM has been loaded
 document.addEventListener('DOMContentLoaded', (event) => {
     initializePage() ;
     
     tl.tasks.forEach( (task) => taskHtmlElement(task) ) ;
+    /*TODO: sistema questa parte per sidebar
+    if (document.body.clientWidth >= 576) document.querySelector(".sidebar-left").classList.add("position-fixed") ;
+    windowResize(window) ;*/
+
 
     document.querySelectorAll(".mobile-sidebar").forEach( (elem) => mouseOver(elem) ) ;
     document.querySelectorAll(".sidebar-left-elem").forEach( (elem) => mouseOver(elem) ) ;
