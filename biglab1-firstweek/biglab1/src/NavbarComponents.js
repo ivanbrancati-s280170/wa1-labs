@@ -1,4 +1,3 @@
-//TODO: toggle button non funziona (hooks?)
 import {Navbar, Form, Nav, FormControl} from 'react-bootstrap'
 
 const Logo = (props) => {
@@ -35,7 +34,13 @@ const UserIcon = (props) => {
 const ToDoNavbar = (props) => {
     return (
             <Navbar bg="success" variant="dark" expand="sm" sticky="top">
-                <Navbar.Toggle data-toggle="collapse" data-target="#CollapsableSidebar" aria-controls="CollapsableSidebar" aria-expanded="false" aria-label="Toggle navigation"/>
+                {/*Toggle attributes not needed anymore:
+                data-toggle="collapse" 
+                data-target="#CollapsableSidebar" 
+                aria-controls="CollapsableSidebar" 
+                aria-expanded="false" 
+                aria-label="Toggle navigation"*/}
+                <Navbar.Toggle  toggleSidebar={props.toggleSidebar} onClick={()=>{props.toggleSidebar()}}/>
                 <Logo></Logo>    
                 <SearchForm></SearchForm>
                 <UserIcon></UserIcon>

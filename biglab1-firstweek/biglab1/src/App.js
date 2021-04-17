@@ -4,6 +4,7 @@ import dayjs from 'dayjs' ;
 import ToDoNavbar from './NavbarComponents.js' ;
 import { ToDoSidebar, ToDoMain } from './MainComponents.js' ;
 import {Container, Row} from 'react-bootstrap' ;
+import {useState} from 'react' ;
 
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined){
@@ -36,12 +37,20 @@ tl.addTask(t3) ;
 const filters = ['Important', 'Today', 'Next 7 Days', 'Private'] ;
 
 function App() {
+  //state to manage toggle sidebar
+  const [collapsed, setCollapsed] = useState(true) ;
+
+  //warning: it should be 'togglesidebar' and not 'toggleSidebar'
+  const toggleSidebar = () => {
+    setCollapsed( oldCollapsed => !oldCollapsed ) ;
+  } ;
+
   return (
     <div className="App">
-      <ToDoNavbar></ToDoNavbar>
+      <ToDoNavbar toggleSidebar={toggleSidebar}></ToDoNavbar>
       <Container fluid>
             <Row className="vheight-100">
-              <ToDoSidebar elements={filters}></ToDoSidebar>
+              <ToDoSidebar elements={filters} collapsed={collapsed}></ToDoSidebar>
               <ToDoMain tasks={tl.tasks}></ToDoMain>
             </Row>
       </Container>

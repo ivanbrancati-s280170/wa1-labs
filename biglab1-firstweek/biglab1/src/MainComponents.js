@@ -9,7 +9,7 @@ const ToDoSidebar = (props) => {
     listItems.unshift(<ListGroup.Item action href="#" className="sidebar-left-elem sidebar-left-elem-active" key = "all-sidebar" id = "all-sidebar">All</ListGroup.Item>) ;
 
     return ( 
-            <Col sm={4} as="aside" className="collapse d-sm-flex pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left" id="CollapsableSidebar">
+            <Col sm={4} as="aside" className={`collapse d-sm-flex pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left ${props.collapsed?"":"show"}`} id="CollapsableSidebar">
                 {listItems}        
             </Col> 
             ) ;  
