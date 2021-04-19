@@ -29,7 +29,10 @@ const TaskRow = (props) => {
 const TaskInfo = (props) => {
     return (
             <>
-            <Form.Label>
+            <Form.Label className={
+                /*if task is important make it red otherwise don't*/
+                props.task.urgent?"important-task ":""}
+            >
                 <Form.Check.Input className="me-1" type="checkbox" value=""/>
                 {props.task.description}
             </Form.Label>
