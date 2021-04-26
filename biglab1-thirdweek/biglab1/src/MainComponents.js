@@ -1,5 +1,6 @@
 //TODO: sistemare 'scorrimento' pagina
-import {ListGroup, Col, Form} from 'react-bootstrap' ;
+import { useState } from 'react';
+import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
 //import dayjs from 'dayjs' ;
 
 const ToDoSidebar = (props) => {
@@ -88,21 +89,51 @@ const ToDoTaskList = (props) => {
 
 const AddButton = (props) => {
     return (
-            <a href="#" className="add-button">
+            <a href="#" className="add-button" onClick={props.openModal}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
                 </svg>
             </a>
             ) ;
-} ;             
+} ; 
+
+const AddModal = (props) => {
+    return (
+            <Modal show={props.showModal} onHide={props.closeModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={props.closeModal}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={props.closeModal}>
+                    Save Changes
+                </Button>
+                </Modal.Footer>
+        </Modal>
+            ) ;
+} ; 
 
 const ToDoMain = (props) => {
+    //state to manage the modal 
+    const [showModal, setShowModal] = useState(false) ;
+
+    //function to open the modal
+    const openModal = () => setShowModal(() => true) ;
+
+    //function to close the modal
+    const closeModal = () => setShowModal(() => false) ;
+
+
     return (
             <Col as='main' xs={12} sm={8}>
                 <div id="tasklist-container">
                     <FilterTitle title={props.title}></FilterTitle>   
                     <ToDoTaskList elements={props.tasks}></ToDoTaskList>
-                    <AddButton></AddButton>
+                    <AddButton showModal={showModal} openModal={openModal}></AddButton>
+                    <AddModal showModal={showModal} closeModal={closeModal}></AddModal>
                 </div>
             </Col>
             ) ;
