@@ -99,7 +99,11 @@ const AddButton = (props) => {
 
 const AddModal = (props) => {
     return (
-            <Modal show={props.showModal} onHide={props.closeModal}>
+            <Modal show={props.showModal} onHide={props.closeModal} 
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered>
+            {/*TODO: complete modal with forms and validation*/}
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
