@@ -42,8 +42,11 @@ function App() {
   //state to manage tasks title
   const [title, setTitle] = useState("All") ;
 
+  //state to manage tasks addition
+  const [allTasks, setAllTasks] = useState(tl.tasks) ;
+
   //state to manage tasks filters
-  const [tasks, setTasks] = useState(tl.tasks) ;
+  const [tasks, setTasks] = useState(allTasks) ;
 
   //function to show tasks according to filter
   //(and update tasks title)
@@ -53,22 +56,22 @@ function App() {
     setTitle(() => filter) ;
     switch (filter) {
       case "All":
-        setTasks(() => tl.tasks) ;
+        setTasks(() => allTasks) ;
         break ;
 
       case "Important":
-        setTasks(() => tl.tasks.filter( task => task.urgent )) ;
+        setTasks(() => allTasks.filter( task => task.urgent )) ;
         break ;
 
       case "Today":
-        setTasks(() => tl.tasks.filter( (task) => 
+        setTasks(() => allTasks.filter( (task) => 
         { if (task.deadline === undefined) return false ;
           else return dayjs().isSame(task.deadline, 'day') ;
           }) ); 
           break ;
 
       case "Next 7 Days":
-        setTasks(() => tl.tasks.filter( (task) => 
+        setTasks(() => allTasks.filter( (task) => 
         { if (task.deadline === undefined) return false ;
           //TODO: 9 ??
           else return task.deadline.isAfter(dayjs(), 'day') && task.deadline.isBefore(dayjs().add(9, 'day'), 'day');
@@ -76,7 +79,7 @@ function App() {
            break ;
 
       case "Private":
-        setTasks(() => tl.tasks.filter( task => task.privacy ))
+        setTasks(() => allTasks.filter( task => task.privacy ))
         break ;
     }
   }
@@ -95,7 +98,7 @@ function App() {
       <Container fluid>
             <Row className="vheight-100">
               <ToDoSidebar elements={filters} collapsed={collapsed} tasks={tasks} filterTasks={filterTasks} title={title}></ToDoSidebar>
-              <ToDoMain title={title} tasks={tasks}></ToDoMain>
+              <ToDoMain title={title} tasks={tasks} allTasks={allTasks}></ToDoMain>
             </Row>
       </Container>
     </div>
