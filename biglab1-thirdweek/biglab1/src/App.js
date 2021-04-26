@@ -36,13 +36,55 @@ tl.addTask(t1) ;
 tl.addTask(t2) ;
 tl.addTask(t3) ;
 
-const filters = ['Important', 'Today', 'Next 7 Days', 'Private'] ;
+const filters = ['All', 'Important', 'Today', 'Next 7 Days', 'Private'] ;
 
 function App() {
+  //state to manage tasks title
+  const [title, setTitle] = useState("All") ;
+
+  //state to manage tasks filters
+  const [tasks, setTasks] = useState(tl.tasks) ;
+
+  //function to show tasks according to filter
+  //(and update tasks title)
+  //TODO: warning: it should be 'togglesidebar' and not 'toggleSidebar'
+
+  const filterTasks = (filter) => {
+    setTitle(() => filter) ;
+    switch (filter) {
+      case "All":
+        setTasks(() => tl.tasks) ;
+        break ;
+
+      case "Important":
+        setTasks(() => tl.tasks.filter( task => task.urgent )) ;
+        break ;
+
+      case "Today":
+        setTasks(() => tl.tasks.filter( (task) => 
+        { if (task.deadline === undefined) return false ;
+          else return dayjs().isSame(task.deadline, 'day') ;
+          }) ); 
+          break ;
+
+      case "Next 7 Days":
+        setTasks(() => tl.tasks.filter( (task) => 
+        { if (task.deadline === undefined) return false ;
+          //TODO: 9 ??
+          else return task.deadline.isAfter(dayjs(), 'day') && task.deadline.isBefore(dayjs().add(9, 'day'), 'day');
+           }) );
+           break ;
+
+      case "Private":
+        setTasks(() => tl.tasks.filter( task => task.privacy ))
+        break ;
+    }
+  }
+
   //state to manage toggle sidebar
   const [collapsed, setCollapsed] = useState(true) ;
 
-  //warning: it should be 'togglesidebar' and not 'toggleSidebar'
+  //TODO: warning: it should be 'togglesidebar' and not 'toggleSidebar'
   const toggleSidebar = () => {
     setCollapsed( oldCollapsed => !oldCollapsed ) ;
   } ;
@@ -52,8 +94,8 @@ function App() {
       <ToDoNavbar toggleSidebar={toggleSidebar}></ToDoNavbar>
       <Container fluid>
             <Row className="vheight-100">
-              <ToDoSidebar elements={filters} collapsed={collapsed}></ToDoSidebar>
-              <ToDoMain tasks={tl.tasks}></ToDoMain>
+              <ToDoSidebar elements={filters} collapsed={collapsed} tasks={tasks} filterTasks={filterTasks} title={title}></ToDoSidebar>
+              <ToDoMain title={title} tasks={tasks}></ToDoMain>
             </Row>
       </Container>
     </div>

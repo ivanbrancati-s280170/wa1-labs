@@ -4,9 +4,10 @@ import {ListGroup, Col, Form} from 'react-bootstrap' ;
 
 const ToDoSidebar = (props) => {
     const elements = props.elements ;
-    const listItems = elements.map( (element) => <ListGroup.Item action href="#" className="sidebar-left-elem mylist" key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"}>{element}</ListGroup.Item>) ;
+    const listItems = elements.map( (element) => <ListGroup.Item action href="#" className={`sidebar-left-elem ${props.title === element? "sidebar-left-elem-active": ""}`} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>props.filterTasks(element)}>{element}</ListGroup.Item>) ;
+    //REMOVED
     // Unshift of 'All' list element that is the active one by default
-    listItems.unshift(<ListGroup.Item action href="#" className="sidebar-left-elem sidebar-left-elem-active mylistactive" key = "all-sidebar" id = "all-sidebar">All</ListGroup.Item>) ;
+    //listItems.unshift(<ListGroup.Item action href="#" className="sidebar-left-elem sidebar-left-elem-active" key = "all-sidebar" id = "all-sidebar" tasks={props.tasks} filterTasks={props.filterTasks} onClick={()=>props.filterTasks("All")}>All</ListGroup.Item>) ;
 
     return ( 
             <Col sm={4} as="aside" style={{textAlign:"left" , backgroundColor:"ghostwhite"}}className={`collapse d-sm-flex pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left ${props.collapsed?"":"show"}`} id="CollapsableSidebar">
@@ -15,7 +16,7 @@ const ToDoSidebar = (props) => {
             ) ;  
 } ;
 
-const FilterTitle = (props) => <h1 className="tasks-title">All</h1> ;
+const FilterTitle = (props) => <h1 className="tasks-title">{props.title}</h1> ;
 
 const TaskRow = (props) => {
     return (<ListGroup.Item className="tasklist-elem mylistmain" key={props.task.id}>
@@ -99,7 +100,7 @@ const ToDoMain = (props) => {
     return (
             <Col as='main' xs={12} sm={8}>
                 <div id="tasklist-container">
-                    <FilterTitle></FilterTitle>   
+                    <FilterTitle title={props.title}></FilterTitle>   
                     <ToDoTaskList elements={props.tasks}></ToDoTaskList>
                     <AddButton></AddButton>
                 </div>
