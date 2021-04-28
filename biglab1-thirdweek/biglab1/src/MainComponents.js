@@ -191,7 +191,7 @@ const ToDoMain = (props) => {
                     <FilterTitle title={props.title}></FilterTitle>   
                     <ToDoTaskList elements={props.tasks}></ToDoTaskList>
                     <AddButton showModal={showModal} openModal={openModal}></AddButton>
-                    <AddModal showModal={showModal} closeModal={closeModal}></AddModal>
+                    <AddModal showModal={showModal} closeModal={closeModal} handleAdd={props.handleAdd}></AddModal>
                 </div>
             </Col>
             ) ;
