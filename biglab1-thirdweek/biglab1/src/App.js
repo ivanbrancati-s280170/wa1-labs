@@ -43,44 +43,46 @@ function App() {
   const [title, setTitle] = useState("All") ;
 
   //state to manage tasks addition
-  const [allTasks, setAllTasks] = useState(tl.tasks) ;
+  const [tasks, setTasks] = useState(tl.tasks) ;
 
-  //state to manage tasks filters
-  const [tasks, setTasks] = useState(allTasks) ;
+  //function to add a task
+  const addTask = (newTask) => {
+    setTasks( oldTasks => [...oldTasks, newTask]) ;
+} ;
+  
 
   //function to show tasks according to filter
   //(and update tasks title)
   //TODO: warning: it should be 'togglesidebar' and not 'toggleSidebar'
 
-  const filterTasks = (filter) => {
+  const manageFilter = (filter) => {
     setTitle(() => filter) ;
+  }
+
+  const filterTasks = (oldTasks, filter) => {
+    
     switch (filter) {
       case "All":
-        setTasks(() => allTasks) ;
-        break ;
+        return oldTasks ;
 
       case "Important":
-        setTasks(() => allTasks.filter( task => task.urgent )) ;
-        break ;
+        return oldTasks.filter( task => task.urgent ) ;
 
       case "Today":
-        setTasks(() => allTasks.filter( (task) => 
+        return oldTasks.filter( (task) => 
         { if (task.deadline === undefined) return false ;
           else return dayjs().isSame(task.deadline, 'day') ;
-          }) ); 
-          break ;
+          }) ; 
 
       case "Next 7 Days":
-        setTasks(() => allTasks.filter( (task) => 
+        return oldTasks.filter( (task) => 
         { if (task.deadline === undefined) return false ;
           //TODO: 9 ??
           else return task.deadline.isAfter(dayjs(), 'day') && task.deadline.isBefore(dayjs().add(9, 'day'), 'day');
-           }) );
-           break ;
+           }) ;
 
       case "Private":
-        setTasks(() => allTasks.filter( task => task.privacy ))
-        break ;
+        return oldTasks.filter( task => task.privacy ) ;
     }
   }
 
@@ -97,8 +99,8 @@ function App() {
       <ToDoNavbar toggleSidebar={toggleSidebar}></ToDoNavbar>
       <Container fluid>
             <Row className="vheight-100">
-              <ToDoSidebar elements={filters} collapsed={collapsed} tasks={tasks} filterTasks={filterTasks} title={title}></ToDoSidebar>
-              <ToDoMain title={title} tasks={tasks} allTasks={allTasks}></ToDoMain>
+              <ToDoSidebar elements={filters} collapsed={collapsed} title={title} manageFilter={manageFilter}></ToDoSidebar>
+              <ToDoMain title={title} tasks={filterTasks(tasks, title)} addTask={addTask}></ToDoMain>
             </Row>
       </Container>
     </div>

@@ -5,7 +5,7 @@ import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
 
 const ToDoSidebar = (props) => {
     const elements = props.elements ;
-    const listItems = elements.map( (element) => <ListGroup.Item action href="#" className={`sidebar-left-elem ${props.title === element? "sidebar-left-elem-active": ""}`} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>props.filterTasks(element)}>{element}</ListGroup.Item>) ;
+    const listItems = elements.map( (element) => <ListGroup.Item action href="#" className={`sidebar-left-elem ${props.title === element? "sidebar-left-elem-active": ""}`} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>props.manageFilter(element)}>{element}</ListGroup.Item>) ;
     //REMOVED
     // Unshift of 'All' list element that is the active one by default
     //listItems.unshift(<ListGroup.Item action href="#" className="sidebar-left-elem sidebar-left-elem-active" key = "all-sidebar" id = "all-sidebar" tasks={props.tasks} filterTasks={props.filterTasks} onClick={()=>props.filterTasks("All")}>All</ListGroup.Item>) ;
@@ -97,6 +97,32 @@ const AddButton = (props) => {
             ) ;
 } ; 
 
+const handleAdd = (event) => {
+    //TODO: continua da qui
+    //event.preventDefault() ;
+
+    //VALIDATION
+    /*let valid = true ;
+    if (course==='' || score==='' || date ==='')
+        valid = false ;
+    const scorenumber =  +score ;
+    if(scorenumber <18 || scorenumber>30) 
+        valid = false ;
+
+    if(valid){
+        setErrorMessage('') ;*/
+        const task = { /*coursecode: course, score: score, date: dayjs(date)*/ } ;
+        props.addTask(task) ;
+        //resettiamo i valori di default
+        /*setCourse('') ;
+        setScore('') ;
+        setDate('') ; */
+        
+    /*} else {
+        setErrorMessage('Error in the form...') ;
+    }*/
+} ;
+
 const AddModal = (props) => {
     return (
             <Modal show={props.showModal} onHide={props.closeModal} 
@@ -105,15 +131,43 @@ const AddModal = (props) => {
             centered>
             {/*TODO: complete modal with forms and validation*/}
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Create a new Task</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Body>
+                <Form>
+                    <Form.Group controlId="addTaskForm.Description">
+                        <Form.Label>Task description</Form.Label>
+                        <Form.Control as="textarea" rows={3} />
+                    </Form.Group>
+                    <Form.Label>Deadline</Form.Label>
+                    <Form.Row>
+                    <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
+                        <Form.Control  type="date" placeholder="name@example.com" />
+                    </Form.Group>
+                    <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
+                        <Form.Control type="time" placeholder="name@example.com" />
+                    </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} sm={6}>
+                            <Form.Check
+                            label="Private"
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} sm={6}>
+                            <Form.Check
+                            label="Important"
+                            />
+                        </Form.Group>
+                    </Form.Row>
+                </Form>
+                </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={props.closeModal}>
                     Close
                 </Button>
                 <Button variant="primary" onClick={props.closeModal}>
-                    Save Changes
+                    Create
                 </Button>
                 </Modal.Footer>
         </Modal>
