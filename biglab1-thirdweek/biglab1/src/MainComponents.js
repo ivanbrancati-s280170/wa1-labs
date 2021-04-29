@@ -99,8 +99,8 @@ const AddButton = (props) => {
 
 const AddModal = (props) => {
     const [description, setDescription] = useState('') ;
-    const [deadlineDate, setDeadlineDate] = useState('') ;
-    const [deadlineTime, setDeadlineTime] = useState('') ;
+    const [deadlineDate, setDeadlineDate] = useState(undefined) ;
+    const [deadlineTime, setDeadlineTime] = useState(undefined) ;
     const [privacy, setPrivacy] = useState(true) ;
     const [important, setImportant] = useState(false) ;
     const [deadlineInput, setDeadlineInput] = useState(false) ;
@@ -108,17 +108,28 @@ const AddModal = (props) => {
     const handleAdd = (event) => {
         //event.preventDefault() ;
         //TODO:VALIDATION
-        const new_task = {description: description, deadline: `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: important}
-        props.addTask(new_task)
-        props.closeModal()
+        const new_task = {description: description, deadline: deadlineInput && "2021-03-22 14:30", privacy:privacy, urgent: important}
+        props.addTask(new_task) ;
+        props.closeModal() ;
+        resetForms() ;
         
     } ;
+
+    const resetForms = () => {
+        setDescription('') ;
+        setDeadlineDate(undefined) ;
+        setDeadlineTime(undefined) ;
+        setPrivacy(true) ;
+        setImportant(false) ;
+        setDeadlineInput(false) ;
+    } ;
+
     return (
             <Modal /*animation={false}*/ show={props.showModal} onHide={props.closeModal} 
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
-                <Modal.Header closeButton>
+                <Modal.Header closeButton /*TODO: correct or not?*/ onClick={() => resetForms();}>
                     <Modal.Title>Create a new Task</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -156,7 +167,7 @@ const AddModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={props.closeModal}>
+                    <Button variant="secondary" /*TODO: correct or not?*/ onClick={() => {resetForms(); props.closeModal();}}>
                         Close
                     </Button>
                     <Button variant="primary" onClick={handleAdd/*props.closeModal*/}>
