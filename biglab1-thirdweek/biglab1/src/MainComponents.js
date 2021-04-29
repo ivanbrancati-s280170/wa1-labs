@@ -103,6 +103,7 @@ const AddModal = (props) => {
     const [deadlineTime, setDeadlineTime] = useState('') ;
     const [privacy, setPrivacy] = useState(true) ;
     const [important, setImportant] = useState(false) ;
+    const [deadlineInput, setDeadlineInput] = useState(false) ;
 
     const handleAdd = (event) => {
         //event.preventDefault() ;
@@ -113,7 +114,7 @@ const AddModal = (props) => {
         
     } ;
     return (
-            <Modal show={props.showModal} onHide={props.closeModal} 
+            <Modal /*animation={false}*/ show={props.showModal} onHide={props.closeModal} 
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
@@ -126,13 +127,16 @@ const AddModal = (props) => {
                             <Form.Label>Task description</Form.Label>
                             <Form.Control value={description} onChange={event => setDescription(event.target.value)} as="textarea" rows={3} />
                         </Form.Group>
-                        <Form.Label>Deadline</Form.Label>
+                        <Form.Check>
+                                <Form.Check.Input checked={deadlineInput} onChange={event => setDeadlineInput(event.target.checked)} id="deadline" type="checkbox" />
+                                <Form.Check.Label htmlFor="deadline">Deadline</Form.Check.Label>
+                        </Form.Check>
                         <Form.Row>
-                        <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
-                            <Form.Control value={deadlineDate} onChange={event => setDeadlineDate(event.target.value)} type="date" placeholder="name@example.com" />
+                        <Form.Group as={Col} sm={6} controlId="addTaskForm.DeadlineDate">
+                            <Form.Control disabled={!deadlineInput} value={deadlineDate} onChange={event => setDeadlineDate(event.target.value)} type="date" placeholder="name@example.com" />
                         </Form.Group>
-                        <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
-                            <Form.Control value={deadlineTime} onChange={event => setDeadlineTime(event.target.value)} type="time" placeholder="name@example.com" />
+                        <Form.Group as={Col} sm={6} controlId="addTaskForm.DeadlineTime">
+                            <Form.Control disabled={!deadlineInput} value={deadlineTime} onChange={event => setDeadlineTime(event.target.value)} type="time" placeholder="name@example.com" />
                         </Form.Group>
                         </Form.Row>
                         <Form.Row>
