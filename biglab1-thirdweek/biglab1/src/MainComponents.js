@@ -97,33 +97,21 @@ const AddButton = (props) => {
             ) ;
 } ; 
 
-const handleAdd = (event) => {
-    //TODO: continua da qui
-    //event.preventDefault() ;
-
-    //VALIDATION
-    /*let valid = true ;
-    if (course==='' || score==='' || date ==='')
-        valid = false ;
-    const scorenumber =  +score ;
-    if(scorenumber <18 || scorenumber>30) 
-        valid = false ;
-
-    if(valid){
-        setErrorMessage('') ;*/
-        const task = { /*coursecode: course, score: score, date: dayjs(date)*/ } ;
-        props.addTask(task) ;
-        //resettiamo i valori di default
-        /*setCourse('') ;
-        setScore('') ;
-        setDate('') ; */
-        
-    /*} else {
-        setErrorMessage('Error in the form...') ;
-    }*/
-} ;
-
 const AddModal = (props) => {
+    const [description, setDescription] = useState('') ;
+    const [deadlineDate, setDeadlineDate] = useState('') ;
+    const [deadlineTime, setDeadlineTime] = useState('') ;
+    const [privacy, setPrivacy] = useState(true) ;
+    const [important, setImportant] = useState(false) ;
+
+    const handleAdd = (event) => {
+        //TODO: continua da qui
+        //event.preventDefault() ;
+        //VALIDATION
+        const new_task = {description: description, deadline: `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: important}
+        props.addTask(new_task)
+        
+    } ;
     return (
             <Modal show={props.showModal} onHide={props.closeModal} 
             size="lg"
@@ -137,27 +125,29 @@ const AddModal = (props) => {
                 <Form>
                     <Form.Group controlId="addTaskForm.Description">
                         <Form.Label>Task description</Form.Label>
-                        <Form.Control as="textarea" rows={3} />
+                        <Form.Control value={description} onChange={event => setDescription(event.target.value)} as="textarea" rows={3} />
                     </Form.Group>
                     <Form.Label>Deadline</Form.Label>
                     <Form.Row>
                     <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
-                        <Form.Control  type="date" placeholder="name@example.com" />
+                        <Form.Control value={deadlineDate} onChange={event => setDeadlineDate(event.target.value)} type="date" placeholder="name@example.com" />
                     </Form.Group>
                     <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
-                        <Form.Control type="time" placeholder="name@example.com" />
+                        <Form.Control value={deadlineTime} onChange={event => setDeadlineTime(event.target.value)} type="time" placeholder="name@example.com" />
                     </Form.Group>
                     </Form.Row>
                     <Form.Row>
                         <Form.Group as={Col} sm={6}>
-                            <Form.Check
-                            label="Private"
-                            />
+                        <Form.Check>
+                            <Form.Check.Input checked={privacy} onChange={event => setPrivacy(event.target.checked)} id="private" type="checkbox" />
+                            <Form.Check.Label for="private">Private</Form.Check.Label>
+                        </Form.Check>
                         </Form.Group>
                         <Form.Group as={Col} sm={6}>
-                            <Form.Check
-                            label="Important"
-                            />
+                        <Form.Check>
+                            <Form.Check.Input checked={important} onChange={event => setImportant(event.target.checked)} id="important" type="checkbox" />
+                            <Form.Check.Label for="important">Important</Form.Check.Label>
+                        </Form.Check>
                         </Form.Group>
                     </Form.Row>
                 </Form>
@@ -166,7 +156,7 @@ const AddModal = (props) => {
                 <Button variant="secondary" onClick={props.closeModal}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={props.closeModal}>
+                <Button variant="primary" onClick={handleAdd/*props.closeModal*/}>
                     Create
                 </Button>
                 </Modal.Footer>
@@ -191,7 +181,7 @@ const ToDoMain = (props) => {
                     <FilterTitle title={props.title}></FilterTitle>   
                     <ToDoTaskList elements={props.tasks}></ToDoTaskList>
                     <AddButton showModal={showModal} openModal={openModal}></AddButton>
-                    <AddModal showModal={showModal} closeModal={closeModal} handleAdd={props.handleAdd}></AddModal>
+                    <AddModal showModal={showModal} closeModal={closeModal} addTask={props.addTask}></AddModal>
                 </div>
             </Col>
             ) ;
