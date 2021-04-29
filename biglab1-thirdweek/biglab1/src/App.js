@@ -54,6 +54,11 @@ function App() {
     setMaxId( oldMaxId => oldMaxId + 1) ;
     setTasks( oldTasks => [...oldTasks, t]) ;
 } ;
+
+//function to remove a task
+const removeTask = (taskId) => {
+  setTasks( oldTasks => oldTasks.filter( (task) => task.id !== taskId )) ;
+} ;
   
 
   //function to show tasks according to filter
@@ -105,7 +110,7 @@ function App() {
       <Container fluid>
             <Row className="vheight-100">
               <ToDoSidebar elements={filters} collapsed={collapsed} title={title} manageFilter={manageFilter}></ToDoSidebar>
-              <ToDoMain title={title} tasks={filterTasks(tasks, title)} addTask={addTask}></ToDoMain>
+              <ToDoMain title={title} tasks={filterTasks(tasks, title)} addTask={addTask} removeTask={removeTask}></ToDoMain>
             </Row>
       </Container>
     </div>
