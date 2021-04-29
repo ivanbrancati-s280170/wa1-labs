@@ -1,6 +1,6 @@
 //TODO: sistemare 'scorrimento' pagina
 import { useState } from 'react';
-import {ListGroup, Col, Form, Modal, Button, Alert} from 'react-bootstrap' ;
+import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
 //import dayjs from 'dayjs' ;
 
 const ToDoSidebar = (props) => {
