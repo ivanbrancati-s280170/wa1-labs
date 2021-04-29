@@ -129,7 +129,7 @@ const AddModal = (props) => {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
-                <Modal.Header closeButton /*TODO: correct or not?*/ onClick={() => resetForms();}>
+                <Modal.Header closeButton /*TODO: correct or not?*/onClick={() => {resetForms(); props.closeModal();}}>
                     <Modal.Title>Create a new Task</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -167,7 +167,7 @@ const AddModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" /*TODO: correct or not?*/ onClick={() => {resetForms(); props.closeModal();}}>
+                    <Button variant="secondary" /*TODO: correct or not?*/onClick={() => {resetForms(); props.closeModal();}}>
                         Close
                     </Button>
                     <Button variant="primary" onClick={handleAdd/*props.closeModal*/}>
