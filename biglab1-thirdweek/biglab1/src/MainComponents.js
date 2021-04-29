@@ -105,11 +105,11 @@ const AddModal = (props) => {
     const [important, setImportant] = useState(false) ;
 
     const handleAdd = (event) => {
-        //TODO: continua da qui
         //event.preventDefault() ;
-        //VALIDATION
+        //TODO:VALIDATION
         const new_task = {description: description, deadline: `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: important}
         props.addTask(new_task)
+        props.closeModal()
         
     } ;
     return (
@@ -117,48 +117,47 @@ const AddModal = (props) => {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
-            {/*TODO: complete modal with forms and validation*/}
                 <Modal.Header closeButton>
                     <Modal.Title>Create a new Task</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <Form>
-                    <Form.Group controlId="addTaskForm.Description">
-                        <Form.Label>Task description</Form.Label>
-                        <Form.Control value={description} onChange={event => setDescription(event.target.value)} as="textarea" rows={3} />
-                    </Form.Group>
-                    <Form.Label>Deadline</Form.Label>
-                    <Form.Row>
-                    <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
-                        <Form.Control value={deadlineDate} onChange={event => setDeadlineDate(event.target.value)} type="date" placeholder="name@example.com" />
-                    </Form.Group>
-                    <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
-                        <Form.Control value={deadlineTime} onChange={event => setDeadlineTime(event.target.value)} type="time" placeholder="name@example.com" />
-                    </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Group as={Col} sm={6}>
-                        <Form.Check>
-                            <Form.Check.Input checked={privacy} onChange={event => setPrivacy(event.target.checked)} id="private" type="checkbox" />
-                            <Form.Check.Label htmlFor="private">Private</Form.Check.Label>
-                        </Form.Check>
+                    <Form>
+                        <Form.Group controlId="addTaskForm.Description">
+                            <Form.Label>Task description</Form.Label>
+                            <Form.Control value={description} onChange={event => setDescription(event.target.value)} as="textarea" rows={3} />
                         </Form.Group>
-                        <Form.Group as={Col} sm={6}>
-                        <Form.Check>
-                            <Form.Check.Input checked={important} onChange={event => setImportant(event.target.checked)} id="important" type="checkbox" />
-                            <Form.Check.Label htmlFor="important">Important</Form.Check.Label>
-                        </Form.Check>
+                        <Form.Label>Deadline</Form.Label>
+                        <Form.Row>
+                        <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
+                            <Form.Control value={deadlineDate} onChange={event => setDeadlineDate(event.target.value)} type="date" placeholder="name@example.com" />
                         </Form.Group>
-                    </Form.Row>
-                </Form>
+                        <Form.Group as={Col} sm={6} controlId="addTaskForm.Deadline">
+                            <Form.Control value={deadlineTime} onChange={event => setDeadlineTime(event.target.value)} type="time" placeholder="name@example.com" />
+                        </Form.Group>
+                        </Form.Row>
+                        <Form.Row>
+                            <Form.Group as={Col} sm={6}>
+                            <Form.Check>
+                                <Form.Check.Input checked={privacy} onChange={event => setPrivacy(event.target.checked)} id="private" type="checkbox" />
+                                <Form.Check.Label htmlFor="private">Private</Form.Check.Label>
+                            </Form.Check>
+                            </Form.Group>
+                            <Form.Group as={Col} sm={6}>
+                            <Form.Check>
+                                <Form.Check.Input checked={important} onChange={event => setImportant(event.target.checked)} id="important" type="checkbox" />
+                                <Form.Check.Label htmlFor="important">Important</Form.Check.Label>
+                            </Form.Check>
+                            </Form.Group>
+                        </Form.Row>
+                    </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={props.closeModal}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleAdd/*props.closeModal*/}>
-                    Create
-                </Button>
+                    <Button variant="secondary" onClick={props.closeModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleAdd/*props.closeModal*/}>
+                        Create
+                    </Button>
                 </Modal.Footer>
         </Modal>
             ) ;
