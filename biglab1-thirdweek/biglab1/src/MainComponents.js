@@ -140,13 +140,13 @@ const AddModal = (props) => {
                         <Form.Group as={Col} sm={6}>
                         <Form.Check>
                             <Form.Check.Input checked={privacy} onChange={event => setPrivacy(event.target.checked)} id="private" type="checkbox" />
-                            <Form.Check.Label for="private">Private</Form.Check.Label>
+                            <Form.Check.Label htmlFor="private">Private</Form.Check.Label>
                         </Form.Check>
                         </Form.Group>
                         <Form.Group as={Col} sm={6}>
                         <Form.Check>
                             <Form.Check.Input checked={important} onChange={event => setImportant(event.target.checked)} id="important" type="checkbox" />
-                            <Form.Check.Label for="important">Important</Form.Check.Label>
+                            <Form.Check.Label htmlFor="important">Important</Form.Check.Label>
                         </Form.Check>
                         </Form.Group>
                     </Form.Row>

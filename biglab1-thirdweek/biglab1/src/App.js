@@ -45,9 +45,14 @@ function App() {
   //state to manage tasks addition
   const [tasks, setTasks] = useState(tl.tasks) ;
 
+  //state representing max task id
+  const [maxId, setMaxId] = useState(Math.max(...tasks.map((task)=> task.id)))
+
   //function to add a task
   const addTask = (newTask) => {
-    setTasks( oldTasks => [...oldTasks, newTask]) ;
+    const t = new Task(maxId+1, newTask.description, newTask.urgent, newTask.privacy, newTask.deadline)
+    setMaxId( oldMaxId => oldMaxId + 1) ;
+    setTasks( oldTasks => [...oldTasks, t]) ;
 } ;
   
 
