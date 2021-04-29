@@ -65,6 +65,16 @@ body{
   right: 15px;
 }
 
+.validity-error{
+  color: #e03131
+}
+
+.error-border{
+  outline: none;
+    border-color: #e03131;
+    box-shadow: 0 0 5px #e03131;
+}
+
 /* Old styles, maybe useful for filters
    and callbacks
 

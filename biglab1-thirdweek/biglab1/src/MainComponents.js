@@ -1,6 +1,6 @@
 //TODO: sistemare 'scorrimento' pagina
 import { useState } from 'react';
-import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
+import {ListGroup, Col, Form, Modal, Button, Alert} from 'react-bootstrap' ;
 //import dayjs from 'dayjs' ;
 
 const ToDoSidebar = (props) => {
@@ -105,12 +105,40 @@ const AddModal = (props) => {
     const [important, setImportant] = useState(false) ;
     const [deadlineInput, setDeadlineInput] = useState(false) ;
 
+    //states for validation
+    const [descriptionValidity, setDescriptionValidity] = useState(true) ;
+    const [deadlineDateValidity, setDeadlineDateValidity] = useState(true) ;
+    const [deadlineTimeValidity, setDeadlineTimeValidity] = useState(true) ;
+
     const handleAdd = () => {
+        
+        let description_validity = true ;
+        let deadlineDate_validity = true ;
+        let deadlineTime_validity = true ;
+
+        if(description === '') {
+            description_validity = false ;
+            setDescriptionValidity(false) ;
+        } ;
+
+        if (deadlineInput) {
+            if(deadlineDate === undefined){ 
+                deadlineDate_validity = false ;
+                setDeadlineDateValidity(false) ;
+            } ;
+            if(deadlineTime === undefined){
+                deadlineTime_validity = false ;
+                setDeadlineTimeValidity(false) ;
+            } ;
+        } ;
+
         //TODO:VALIDATION
+        if (description_validity && deadlineDate_validity && deadlineTime_validity) {
         const new_task = {description: description, deadline: deadlineInput && `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: important}
         props.addTask(new_task) ;
         props.closeModal() ;
         resetForms() ;
+        } ;
         
     } ;
 
@@ -121,10 +149,14 @@ const AddModal = (props) => {
         setPrivacy(true) ;
         setImportant(false) ;
         setDeadlineInput(false) ;
+
+        setDescriptionValidity(true) ;
+        setDeadlineDateValidity(true) ;
+        setDeadlineTimeValidity(true) ;
     } ;
 
     return (
-            <Modal /*animation={false}*/ show={props.showModal} onHide={props.closeModal} 
+            <Modal /*animation={false}*/ show={props.showModal} /*TODO: correct or not?*/onHide={() => {resetForms(); props.closeModal();}} 
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
@@ -135,7 +167,11 @@ const AddModal = (props) => {
                     <Form>
                         <Form.Group controlId="addTaskForm.Description">
                             <Form.Label>Task description</Form.Label>
-                            <Form.Control value={description} onChange={event => setDescription(event.target.value)} as="textarea" rows={3} />
+                            <span className="validity-error" hidden={descriptionValidity}>{descriptionValidity?"":" Description is required!"}</span>
+                            <Form.Control value={description} className={descriptionValidity?"":"error-border"} onChange={event => {
+                                                                                                                                    setDescription(event.target.value);
+                                                                                                                                    setDescriptionValidity(true);
+                                                                                                                                    }} as="textarea" rows={3} />
                         </Form.Group>
                         <Form.Check>
                                 <Form.Check.Input checked={deadlineInput} onChange={event => setDeadlineInput(event.target.checked)} id="deadline" type="checkbox" />
@@ -143,10 +179,18 @@ const AddModal = (props) => {
                         </Form.Check>
                         <Form.Row>
                         <Form.Group as={Col} sm={6} controlId="addTaskForm.DeadlineDate">
-                            <Form.Control disabled={!deadlineInput} value={deadlineDate} onChange={event => setDeadlineDate(event.target.value)} type="date" placeholder="name@example.com" />
+                            <Form.Control disabled={!deadlineInput} className={deadlineDateValidity?"":"error-border"} value={deadlineDate} onChange={event => {
+                                                                                                                                                                setDeadlineDate(event.target.value);
+                                                                                                                                                                setDeadlineDateValidity(true);
+                                                                                                                                                                    }} type="date" />
+                            <span className="validity-error" hidden={deadlineDateValidity}>{deadlineDateValidity?"":"Missing Date!"}</span>                        
                         </Form.Group>
                         <Form.Group as={Col} sm={6} controlId="addTaskForm.DeadlineTime">
-                            <Form.Control disabled={!deadlineInput} value={deadlineTime} onChange={event => setDeadlineTime(event.target.value)} type="time" placeholder="name@example.com" />
+                            <Form.Control disabled={!deadlineInput} className={deadlineTimeValidity?"":"error-border"} value={deadlineTime} onChange={event =>  {
+                                                                                                                                                                setDeadlineTime(event.target.value);
+                                                                                                                                                                setDeadlineTimeValidity(true);
+                                                                                                                                                                }} type="time" />
+                            <span className="validity-error" hidden={deadlineTimeValidity}>{deadlineTimeValidity?"":"Missing Time!"}</span>                        
                         </Form.Group>
                         </Form.Row>
                         <Form.Row>
