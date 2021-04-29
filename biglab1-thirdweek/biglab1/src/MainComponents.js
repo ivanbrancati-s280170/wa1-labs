@@ -105,10 +105,9 @@ const AddModal = (props) => {
     const [important, setImportant] = useState(false) ;
     const [deadlineInput, setDeadlineInput] = useState(false) ;
 
-    const handleAdd = (event) => {
-        //event.preventDefault() ;
+    const handleAdd = () => {
         //TODO:VALIDATION
-        const new_task = {description: description, deadline: deadlineInput && "2021-03-22 14:30", privacy:privacy, urgent: important}
+        const new_task = {description: description, deadline: deadlineInput && `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: important}
         props.addTask(new_task) ;
         props.closeModal() ;
         resetForms() ;
