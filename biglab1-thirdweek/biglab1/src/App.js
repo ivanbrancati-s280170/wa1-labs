@@ -6,7 +6,7 @@ import dayjs from 'dayjs' ;
 import ToDoNavbar from './NavbarComponents.js' ;
 import { ToDoSidebar, ToDoMain } from './MainComponents.js' ;
 import {Container, Row} from 'react-bootstrap' ;
-import {useState} from 'react' ;
+import {useState, useEffect} from 'react' ;
 
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined){
@@ -113,6 +113,11 @@ const removeTask = (taskId) => {
   const toggleSidebar = () => {
     setCollapsed( oldCollapsed => !oldCollapsed ) ;
   } ;
+
+  //callback to reset sidebar (passing from mobile to desktop version)
+  useEffect(() => 
+                {window.addEventListener('resize', ()=>{if (window.innerWidth > 575) setCollapsed(true)})}
+                ) ;
 
   return (
     <div className="App">
