@@ -27,7 +27,7 @@ const TaskRow = (props) => {
                 <div className="d-flex w-100 justify-content-between pt-1">
                     <TaskInfo className="d-flex w-75" {...props}/>
                     <div className="d-flex w-25 justify-content-end">
-                        <TaskControls id={props.task.id} removeTask={props.removeTask} editTask={props.editTask}/>
+                        <TaskControls id={props.task.id} removeTask={props.removeTask} openModal={props.openModal} handleModalMode={props.handleModalMode} editTask={props.editTask}/>
                     </div>
                 </div>
             </ListGroup.Item>) ;
@@ -70,7 +70,11 @@ const TaskControls = (props) => {
     return (
             <p>
                 {/*TODO: improve editing task*/}
-                <svg onClick={()=>props.editTask(props.id, "Edited", true, true, undefined)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill text-warning" viewBox="0 0 16 16">
+                <svg onClick={()=>{
+                                    props.handleModalMode("edit") ;
+                                    props.openModal() ;
+                                    props.editTask(props.id, "Edited", true, true, undefined)
+                                }} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill text-warning" viewBox="0 0 16 16">
                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                 </svg>
                 <svg onClick={()=>props.removeTask(props.id)}xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash text-danger" viewBox="0 0 16 16">
@@ -85,14 +89,14 @@ const TaskControls = (props) => {
 const ToDoTaskList = (props) => {
     return (
             <ListGroup as="ul" variant="flush" className="tasklist">
-                { props.elements.map( (e) => <TaskRow task={e} key={e.id} removeTask={props.removeTask} editTask={props.editTask}/>)}
+                { props.elements.map( (e) => <TaskRow task={e} key={e.id} removeTask={props.removeTask} openModal={props.openModal} handleModalMode={props.handleModalMode} editTask={props.editTask}/>)}
             </ListGroup>
             ) ;
 } ;
 
 const AddButton = (props) => {
     return (
-            <a href="#" className="add-button" onClick={props.openModal}>
+            <a href="#" className="add-button" onClick={()=>{props.handleModalMode("create"); props.openModal();}}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
                 </svg>
@@ -159,12 +163,12 @@ const AddModal = (props) => {
     } ;
 
     return (
-            <Modal /*animation={false}*/ show={props.showModal} /*TODO: correct or not?*/onHide={() => {resetForms(); props.closeModal();}} 
+            <Modal /*animation={false}*/ show={props.showModal} /*TODO: correct or not?*/onHide={() => { props.closeModal(); setTimeout(resetForms(), 1000);}} 
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
-                <Modal.Header closeButton /*TODO: correct or not?*/onClick={() => {resetForms(); props.closeModal();}}>
-                    <Modal.Title>Create a new Task</Modal.Title>
+                <Modal.Header closeButton /*TODO: correct or not?*/onClick={() => { props.closeModal(); resetForms(); }}>
+                    <Modal.Title>{props.modalMode === "create"?"Create a new Task":"Edit Task"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -213,11 +217,11 @@ const AddModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" /*TODO: correct or not?*/onClick={() => {resetForms(); props.closeModal();}}>
+                    <Button variant="secondary" /*TODO: correct or not?*/onClick={() => { props.closeModal(); resetForms(); }}>
                         Close
                     </Button>
                     <Button variant="primary" onClick={handleAdd/*props.closeModal*/}>
-                        Create
+                        {props.modalMode === "create"?"Create":"Edit"}
                     </Button>
                 </Modal.Footer>
         </Modal>
@@ -225,8 +229,11 @@ const AddModal = (props) => {
 } ; 
 
 const ToDoMain = (props) => {
-    //state to manage the modal 
+    //states to manage the modal
+    //open/closed 
     const [showModal, setShowModal] = useState(false) ;
+    //create/edit
+    const [modalMode, setModalMode] = useState('create') ;
 
     //function to open the modal
     const openModal = () => setShowModal(() => true) ;
@@ -234,14 +241,17 @@ const ToDoMain = (props) => {
     //function to close the modal
     const closeModal = () => setShowModal(() => false) ;
 
+    //function to change the modal mode
+    const handleModalMode = (newModalMode) => setModalMode(() => newModalMode) ;
+
 
     return (
             <Col as='main' xs={12} sm={8}>
                 <div id="tasklist-container">
                     <FilterTitle title={props.title}></FilterTitle>   
-                    <ToDoTaskList elements={props.tasks} removeTask={props.removeTask} editTask={props.editTask}></ToDoTaskList>
-                    <AddButton showModal={showModal} openModal={openModal}></AddButton>
-                    <AddModal showModal={showModal} closeModal={closeModal} addTask={props.addTask}></AddModal>
+                    <ToDoTaskList elements={props.tasks} removeTask={props.removeTask} openModal={openModal} handleModalMode={handleModalMode} editTask={props.editTask}></ToDoTaskList>
+                    <AddButton showModal={showModal} openModal={openModal} modalMode={modalMode} handleModalMode={handleModalMode}></AddButton>
+                    <AddModal showModal={showModal} modalMode={modalMode} closeModal={closeModal} handleModalMode={handleModalMode} addTask={props.addTask}></AddModal>
                 </div>
             </Col>
             ) ;
