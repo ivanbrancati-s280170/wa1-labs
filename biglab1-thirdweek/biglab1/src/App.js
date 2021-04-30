@@ -55,6 +55,16 @@ function App() {
     setTasks( oldTasks => [...oldTasks, t]) ;
 } ;
 
+//function to edit a task
+const editTask = (taskId, newDescription, newUrgent , newPrivacy, newDeadline) => {
+  setTasks( oldTasks => oldTasks.map( (task) => {
+    if (task.id === taskId ) 
+      return new Task(taskId, newDescription, newUrgent, newPrivacy, newDeadline) ;
+    else return task ;
+  })) ;
+} ;
+
+
 //function to remove a task
 const removeTask = (taskId) => {
   setTasks( oldTasks => oldTasks.filter( (task) => task.id !== taskId )) ;
@@ -110,7 +120,7 @@ const removeTask = (taskId) => {
       <Container fluid>
             <Row className="vheight-100">
               <ToDoSidebar elements={filters} collapsed={collapsed} title={title} manageFilter={manageFilter}></ToDoSidebar>
-              <ToDoMain title={title} tasks={filterTasks(tasks, title)} addTask={addTask} removeTask={removeTask}></ToDoMain>
+              <ToDoMain title={title} tasks={filterTasks(tasks, title)} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
             </Row>
       </Container>
     </div>
