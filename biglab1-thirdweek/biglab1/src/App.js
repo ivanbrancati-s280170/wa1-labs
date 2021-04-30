@@ -119,7 +119,7 @@ const removeTask = (taskId) => {
       <ToDoNavbar toggleSidebar={toggleSidebar}></ToDoNavbar>
       <Container fluid>
             <Row className="vheight-100">
-              <ToDoSidebar elements={filters} collapsed={collapsed} title={title} manageFilter={manageFilter}></ToDoSidebar>
+              <ToDoSidebar elements={filters} collapsed={collapsed} title={title} manageFilter={manageFilter} toggleSidebar={toggleSidebar}></ToDoSidebar>
               <ToDoMain title={title} tasks={filterTasks(tasks, title)} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
             </Row>
       </Container>

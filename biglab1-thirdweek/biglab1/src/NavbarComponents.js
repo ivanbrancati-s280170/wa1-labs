@@ -43,7 +43,7 @@ const ToDoNavbar = (props) => {
                 aria-controls="CollapsableSidebar" 
                 aria-expanded="false" 
                 aria-label="Toggle navigation"*/}
-                <Navbar.Toggle  toggleSidebar={props.toggleSidebar} onClick={()=>{props.toggleSidebar()}}/>
+                <Navbar.Toggle  toggleSidebar={props.toggleSidebar} onClick={()=>props.toggleSidebar()}/>
                 <Logo></Logo>    
                 <SearchForm></SearchForm>
                 <UserIcon></UserIcon>
