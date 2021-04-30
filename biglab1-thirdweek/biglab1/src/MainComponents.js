@@ -163,7 +163,7 @@ const AddModal = (props) => {
     } ;
 
     return (
-            <Modal /*animation={false}*/ show={props.showModal} /*TODO: correct or not?*/onHide={() => { props.closeModal(); setTimeout(resetForms(), 1000);}} 
+            <Modal /*animation={false}*/ show={props.showModal} /*TODO: correct or not?*/onHide={() => { props.closeModal(); resetForms(); }} 
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
