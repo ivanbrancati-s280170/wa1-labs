@@ -130,11 +130,11 @@ const AddModal = (props) => {
         } ;
 
         if (deadlineInput) {
-            if(deadlineDate === undefined){ 
+            if(deadlineDate === ''){ 
                 deadlineDate_validity = false ;
                 setDeadlineDateValidity(false) ;
             } ;
-            if(deadlineTime === undefined){
+            if(deadlineTime === ''){
                 deadlineTime_validity = false ;
                 setDeadlineTimeValidity(false) ;
             } ;
