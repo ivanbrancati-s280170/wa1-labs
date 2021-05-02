@@ -1,4 +1,4 @@
-//TODO: sistemare 'reset' sidebar (quando si passa da mobile a desktop)
+//TODO: Rename title -> flter?
 
 import 'bootstrap/dist/css/bootstrap.min.css' ;
 import './App.css';
