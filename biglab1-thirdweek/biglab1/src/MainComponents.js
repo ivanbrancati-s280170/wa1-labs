@@ -1,7 +1,5 @@
 //TODO: sistemare 'scorrimento' pagina
 //TODO: order in states
-//TODO: coherence urgent/important
-//TODO: component uncontrolled -> controlled (warning)
 import { useState } from 'react';
 import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
 //import dayjs from 'dayjs' ;
@@ -112,7 +110,7 @@ const AddModal = (props) => {
     const [deadlineDate, setDeadlineDate] = useState('') ;
     const [deadlineTime, setDeadlineTime] = useState('') ;
     const [privacy, setPrivacy] = useState(true) ;
-    const [important, setImportant] = useState(false) ;
+    const [urgent, setUrgent] = useState(false) ;
     const [deadlineInput, setDeadlineInput] = useState(false) ;
 
     //states for validation
@@ -144,8 +142,9 @@ const AddModal = (props) => {
 
         //TODO:VALIDATION
         if (description_validity && deadlineDate_validity && deadlineTime_validity) {
-        const new_task = {description: description, deadline: deadlineInput && `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: important}
-        props.modalMode === "create"?props.addTask(new_task):props.editTask(props.taskToEdit.id, new_task.description, new_task.urgent, new_task.privacy, new_task.deadline) ;
+            props.modalMode === "create"? 
+            props.addTask({description: description, deadline: deadlineInput && `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: urgent}):
+            props.editTask(props.taskToEdit.id, description, urgent, privacy, deadlineInput && `${deadlineDate} ${deadlineTime}`) ;
         props.closeModal() ;
         resetForms() ;
         } ;
@@ -154,10 +153,10 @@ const AddModal = (props) => {
 
     const resetForms = () => {
         setDescription('') ;
-        setDeadlineDate(undefined) ;
-        setDeadlineTime(undefined) ;
+        setDeadlineDate('') ;
+        setDeadlineTime('') ;
         setPrivacy(true) ;
-        setImportant(false) ;
+        setUrgent(false) ;
         setDeadlineInput(false) ;
 
         setDescriptionValidity(true) ;
@@ -176,7 +175,7 @@ const AddModal = (props) => {
             } 
         else setDeadlineInput(false) ;
         setPrivacy(props.taskToEdit.privacy) ;
-        setImportant(props.taskToEdit.urgent) ;
+        setUrgent(props.taskToEdit.urgent) ;
         
     } ;
 
@@ -227,7 +226,7 @@ const AddModal = (props) => {
                             </Form.Group>
                             <Form.Group as={Col} sm={6}>
                             <Form.Check>
-                                <Form.Check.Input checked={important} onChange={event => setImportant(event.target.checked)} id="important" type="checkbox" />
+                                <Form.Check.Input checked={urgent} onChange={event => setUrgent(event.target.checked)} id="important" type="checkbox" />
                                 <Form.Check.Label htmlFor="important">Important</Form.Check.Label>
                             </Form.Check>
                             </Form.Group>

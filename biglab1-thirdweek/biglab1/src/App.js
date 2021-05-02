@@ -1,4 +1,4 @@
-//TODO: Rename title -> flter?
+//TODO: Rename title -> filter?
 
 import 'bootstrap/dist/css/bootstrap.min.css' ;
 import './App.css';
