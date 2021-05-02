@@ -1,3 +1,4 @@
+//TODO: remove comments
 import {Navbar, Form, Nav, FormControl,Button} from 'react-bootstrap'
 
 const Logo = (props) => {
