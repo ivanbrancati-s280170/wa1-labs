@@ -50,6 +50,7 @@ function App() {
   //state representing max task id
   const [maxId, setMaxId] = useState(Math.max(...tasks.map((task)=> task.id)))
 
+  //TODO: add and edit could be managed together
   //function to add a task
   const addTask = (newTask) => {
     const t = new Task(maxId+1, newTask.description, newTask.urgent, newTask.privacy, newTask.deadline)
@@ -59,11 +60,11 @@ function App() {
 
 //function to edit a task
 const editTask = (taskId, newDescription, newUrgent , newPrivacy, newDeadline) => {
-  setTasks( oldTasks => oldTasks.map( (task) => {
-    if (task.id === taskId ) 
-      return new Task(taskId, newDescription, newUrgent, newPrivacy, newDeadline) ;
-    else return task ;
-  })) ;
+  setTasks( oldTasks => oldTasks.map( (task) => 
+    task.id === taskId ?
+      new Task(taskId, newDescription, newUrgent, newPrivacy, newDeadline) :
+      task 
+  )) ;
 } ;
 
 
