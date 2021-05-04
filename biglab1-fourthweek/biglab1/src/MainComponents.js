@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 
 const ToDoSidebar = (props) => {
     const elements = props.elements ;
-    const listItems = elements.map( (element) => <Link to={`/${element.replaceAll(" ", "")}`} style={{ textDecoration: 'none' }}><ListGroup.Item action href="#" className={`sidebar-left-elem ${props.title === element? "sidebar-left-elem-active": ""}`} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>{
+    //TODO: improve regexp
+    const listItems = elements.map( (element) => <Link to={`/${element.replaceAll(" ", "")}`} style={{ textDecoration: 'none' }} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"}><ListGroup.Item action /*href="#"*/ className={`sidebar-left-elem ${props.title.split(/(?=[A-Z])/).join(" ").split(/(?=[0-9])/).join(" ") === element? "sidebar-left-elem-active": ""}`}  id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>{
                                                                                                                                                                                                                                                                                                                                                                                                                 /*props.manageFilter(element) ;*/
                                                                                                                                                                                                                                                                                                                                                                                                                 props.toggleSidebar() ;
                                                                                                                                                                                                                                                                                                                                                                                                             }}>{element}</ListGroup.Item></Link>) ;
@@ -251,6 +252,7 @@ const ToDoMain = (props) => {
     //states to manage the modal
     //open/closed 
     const [showModal, setShowModal] = useState(false) ;
+    //TODO: modalMode maybe not needed
     //create/edit
     const [modalMode, setModalMode] = useState('create') ;
 
@@ -263,6 +265,7 @@ const ToDoMain = (props) => {
     //function to change the modal mode
     const handleModalMode = (newModalMode) => setModalMode(() => newModalMode) ;
 
+    //TODO: maybe not needed
     //state to manage the task to edit 
     const [taskToEdit, setTaskToEdit] = useState('') ;
 

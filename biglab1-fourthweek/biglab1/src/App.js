@@ -7,7 +7,7 @@ import ToDoNavbar from './NavbarComponents.js' ;
 import { ToDoSidebar, ToDoMain } from './MainComponents.js' ;
 import { Container, Row } from 'react-bootstrap' ;
 import { useState, useEffect } from 'react' ;
-import { BrowserRouter as Router, Route, Switch, useParams } from 'react-router-dom' ;
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom' ;
 
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined){
@@ -50,7 +50,6 @@ function App() {
   //state representing max task id
   const [maxId, setMaxId] = useState(Math.max(...tasks.map((task)=> task.id)))
 
-  //TODO: add and edit could be managed together
   //function to add a task
   const addTask = (newTask) => {
     const t = new Task(maxId+1, newTask.description, newTask.urgent, newTask.privacy, newTask.deadline)
@@ -76,12 +75,6 @@ const removeTask = (taskId) => {
 
   //function to show tasks according to filter
   //(and update tasks title)
-  //TODO: warning: it should be 'togglesidebar' and not 'toggleSidebar'
-
-  /* const manageFilter = (filter) => {
-    setTitle(() => filter) ;
-  } */
-
   const filterTasks = (oldTasks, filter) => {
     
     switch (filter) {
@@ -100,7 +93,6 @@ const removeTask = (taskId) => {
       case "Next7Days":
         return oldTasks.filter( (task) => 
         { if (task.deadline === undefined) return false ;
-          //TODO: 9 ??
           else return task.deadline.isAfter(dayjs(), 'day') && task.deadline.isBefore(dayjs().add(9, 'day'), 'day');
            }) ;
 
@@ -108,6 +100,10 @@ const removeTask = (taskId) => {
         return oldTasks.filter( task => task.privacy ) ;
     }
   }
+
+  /* const manageFilter = (filter) => {
+    setTitle(() => filter) ;
+  } */
 
   //state to manage toggle sidebar
   const [collapsed, setCollapsed] = useState(true) ;
@@ -140,12 +136,14 @@ const removeTask = (taskId) => {
         </Container>)}
       />
       <Route path='/'>
-        <Container fluid>
-              <Row className="vheight-100">
-                <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} /*title={title}*/ title={"All"} /*manageFilter={manageFilter}*/ ></ToDoSidebar>
-                <ToDoMain title={"All"} tasks={filterTasks(tasks, "All")} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
-              </Row>
-        </Container>
+        {//<Container fluid>
+              //<Row className="vheight-100">
+               // <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} /*title={title}*/ title={"All"} /*manageFilter={manageFilter}*/ ></ToDoSidebar>
+              //  <ToDoMain title={"All"} tasks={filterTasks(tasks, "All")} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
+              //</Row>
+        //</Container>
+      }
+      <Redirect to='/All'></Redirect>
       </Route>
       </Switch>
   </div>
