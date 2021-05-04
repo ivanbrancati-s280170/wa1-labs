@@ -182,6 +182,22 @@ const AddModal = (props) => {
         
     } ;
 
+    //TODO: improve this function to not to use the 'task to edit' state
+    const fillForms2 = (taskId) => {
+        const task = props.tasks.filter( task => task.id === taskId)[0] ;
+        setDescription(task.description) ;
+        if(task.deadline)
+            {
+                setDeadlineInput(true) ;
+                setDeadlineDate(task.deadline.format("YYYY-MM-DD")) ;
+                setDeadlineTime(task.deadline.format("HH:mm")) ;
+            } 
+        else setDeadlineInput(false) ;
+        setPrivacy(task.privacy) ;
+        setUrgent(props.taskToEdit.urgent) ;
+        
+    } ;
+
     return (
             <Modal /*animation={false}*/ show={props.showModal} /*TODO: correct or not?*/onHide={() => { props.closeModal(); resetForms(); }} onShow={() => props.modalMode === "edit"?fillForms():""}
             size="lg"
