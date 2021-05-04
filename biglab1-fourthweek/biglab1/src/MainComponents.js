@@ -2,14 +2,15 @@
 //TODO: order in states
 import { useState } from 'react';
 import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
+import { Link } from 'react-router-dom';
 //import dayjs from 'dayjs' ;
 
 const ToDoSidebar = (props) => {
     const elements = props.elements ;
-    const listItems = elements.map( (element) => <ListGroup.Item action href="#" className={`sidebar-left-elem ${props.title === element? "sidebar-left-elem-active": ""}`} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>{
-                                                                                                                                                                                                                                                                                                                                                                                                                props.manageFilter(element) ;
+    const listItems = elements.map( (element) => <Link to={`/${element.replaceAll(" ", "")}`} style={{ textDecoration: 'none' }}><ListGroup.Item action href="#" className={`sidebar-left-elem ${props.title === element? "sidebar-left-elem-active": ""}`} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>{
+                                                                                                                                                                                                                                                                                                                                                                                                                /*props.manageFilter(element) ;*/
                                                                                                                                                                                                                                                                                                                                                                                                                 props.toggleSidebar() ;
-                                                                                                                                                                                                                                                                                                                                                                                                            }}>{element}</ListGroup.Item>) ;
+                                                                                                                                                                                                                                                                                                                                                                                                            }}>{element}</ListGroup.Item></Link>) ;
     //REMOVED
     // Unshift of 'All' list element that is the active one by default
     //listItems.unshift(<ListGroup.Item action href="#" className="sidebar-left-elem sidebar-left-elem-active" key = "all-sidebar" id = "all-sidebar" tasks={props.tasks} filterTasks={props.filterTasks} onClick={()=>props.filterTasks("All")}>All</ListGroup.Item>) ;
@@ -21,7 +22,8 @@ const ToDoSidebar = (props) => {
             ) ;  
 } ;
 
-const FilterTitle = (props) => <h1 className="tasks-title">{props.title}</h1> ;
+//TODO: improve this regexp
+const FilterTitle = (props) => <h1 className="tasks-title">{props.title.split(/(?=[A-Z])/).join(" ").split(/(?=[0-9])/).join(" ")}</h1> ;
 
 const TaskRow = (props) => {
     return (<ListGroup.Item className="tasklist-elem mylistmain" key={props.task.id}>
