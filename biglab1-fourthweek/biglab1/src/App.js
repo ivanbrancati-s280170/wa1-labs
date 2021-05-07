@@ -41,9 +41,6 @@ const filters = ['All', 'Important', 'Today', 'Next 7 Days', 'Private'] ;
 
 function App() {
 
-  //state to manage tasks title
-  //const [title, setTitle] = useState("All") ;
-
   //state to manage tasks addition
   const [tasks, setTasks] = useState(tl.tasks) ;
 
@@ -74,7 +71,6 @@ const removeTask = (taskId) => {
   
 
   //function to show tasks according to filter
-  //(and update tasks title)
   const filterTasks = (oldTasks, filter) => {
     
     switch (filter) {
@@ -93,17 +89,13 @@ const removeTask = (taskId) => {
       case "Next7Days":
         return oldTasks.filter( (task) => 
         { if (task.deadline === undefined) return false ;
-          else return task.deadline.isAfter(dayjs(), 'day') && task.deadline.isBefore(dayjs().add(9, 'day'), 'day');
+          else return task.deadline.isAfter(dayjs(), 'day') && task.deadline.isBefore(dayjs().add(8, 'day'), 'day');
            }) ;
 
       case "Private":
         return oldTasks.filter( task => task.privacy ) ;
     }
   }
-
-  /* const manageFilter = (filter) => {
-    setTitle(() => filter) ;
-  } */
 
   //state to manage toggle sidebar
   const [collapsed, setCollapsed] = useState(true) ;
@@ -120,31 +112,22 @@ const removeTask = (taskId) => {
 
   return (
     <Router>
-      {/* <Switch>
-        <Route path="/:filter" children={<MainPage/>} />
-      </Switch> */}
       <div className="App">
       <ToDoNavbar toggleSidebar={toggleSidebar}></ToDoNavbar>
-      {/* this part should depend on path*/}
       <Switch>
-      <Route path='/:filter'
-        children={({match}) => (<Container fluid>
-              <Row className="vheight-100">
-                <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} /*title={title}*/ title={match.params.filter} /*manageFilter={manageFilter}*/ ></ToDoSidebar>
-                <ToDoMain title={match.params.filter} tasks={filterTasks(tasks, match.params.filter)} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
-              </Row>
-        </Container>)}
-      />
-      <Route path='/'>
-        {//<Container fluid>
-              //<Row className="vheight-100">
-               // <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} /*title={title}*/ title={"All"} /*manageFilter={manageFilter}*/ ></ToDoSidebar>
-              //  <ToDoMain title={"All"} tasks={filterTasks(tasks, "All")} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
-              //</Row>
-        //</Container>
-      }
-      <Redirect to='/All'></Redirect>
-      </Route>
+        <Route path='/:filter'
+          children={({match}) => (
+                                  <Container fluid>
+                                        <Row className="vheight-100">
+                                          <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} title={match.params.filter} ></ToDoSidebar>
+                                          <ToDoMain title={match.params.filter} tasks={filterTasks(tasks, match.params.filter)} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
+                                        </Row>
+                                  </Container>
+                                )}
+        />
+        <Route path='/'>
+          < Redirect to='/All'></Redirect>
+        </Route>
       </Switch>
   </div>
       

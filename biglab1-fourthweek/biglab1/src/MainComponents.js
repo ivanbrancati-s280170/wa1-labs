@@ -1,5 +1,6 @@
 //TODO: sistemare 'scorrimento' pagina
-//TODO: order in states
+//TODO: props.function or props.function() ? (see other TODOs)
+
 import { useState } from 'react';
 import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
 import { Link } from 'react-router-dom';
@@ -7,14 +8,10 @@ import { Link } from 'react-router-dom';
 
 const ToDoSidebar = (props) => {
     const elements = props.elements ;
-    //TODO: improve regexp
-    const listItems = elements.map( (element) => <Link to={`/${element.replaceAll(" ", "")}`} style={{ textDecoration: 'none' }} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"}><ListGroup.Item action /*href="#"*/ className={`sidebar-left-elem ${props.title.split(/(?=[A-Z])/).join(" ").split(/(?=[0-9])/).join(" ") === element? "sidebar-left-elem-active": ""}`}  id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>{
+    const listItems = elements.map( (element) => <Link to={`/${element.replaceAll(" ", "")}`} style={{ textDecoration: 'none' }} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"}><ListGroup.Item action className={`sidebar-left-elem ${props.title.split(/(?=[A-Z|0-9])/).join(" ") === element? "sidebar-left-elem-active": ""}`}  id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>{
                                                                                                                                                                                                                                                                                                                                                                                                                 /*props.manageFilter(element) ;*/
                                                                                                                                                                                                                                                                                                                                                                                                                 props.toggleSidebar() ;
                                                                                                                                                                                                                                                                                                                                                                                                             }}>{element}</ListGroup.Item></Link>) ;
-    //REMOVED
-    // Unshift of 'All' list element that is the active one by default
-    //listItems.unshift(<ListGroup.Item action href="#" className="sidebar-left-elem sidebar-left-elem-active" key = "all-sidebar" id = "all-sidebar" tasks={props.tasks} filterTasks={props.filterTasks} onClick={()=>props.filterTasks("All")}>All</ListGroup.Item>) ;
 
     return ( 
             <Col sm={4} as="aside" style={{textAlign:"left" , backgroundColor:"ghostwhite"}}className={`collapse d-sm-flex pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left ${props.collapsed?"":"show"}`} id="CollapsableSidebar">
@@ -23,15 +20,15 @@ const ToDoSidebar = (props) => {
             ) ;  
 } ;
 
-//TODO: improve this regexp
-const FilterTitle = (props) => <h1 className="tasks-title">{props.title.split(/(?=[A-Z])/).join(" ").split(/(?=[0-9])/).join(" ")}</h1> ;
+
+const FilterTitle = (props) => <h1 className="tasks-title">{props.title.split(/(?=[A-Z|0-9])/).join(" ")}</h1> ;
 
 const TaskRow = (props) => {
     return (<ListGroup.Item className="tasklist-elem mylistmain" key={props.task.id}>
                 <div className="d-flex w-100 justify-content-between pt-1">
                     <TaskInfo className="d-flex w-75" {...props}/>
                     <div className="d-flex w-25 justify-content-end">
-                        <TaskControls id={props.task.id} removeTask={props.removeTask} openModal={props.openModal} handleModalMode={props.handleModalMode} handleToEdit={props.handleToEdit} editTask={props.editTask}/>
+                        <TaskControls id={props.task.id} removeTask={props.removeTask} openModal={props.openModal} handleToEdit={props.handleToEdit} editTask={props.editTask}/>
                     </div>
                 </div>
             </ListGroup.Item>) ;
@@ -73,9 +70,7 @@ const TaskInfo = (props) => {
 const TaskControls = (props) => {
     return (
             <p>
-                {/*TODO: improve editing task*/}
                 <svg onClick={()=>{
-                                    props.handleModalMode("edit") ;
                                     props.handleToEdit(props.id) ;
                                     props.openModal() ;
                                 }} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill text-warning" viewBox="0 0 16 16">
@@ -93,14 +88,14 @@ const TaskControls = (props) => {
 const ToDoTaskList = (props) => {
     return (
             <ListGroup as="ul" variant="flush" className="tasklist">
-                { props.elements.map( (e) => <TaskRow task={e} key={e.id} removeTask={props.removeTask} openModal={props.openModal} handleModalMode={props.handleModalMode} handleToEdit={props.handleToEdit} editTask={props.editTask}/>)}
+                { props.elements.map( (e) => <TaskRow task={e} key={e.id} removeTask={props.removeTask} openModal={props.openModal} handleToEdit={props.handleToEdit} editTask={props.editTask}/>)}
             </ListGroup>
             ) ;
 } ;
 
 const AddButton = (props) => {
     return (
-            <a href="#" className="add-button" onClick={()=>{props.handleModalMode("create"); props.openModal();}}>
+            <a className="add-button" onClick={()=>{ props.openModal();}}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
                 </svg>
@@ -116,7 +111,7 @@ const AddModal = (props) => {
     const [urgent, setUrgent] = useState(false) ;
     const [deadlineInput, setDeadlineInput] = useState(false) ;
 
-    //states for validation
+    //states for validation TODO: needed?
     const [descriptionValidity, setDescriptionValidity] = useState(true) ;
     const [deadlineDateValidity, setDeadlineDateValidity] = useState(true) ;
     const [deadlineTimeValidity, setDeadlineTimeValidity] = useState(true) ;
@@ -143,68 +138,57 @@ const AddModal = (props) => {
             } ;
         } ;
 
-        //TODO:VALIDATION
         if (description_validity && deadlineDate_validity && deadlineTime_validity) {
-            props.modalMode === "create"? 
-            props.addTask({description: description, deadline: deadlineInput && `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: urgent}):
-            props.editTask(props.taskToEdit.id, description, urgent, privacy, deadlineInput && `${deadlineDate} ${deadlineTime}`) ;
-        props.closeModal() ;
-        resetForms() ;
+            props.taskToEdit?
+            props.editTask(props.taskToEdit, description, urgent, privacy, deadlineInput && `${deadlineDate} ${deadlineTime}`) :
+            props.addTask({description: description, deadline: deadlineInput && `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: urgent}) ;
+
+            props.closeModal() ;
+
+            props.handleToEdit(false) ;
+            resetForms2() ;
         } ;
         
     } ;
 
-    const resetForms = () => {
-        setDescription('') ;
-        setDeadlineDate('') ;
-        setDeadlineTime('') ;
-        setPrivacy(true) ;
-        setUrgent(false) ;
-        setDeadlineInput(false) ;
 
-        setDescriptionValidity(true) ;
-        setDeadlineDateValidity(true) ;
-        setDeadlineTimeValidity(true) ;
-    } ;
+    const resetForms2 = () => {
+        console.log(props.taskToEdit)
+        if (props.taskToEdit){
+            const task = props.tasks.filter( task => task.id === props.taskToEdit)[0] ;
+            setDescription(task.description) ;
+            if(task.deadline)
+                {
+                    setDeadlineInput(true) ;
+                    setDeadlineDate(task.deadline.format("YYYY-MM-DD")) ;
+                    setDeadlineTime(task.deadline.format("HH:mm")) ;
+                } 
+            else setDeadlineInput(false) ;
+            setPrivacy(task.privacy) ;
+            setUrgent(task.urgent) ;
+        }
+        else{
+            setDescription('') ;
+            setDeadlineDate('') ;
+            setDeadlineTime('') ;
+            setPrivacy(true) ;
+            setUrgent(false) ;
+            setDeadlineInput(false) ;
 
-    const fillForms = () => {
-        //const task = props.taskToEdit ;
-        setDescription(props.taskToEdit.description) ;
-        if(props.taskToEdit.deadline)
-            {
-                setDeadlineInput(true) ;
-                setDeadlineDate(props.taskToEdit.deadline.format("YYYY-MM-DD")) ;
-                setDeadlineTime(props.taskToEdit.deadline.format("HH:mm")) ;
-            } 
-        else setDeadlineInput(false) ;
-        setPrivacy(props.taskToEdit.privacy) ;
-        setUrgent(props.taskToEdit.urgent) ;
-        
-    } ;
-
-    //TODO: improve this function to not to use the 'task to edit' state
-    const fillForms2 = (taskId) => {
-        const task = props.tasks.filter( task => task.id === taskId)[0] ;
-        setDescription(task.description) ;
-        if(task.deadline)
-            {
-                setDeadlineInput(true) ;
-                setDeadlineDate(task.deadline.format("YYYY-MM-DD")) ;
-                setDeadlineTime(task.deadline.format("HH:mm")) ;
-            } 
-        else setDeadlineInput(false) ;
-        setPrivacy(task.privacy) ;
-        setUrgent(props.taskToEdit.urgent) ;
-        
+            setDescriptionValidity(true) ;
+            setDeadlineDateValidity(true) ;
+            setDeadlineTimeValidity(true) ;
+        } ;
     } ;
 
     return (
-            <Modal /*animation={false}*/ show={props.showModal} /*TODO: correct or not?*/onHide={() => { props.closeModal(); resetForms(); }} onShow={() => props.modalMode === "edit"?fillForms():""}
+            <Modal /*animation={false}*/ show={props.showModal} /*TODO: correct or not?*/onHide={() => { props.closeModal(); props.handleToEdit(false); resetForms2(); }} onShow={() => resetForms2()}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered>
-                <Modal.Header closeButton /*TODO: correct or not?*/onClick={() => { props.closeModal(); resetForms(); }}>
-                    <Modal.Title>{props.modalMode === "create"?"Create a new Task":"Edit Task"}</Modal.Title>
+                <Modal.Header closeButton /*TODO: correct or not?*/onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms2(); }}>
+                    <Modal.Title>{/*props.modalMode === "create"?"Create a new Task":"Edit Task"*/}
+                    {props.taskToEdit?"Edit Task":"Create a new Task"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -253,11 +237,11 @@ const AddModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" /*TODO: correct or not?*/onClick={() => { props.closeModal(); resetForms(); }}>
+                    <Button variant="secondary" /*TODO: correct or not?*/onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms2();  }}>
                         Close
                     </Button>
                     <Button variant="primary" onClick={handleAdd/*props.closeModal*/}>
-                        {props.modalMode === "create"?"Create":"Edit"}
+                        {/*props.modalMode === "create"*/props.taskToEdit?"Edit":"Create"}
                     </Button>
                 </Modal.Footer>
         </Modal>
@@ -265,12 +249,8 @@ const AddModal = (props) => {
 } ; 
 
 const ToDoMain = (props) => {
-    //states to manage the modal
-    //open/closed 
+    //state to manage the modal(open/closed)
     const [showModal, setShowModal] = useState(false) ;
-    //TODO: modalMode maybe not needed
-    //create/edit
-    const [modalMode, setModalMode] = useState('create') ;
 
     //function to open the modal
     const openModal = () => setShowModal(() => true) ;
@@ -278,23 +258,22 @@ const ToDoMain = (props) => {
     //function to close the modal
     const closeModal = () => setShowModal(() => false) ;
 
-    //function to change the modal mode
-    const handleModalMode = (newModalMode) => setModalMode(() => newModalMode) ;
+    //state to manage the task(id) to edit 
+    //Possible values: 
+    //         false -> we are creating a new task
+    //          int  -> we are editing the task with id = int
+    const [taskToEdit, setTaskToEdit] = useState(false) ;
 
-    //TODO: maybe not needed
-    //state to manage the task to edit 
-    const [taskToEdit, setTaskToEdit] = useState('') ;
-
-    //function to set the task to edit
-    const handleToEdit = (id) => setTaskToEdit(() => props.tasks.filter((task) => task.id === id)[0]) ;
+    //function to set the task(id) to edit
+    const handleToEdit = (id) => setTaskToEdit(() => id) ;
 
     return (
             <Col as='main' xs={12} sm={8}>
                 <div id="tasklist-container">
                     <FilterTitle title={props.title}></FilterTitle>   
-                    <ToDoTaskList elements={props.tasks} removeTask={props.removeTask} openModal={openModal} handleModalMode={handleModalMode} handleToEdit={handleToEdit}></ToDoTaskList>
-                    <AddButton showModal={showModal} openModal={openModal} modalMode={modalMode} handleModalMode={handleModalMode}></AddButton>
-                    <AddModal showModal={showModal} modalMode={modalMode} closeModal={closeModal} handleModalMode={handleModalMode} addTask={props.addTask} editTask={props.editTask} elements={props.tasks} taskToEdit={taskToEdit}></AddModal>
+                    <ToDoTaskList elements={props.tasks} removeTask={props.removeTask} openModal={openModal} handleToEdit={handleToEdit}></ToDoTaskList>
+                    <AddButton showModal={showModal} openModal={openModal} ></AddButton>
+                    <AddModal showModal={showModal} closeModal={closeModal} handleToEdit={handleToEdit} addTask={props.addTask} editTask={props.editTask} tasks={props.tasks} taskToEdit={taskToEdit}></AddModal>
                 </div>
             </Col>
             ) ;
