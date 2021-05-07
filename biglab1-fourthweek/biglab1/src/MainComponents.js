@@ -4,17 +4,22 @@
 import { useState } from 'react';
 import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
 import { Link } from 'react-router-dom';
-//import dayjs from 'dayjs' ;
 
 const ToDoSidebar = (props) => {
     const elements = props.elements ;
-    const listItems = elements.map( (element) => <Link to={`/${element.replaceAll(" ", "")}`} style={{ textDecoration: 'none' }} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"}><ListGroup.Item action className={`sidebar-left-elem ${props.title.split(/(?=[A-Z|0-9])/).join(" ") === element? "sidebar-left-elem-active": ""}`}  id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} onClick={()=>{
-                                                                                                                                                                                                                                                                                                                                                                                                                /*props.manageFilter(element) ;*/
-                                                                                                                                                                                                                                                                                                                                                                                                                props.toggleSidebar() ;
-                                                                                                                                                                                                                                                                                                                                                                                                            }}>{element}</ListGroup.Item></Link>) ;
+    const listItems = elements.map( (element) => 
+        <Link to={`/${element.replaceAll(" ", "")}`} style={{ textDecoration: 'none' }} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"}>
+            <ListGroup.Item action className={`sidebar-left-elem ${props.title.split(/(?=[A-Z|0-9])/).join(" ") === element? "sidebar-left-elem-active": ""}`}  
+            id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} 
+            onClick={()=>{props.toggleSidebar() ;}}>
+                {element}
+            </ListGroup.Item>
+        </Link>) ;
 
     return ( 
-            <Col sm={4} as="aside" style={{textAlign:"left" , backgroundColor:"ghostwhite"}}className={`collapse d-sm-flex pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left ${props.collapsed?"":"show"}`} id="CollapsableSidebar">
+            <Col sm={4} as="aside" style={{textAlign:"left" , backgroundColor:"ghostwhite"}}
+            className={`collapse d-sm-flex pt-3 pl-3 pr-3 list-group list-group-flush sidebar-left ${props.collapsed?"":"show"}`} 
+            id="CollapsableSidebar">
                 {listItems}        
             </Col> 
             ) ;  
@@ -24,11 +29,12 @@ const ToDoSidebar = (props) => {
 const FilterTitle = (props) => <h1 className="tasks-title">{props.title.split(/(?=[A-Z|0-9])/).join(" ")}</h1> ;
 
 const TaskRow = (props) => {
-    return (<ListGroup.Item className="tasklist-elem mylistmain" key={props.task.id}>
+    return (<ListGroup.Item className="tasklist-elem todo-main" key={props.task.id}>
                 <div className="d-flex w-100 justify-content-between pt-1">
                     <TaskInfo className="d-flex w-75" {...props}/>
                     <div className="d-flex w-25 justify-content-end">
-                        <TaskControls id={props.task.id} removeTask={props.removeTask} openModal={props.openModal} handleToEdit={props.handleToEdit} editTask={props.editTask}/>
+                        <TaskControls id={props.task.id} removeTask={props.removeTask} openModal={props.openModal} 
+                        handleToEdit={props.handleToEdit} editTask={props.editTask}/>
                     </div>
                 </div>
             </ListGroup.Item>) ;
@@ -41,27 +47,26 @@ const TaskInfo = (props) => {
                 <Form.Check.Input className="me-1"  type="checkbox" value=""/>
                     <Form.Label className={
                     /*if task is important make it red otherwise don't*/
-                    props.task.urgent?"important-task ":""}
-                    >
+                    props.task.urgent?"important-task ":""}>
                         <strong>{props.task.description}</strong>
                     </Form.Label>
                 </Form.Check>
           
-          <div className='d-flex w-50'>
+            <div className='d-flex w-50'>
             
-            <div className='d-flex w-25'>
-           { /*if task is private print the icon otherwise don't*/
-           props.task.privacy && (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className=" bi bi-person-square" viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z"/>
-            </svg>)
-            
-            }
-            </div>
-            <div className="d-flex w-75 ">
-            {/*if deadline is defined print it otherwise don't*/
-            props.task.deadline && <p className="deadline">{props.task.deadline.format("dddd D MMMM YYYY [at] HH:mm")}</p>} 
-            </div>
+                <div className='d-flex w-25'>
+                    { /*if task is private print the icon otherwise don't*/
+                    props.task.privacy && (<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
+                    fill="currentColor" className=" bi bi-person-square" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z"/>
+                    </svg>)
+                    }
+                </div>
+                <div className="d-flex w-75 ">
+                    {/*if deadline is defined print it otherwise don't*/
+                    props.task.deadline && <p className="deadline">{props.task.deadline.format("dddd D MMMM YYYY [at] HH:mm")}</p>} 
+                </div>
             </div>
             </>
             ) ;
@@ -84,7 +89,6 @@ const TaskControls = (props) => {
             ) ;
 } ;
 
-//Tasks list
 const ToDoTaskList = (props) => {
     return (
             <ListGroup as="ul" variant="flush" className="tasklist">
@@ -97,25 +101,28 @@ const AddButton = (props) => {
     return (
             <a className="add-button" onClick={()=>{ props.openModal();}}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
                 </svg>
             </a>
             ) ;
 } ; 
 
 const AddModal = (props) => {
+    //states for input fields
     const [description, setDescription] = useState('') ;
+    const [deadlineInput, setDeadlineInput] = useState(false) ;
     const [deadlineDate, setDeadlineDate] = useState('') ;
     const [deadlineTime, setDeadlineTime] = useState('') ;
     const [privacy, setPrivacy] = useState(true) ;
     const [urgent, setUrgent] = useState(false) ;
-    const [deadlineInput, setDeadlineInput] = useState(false) ;
+    
 
-    //states for validation TODO: needed?
+    //states for validation(and error messages)
     const [descriptionValidity, setDescriptionValidity] = useState(true) ;
     const [deadlineDateValidity, setDeadlineDateValidity] = useState(true) ;
     const [deadlineTimeValidity, setDeadlineTimeValidity] = useState(true) ;
 
+    //function to manage the Add/Edit button click inside the modal
     const handleAdd = () => {
         
         let description_validity = true ;
@@ -144,16 +151,18 @@ const AddModal = (props) => {
             props.addTask({description: description, deadline: deadlineInput && `${deadlineDate} ${deadlineTime}`, privacy:privacy, urgent: urgent}) ;
 
             props.closeModal() ;
-
             props.handleToEdit(false) ;
-            resetForms2() ;
+            resetForms() ;
         } ;
         
     } ;
 
 
-    const resetForms2 = () => {
-        console.log(props.taskToEdit)
+    //function to reset (or to fill) the input fields
+    //
+    //'taskToEdit' = false -> the modal will add a new task
+    //'taskToEdit' = number -> the modal will edit the task with id = number
+    const resetForms = () => {
         if (props.taskToEdit){
             const task = props.tasks.filter( task => task.id === props.taskToEdit)[0] ;
             setDescription(task.description) ;
@@ -163,7 +172,12 @@ const AddModal = (props) => {
                     setDeadlineDate(task.deadline.format("YYYY-MM-DD")) ;
                     setDeadlineTime(task.deadline.format("HH:mm")) ;
                 } 
-            else setDeadlineInput(false) ;
+            else 
+                {
+                    setDeadlineInput(false) ;
+                    setDeadlineDate('') ;
+                    setDeadlineTime('') ;
+                }
             setPrivacy(task.privacy) ;
             setUrgent(task.urgent) ;
         }
@@ -182,13 +196,14 @@ const AddModal = (props) => {
     } ;
 
     return (
-            <Modal /*animation={false}*/ show={props.showModal} /*TODO: correct or not?*/onHide={() => { props.closeModal(); props.handleToEdit(false); resetForms2(); }} onShow={() => resetForms2()}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered>
-                <Modal.Header closeButton /*TODO: correct or not?*/onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms2(); }}>
-                    <Modal.Title>{/*props.modalMode === "create"?"Create a new Task":"Edit Task"*/}
-                    {props.taskToEdit?"Edit Task":"Create a new Task"}</Modal.Title>
+            <Modal /*TODO: warning?animation={false}*/ show={props.showModal} /*TODO: correct or not?*/
+            onHide={() => { props.closeModal(); props.handleToEdit(false); resetForms(); }} 
+            onShow={() => resetForms()}
+            size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+                <Modal.Header closeButton /*TODO: correct or not?*/onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms(); }}>
+                    <Modal.Title>
+                        {props.taskToEdit?"Edit Task":"Create a new Task"}
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -205,43 +220,43 @@ const AddModal = (props) => {
                                 <Form.Check.Label htmlFor="deadline">Deadline</Form.Check.Label>
                         </Form.Check>
                         <Form.Row>
-                        <Form.Group as={Col} sm={6} controlId="addTaskForm.DeadlineDate">
-                            <Form.Control disabled={!deadlineInput} className={deadlineDateValidity?"":"error-border"} value={deadlineDate} onChange={event => {
-                                                                                                                                                                setDeadlineDate(event.target.value);
-                                                                                                                                                                setDeadlineDateValidity(true);
+                            <Form.Group as={Col} sm={6} controlId="addTaskForm.DeadlineDate">
+                                <Form.Control disabled={!deadlineInput} className={deadlineDateValidity?"":"error-border"} value={deadlineDate} onChange={event => {
+                                                                                                                                                                    setDeadlineDate(event.target.value);
+                                                                                                                                                                    setDeadlineDateValidity(true);
                                                                                                                                                                     }} type="date" />
-                            <span className="validity-error" hidden={deadlineDateValidity}>{deadlineDateValidity?"":"Missing Date!"}</span>                        
-                        </Form.Group>
-                        <Form.Group as={Col} sm={6} controlId="addTaskForm.DeadlineTime">
-                            <Form.Control disabled={!deadlineInput} className={deadlineTimeValidity?"":"error-border"} value={deadlineTime} onChange={event =>  {
-                                                                                                                                                                setDeadlineTime(event.target.value);
-                                                                                                                                                                setDeadlineTimeValidity(true);
-                                                                                                                                                                }} type="time" />
-                            <span className="validity-error" hidden={deadlineTimeValidity}>{deadlineTimeValidity?"":"Missing Time!"}</span>                        
-                        </Form.Group>
+                                <span className="validity-error" hidden={deadlineDateValidity}>{deadlineDateValidity?"":"Missing Date!"}</span>                        
+                            </Form.Group>
+                            <Form.Group as={Col} sm={6} controlId="addTaskForm.DeadlineTime">
+                                <Form.Control disabled={!deadlineInput} className={deadlineTimeValidity?"":"error-border"} value={deadlineTime} onChange={event =>  {
+                                                                                                                                                                    setDeadlineTime(event.target.value);
+                                                                                                                                                                    setDeadlineTimeValidity(true);
+                                                                                                                                                                    }} type="time" />
+                                <span className="validity-error" hidden={deadlineTimeValidity}>{deadlineTimeValidity?"":"Missing Time!"}</span>                        
+                            </Form.Group>
                         </Form.Row>
                         <Form.Row>
                             <Form.Group as={Col} sm={6}>
-                            <Form.Check>
-                                <Form.Check.Input checked={privacy} onChange={event => setPrivacy(event.target.checked)} id="private" type="checkbox" />
-                                <Form.Check.Label htmlFor="private">Private</Form.Check.Label>
-                            </Form.Check>
+                                <Form.Check>
+                                    <Form.Check.Input checked={privacy} onChange={event => setPrivacy(event.target.checked)} id="private" type="checkbox" />
+                                    <Form.Check.Label htmlFor="private">Private</Form.Check.Label>
+                                </Form.Check>
                             </Form.Group>
                             <Form.Group as={Col} sm={6}>
-                            <Form.Check>
-                                <Form.Check.Input checked={urgent} onChange={event => setUrgent(event.target.checked)} id="important" type="checkbox" />
-                                <Form.Check.Label htmlFor="important">Important</Form.Check.Label>
-                            </Form.Check>
+                                <Form.Check>
+                                    <Form.Check.Input checked={urgent} onChange={event => setUrgent(event.target.checked)} id="important" type="checkbox" />
+                                    <Form.Check.Label htmlFor="important">Important</Form.Check.Label>
+                                </Form.Check>
                             </Form.Group>
                         </Form.Row>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" /*TODO: correct or not?*/onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms2();  }}>
+                    <Button variant="secondary" /*TODO: correct or not?*/onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms();  }}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleAdd/*props.closeModal*/}>
-                        {/*props.modalMode === "create"*/props.taskToEdit?"Edit":"Create"}
+                    <Button variant="primary" onClick={handleAdd}>
+                        {props.taskToEdit?"Edit":"Create"}
                     </Button>
                 </Modal.Footer>
         </Modal>
