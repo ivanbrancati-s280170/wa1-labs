@@ -1,6 +1,3 @@
-//TODO: sistemare 'scorrimento' pagina
-//TODO: props.function or props.function() ? (see other TODOs)
-
 import { useState } from 'react';
 import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
 import { Link } from 'react-router-dom';
@@ -196,11 +193,11 @@ const AddModal = (props) => {
     } ;
 
     return (
-            <Modal /*TODO: warning?animation={false}*/ show={props.showModal} /*TODO: correct or not?*/
+            <Modal show={props.showModal} 
             onHide={() => { props.closeModal(); props.handleToEdit(false); resetForms(); }} 
             onShow={() => resetForms()}
             size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-                <Modal.Header closeButton /*TODO: correct or not?*/onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms(); }}>
+                <Modal.Header closeButton onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms(); }}>
                     <Modal.Title>
                         {props.taskToEdit?"Edit Task":"Create a new Task"}
                     </Modal.Title>
@@ -252,7 +249,7 @@ const AddModal = (props) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" /*TODO: correct or not?*/onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms();  }}>
+                    <Button variant="secondary" onClick={() => { props.closeModal(); props.handleToEdit(false); resetForms();  }}>
                         Close
                     </Button>
                     <Button variant="primary" onClick={handleAdd}>

@@ -1,4 +1,3 @@
-//TODO: Rename title -> filter?
 
 import 'bootstrap/dist/css/bootstrap.min.css' ;
 import './App.css';
@@ -100,7 +99,6 @@ const removeTask = (taskId) => {
   //state to manage toggle sidebar
   const [collapsed, setCollapsed] = useState(true) ;
 
-  //TODO: warning: it should be 'togglesidebar' and not 'toggleSidebar'
   const toggleSidebar = () => {
     setCollapsed( oldCollapsed => !oldCollapsed ) ;
   } ;
@@ -115,19 +113,24 @@ const removeTask = (taskId) => {
       <div className="App">
       <ToDoNavbar toggleSidebar={toggleSidebar}></ToDoNavbar>
       <Switch>
-        <Route path='/:filter'
-          children={({match}) => (
-                                  <Container fluid>
-                                        <Row className="vheight-100">
-                                          <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} title={match.params.filter} ></ToDoSidebar>
-                                          <ToDoMain title={match.params.filter} tasks={filterTasks(tasks, match.params.filter)} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
-                                        </Row>
-                                  </Container>
-                                )}
-        />
-        <Route path='/'>
-          < Redirect to='/All'></Redirect>
+      <Route exact path='/'>
+          <Redirect to='/All'></Redirect>
         </Route>
+
+        <Route path='/:filter'
+          children={({match}) => filters.includes(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")) ? 
+                                  (
+                                    <Container fluid>
+                                          <Row className="vheight-100">
+                                            <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} title={match.params.filter} ></ToDoSidebar>
+                                            <ToDoMain title={match.params.filter} tasks={filterTasks(tasks, match.params.filter)} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
+                                          </Row>
+                                    </Container>
+                                  ) :
+                                  <Redirect to='/All'></Redirect>
+                                }
+        />
+        
       </Switch>
   </div>
       
