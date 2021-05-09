@@ -129,12 +129,12 @@ const removeTask = (taskId) => {
                                     </Container>
                                   ) :
                                   (
-                                  <>
-                                  <img src={confused}  className="d-block mx-auto img-fluid w-50"/>
-                                  <h1 className='validity-error text-center'>Error!</h1>
-                                  <h3 className='text-center'>The page you requested doesn't exist. You will be redirected to the home page in few seconds...</h3>
-                                  <p hidden='true'>{setTimeout(() => window.location.replace('/All'), 5000)}</p>
-                                  </>
+                                    <>
+                                      <img src={confused}  className="d-block mx-auto img-fluid w-50"/>
+                                      <h1 className='validity-error text-center'>Error!</h1>
+                                      <h3 className='text-center'>The page you requested doesn't exist. You will be redirected to the home page in few seconds...</h3>
+                                      <p hidden='true'>{setTimeout(() => window.location.replace('/All'), 5000)}</p>
+                                    </>
                                   )
                                   //<Redirect to='/All'></Redirect>
                                 }
