@@ -136,7 +136,6 @@ const removeTask = (taskId) => {
                                       <p hidden='true'>{setTimeout(() => window.location.replace('/All'), 5000)}</p>
                                     </>
                                   )
-                                  //<Redirect to='/All'></Redirect>
                                 }
         />
         
