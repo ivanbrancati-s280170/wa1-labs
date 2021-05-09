@@ -7,6 +7,7 @@ import { ToDoSidebar, ToDoMain } from './MainComponents.js' ;
 import { Container, Row } from 'react-bootstrap' ;
 import { useState, useEffect } from 'react' ;
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom' ;
+import confused from './confused.gif'
 
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined){
@@ -127,7 +128,15 @@ const removeTask = (taskId) => {
                                           </Row>
                                     </Container>
                                   ) :
-                                  <Redirect to='/All'></Redirect>
+                                  (
+                                  <>
+                                  <img src={confused}  className="d-block mx-auto img-fluid w-50"/>
+                                  <h1 className='validity-error text-center'>Error!</h1>
+                                  <h3 className='text-center'>The page you requested doesn't exist. You will be redirected to the home page in few seconds...</h3>
+                                  <p hidden='true'>{setTimeout(() => window.location.replace('/All'), 5000)}</p>
+                                  </>
+                                  )
+                                  //<Redirect to='/All'></Redirect>
                                 }
         />
         
