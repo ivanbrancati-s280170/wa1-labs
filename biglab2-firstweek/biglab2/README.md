@@ -66,32 +66,46 @@ Provide a short description for API with the required parameters, follow the pro
 
 ### Create a Task
 
-* HTTP Method: URL: 
-* Description: 
+* HTTP Method: POST URL: `/api/tasks`
+* Description: Create a new Task
 * Sample Request:
-* Sample Response:
+```
+{"id": 50, 
+"description": "description", 
+"important": true, 
+"privacy": true, 
+"deadline": "2020/10/10 14:30"}
+```
+* Sample Response: "50"(last id)
 * Error Response:
 
 ### Update a Task
 
-* HTTP Method: URL: 
-* Description: 
-* Sample Request:
-* Sample Response:
+* HTTP Method: PUT URL: `/api/tasks/:id`
+* Description: Update a Task
+* Sample Request: 
+```
+{"description": "description", 
+"important": true, 
+"privacy": true, 
+"deadline": "2020/11/11 15:30",
+"completed": false}
+```
+* Sample Response: "50"(id)
 * Error Response:
 
 ### Mark a Task as Completed/Uncompleted
 
-* HTTP Method: URL: 
-* Description: 
-* Sample Request:
-* Sample Response:
+* HTTP Method: PUT URL: `/api/tasks/toggleCompleted/:id`
+* Description: Update a Task ( Complete=false -> true, Complete=true -> false)
+* Sample Request: EMPTY
+* Sample Response: "50"(id)
 * Error Response:
 
 ### Delete a Task
 
-* HTTP Method: URL: 
-* Description: 
-* Sample Request:
-* Sample Response:
+* HTTP Method: DELETE URL: `/api/tasks/:id`
+* Description: Delete a Task
+* Sample Request: EMPTY
+* Sample Response: "50"(id)
 * Error Response:
