@@ -63,8 +63,8 @@ exports.getTask = (id) => {
     const sql = 'SELECT * FROM tasks WHERE id=?';
     db.get(sql, [id], (err, row) => {
       if (err) {
-        reject(err);
-        return;
+        reject(err) ;
+        return ; 
       }
       if (row == undefined) {
         resolve({error: 'Task not found.'});
@@ -86,7 +86,68 @@ exports.getTask = (id) => {
 //add a new Task
 exports.createTask = (task) => {
   return new Promise((resolve, reject) => {
-    const query = `INSERT into tasks values (${task.id}, ${task.description}, ${task.important}, ${task.privacy}, ${task.deadline}, 0, 1)` 
-    //TODO: continua da qui
-  })
-}
+    const query = `INSERT into tasks VALUES (?, ?, ?, ?, ?, 0, 1)` 
+    db.run(query, [task.id, task.description, task.important, task.privacy, task.deadline], function(err) {
+      if (err) {
+        reject(err) ;
+        return ;
+      } 
+      resolve(this.lastID) ;
+    }) ;
+  }) ;
+} ;
+
+//update a task
+exports.updateTask = (task) => {
+  return new Promise((resolve, reject) => {
+    const query = "UPDATE tasks SET description = ?, important = ?, private = ?, deadline = ?, completed = ? WHERE id = ? ";
+    db.run(query, [task.description, task.important, task.privacy, task.deadline, task.completed, task.id], function(err) {
+      if(err) {
+        reject(err) ;
+      }
+      else if (this.changes != 0){
+        resolve(task.id) ;
+      }
+      else {
+        resolve([{"Error":"element not existing!"}]) ;
+      }
+    }) ;
+  }) ;
+} ;
+
+//set a task as completed/uncompleted
+exports.toggleCompleted = (id) => {
+  return new Promise((resolve, reject) => {
+    const query = "UPDATE tasks SET completed = NOT completed WHERE id = ? ";
+    db.run(query, [id], function(err) {
+      if(err) {
+        reject(err) ;
+      }
+      else if (this.changes != 0){
+        resolve(id) ;
+      }
+      else {
+        resolve([{"Error":"element not existing!"}]) ;
+      }
+    }) ;
+  }) ;
+} ;
+
+//delete a task
+exports.deleteTask = (id) => {
+  return new Promise((resolve, reject) => {
+    const query = "DELETE FROM tasks WHERE id = ?" ;
+
+    db.run(query, [id], function(err){
+      if (err) {
+        reject(err) ;
+      }
+      else if (this.changes!=0){
+        resolve(id) ;
+      }
+      else {
+        resolve([{"Error":"element not existing!"}]) ;
+      }
+    }) ;
+  }) ;
+} ;

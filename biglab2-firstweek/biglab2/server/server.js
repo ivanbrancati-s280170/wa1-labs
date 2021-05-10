@@ -46,13 +46,60 @@ app.get('/api/tasks/:id', async (req,res) => {
 }) ;
 
 //function to create a new task
-app.post('/api/exams', async (req, res) => {
-    let code = req.body.code ;
-    let score = req.body.scre ;
-    let date = req.body.date ;
+app.post('/api/tasks', async (req, res) => {
+    let id = req.body.id ;
+    let description = req.body.description ;
+    let important = req.body.important ;
+    let privacy = req.body.privacy ;
+    let deadline = req.body.deadline ;
 
     try{
-    await dao.createExam({code:code, score:score, date:date}) ;
+    let lastID = await dao.createTask({id: id, description: description, important: important, privacy: privacy, deadline: deadline}) ;
+    res.json(lastID) ;
+    res.end() ;
+    } catch(error) {
+        res.status(500).json(error) ;
+    }
+ }) ;
+
+//function to update an existing task
+app.put('/api/tasks/:id', async (req, res) => {
+    let id = req.params.id ;
+    let description = req.body.description ;
+    let important = req.body.important ;
+    let privacy = req.body.privacy ;
+    let deadline = req.body.deadline ;
+    let completed = req.body.completed ;
+
+    try{
+    let ID = await dao.updateTask({id: id, description: description, important: important, privacy: privacy, deadline: deadline, completed: completed}) ;
+    res.json(ID) ;
+    res.end() ;
+    } catch(error) {
+        res.status(500).json(error) ;
+    }
+ }) ;
+
+//function to set an existing task as completed/uncompleted
+app.put('/api/tasks/toggleCompleted/:id', async (req, res) => {
+    let id = req.params.id ;
+
+    try{
+    let ID = await dao.toggleCompleted(id) ;
+    res.json(ID) ;
+    res.end() ;
+    } catch(error) {
+        res.status(500).json(error) ;
+    }
+ }) ;
+
+ //function to sdelete a task
+app.delete('/api/tasks/:id', async (req, res) => {
+    let id = req.params.id ;
+
+    try{
+    let ID = await dao.deleteTask(id) ;
+    res.json(ID) ;
     res.end() ;
     } catch(error) {
         res.status(500).json(error) ;
