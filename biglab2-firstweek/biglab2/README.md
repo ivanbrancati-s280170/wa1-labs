@@ -30,3 +30,68 @@ Provide a short description for API with the required parameters, follow the pro
 * [Sample request, with body (if any)]
 * [Sample response, with body (if any)]
 * [Error responses, if any]
+
+### List Tasks
+
+* HTTP Method: GET URL: `/api/tasks`
+* Description: Retrieve a list of tasks
+* Sample Request: EMPTY
+* Sample Response: 
+```
+[{"id":2,"description":"Go for a walk","important":1,"private":1,"deadline":"2021-04-14 08:30","completed":1},{"id":4,"description":"Watch the Express videolecture","important":1,"private":1,"deadline":"2021-05-24 09:00","completed":1}]
+```
+* Error Response:
+
+### List Tasks (with filter)
+
+* HTTP Method: GET URL: `/api/tasks/filters/:filter`
+* Description: Retrieve a list of Tasks of a given filter
+* Sample Request: EMPTY
+* Sample Response:
+```
+[{"id":2,"description":"Go for a walk","important":1,"private":1,"deadline":"2021-04-14 08:30","completed":1},{"id":4,"description":"Watch the Express videolecture","important":1,"private":1,"deadline":"2021-05-24 09:00","completed":1}]
+```
+* Error Response:
+
+### Get a Task 
+
+* HTTP Method: GET URL: `/api/tasks/:id`
+* Description: Retrieve the Task with the gived id
+* Sample Request: EMPTY
+* Sample Response:
+```
+{"id":6,"description":"Organize a party","important":0,"private":0,"deadline":"2021-05-22 20:30","completed":0}
+```
+* Error Response:
+
+### Create a Task
+
+* HTTP Method: URL: 
+* Description: 
+* Sample Request:
+* Sample Response:
+* Error Response:
+
+### Update a Task
+
+* HTTP Method: URL: 
+* Description: 
+* Sample Request:
+* Sample Response:
+* Error Response:
+
+### Mark a Task as Completed/Uncompleted
+
+* HTTP Method: URL: 
+* Description: 
+* Sample Request:
+* Sample Response:
+* Error Response:
+
+### Delete a Task
+
+* HTTP Method: URL: 
+* Description: 
+* Sample Request:
+* Sample Response:
+* Error Response:
