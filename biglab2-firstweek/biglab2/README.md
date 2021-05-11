@@ -38,7 +38,18 @@ Provide a short description for API with the required parameters, follow the pro
 * Sample Request: EMPTY
 * Sample Response: 
 ```
-[{"id":2,"description":"Go for a walk","important":1,"private":1,"deadline":"2021-04-14 08:30","completed":1},{"id":4,"description":"Watch the Express videolecture","important":1,"private":1,"deadline":"2021-05-24 09:00","completed":1}]
+[{"id":2,
+"description":"Go for a walk",
+"important":1,
+"private":1,
+"deadline":"2021-04-14 08:30",
+"completed":1},
+{"id":4,
+"description":"Watch the Express videolecture",
+"important":1,
+"private":1,
+"deadline":"2021-05-24 09:00",
+"completed":1}]
 ```
 * Error Response:
 
@@ -49,7 +60,18 @@ Provide a short description for API with the required parameters, follow the pro
 * Sample Request: EMPTY
 * Sample Response:
 ```
-[{"id":2,"description":"Go for a walk","important":1,"private":1,"deadline":"2021-04-14 08:30","completed":1},{"id":4,"description":"Watch the Express videolecture","important":1,"private":1,"deadline":"2021-05-24 09:00","completed":1}]
+[{"id":2,
+"description":"Go for a walk",
+"important":1,
+"private":1,
+"deadline":"2021-04-14 08:30",
+"completed":1},
+{"id":4,
+"description":"Watch the Express videolecture",
+"important":1,
+"private":1,
+"deadline":"2021-05-24 09:00",
+"completed":1}]
 ```
 * Error Response:
 
@@ -60,7 +82,12 @@ Provide a short description for API with the required parameters, follow the pro
 * Sample Request: EMPTY
 * Sample Response:
 ```
-{"id":6,"description":"Organize a party","important":0,"private":0,"deadline":"2021-05-22 20:30","completed":0}
+{"id":6,
+"description":"Organize a party",
+"important":0,
+"private":0,
+"deadline":"2021-05-22 20:30",
+"completed":0}
 ```
 * Error Response:
 
