@@ -1,6 +1,7 @@
 /* Data Access Object (DAO) module for accessing tasks.db */
 'use strict' ;
-//TODO: inserisci codici risposte
+//TODO: insert response codes
+//TODO: parametric get with filters
 
 const sqlite = require('sqlite3');
 const dayjs = require('dayjs') ;
