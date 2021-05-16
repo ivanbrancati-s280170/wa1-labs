@@ -1,9 +1,6 @@
-//TODO: id in adding task
-//TODO: validation with express validator
 const express = require('express') ;
 const morgan = require('morgan') ;
 const dao = require('./dao.js') ;
-//middleware for validation purposes
 const { body, validationResult } = require('express-validator') ;
 
 const PORT = 3001;
@@ -68,6 +65,8 @@ app.post('/api/tasks', async (req, res) => {
 //function to create a new task(with validation)
 app.post('/api/tasks2',[
     body('description', "Description required!").notEmpty(),
+    body('important', "Important should be a Boolean!").isBoolean(),
+    body('privacy', "Private should be a Boolean!").isBoolean(),
     body('deadline', "Deadline must be a valid date!").matches(/^\d\d\d\d\/([0-1][0-2])\/([0-2][0-9]|3[0-1])\s([0-1][0-9]|2[0-3]):[0-5]\d$/) 
     ],
     async (req, res) => {
