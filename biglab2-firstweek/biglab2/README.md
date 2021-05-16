@@ -97,8 +97,7 @@ Provide a short description for API with the required parameters, follow the pro
 * Description: Create a new Task
 * Sample Request:
 ```
-{"id": 50, 
-"description": "description", 
+{"description": "description", 
 "important": true, 
 "privacy": true, 
 "deadline": "2020/10/10 14:30"}

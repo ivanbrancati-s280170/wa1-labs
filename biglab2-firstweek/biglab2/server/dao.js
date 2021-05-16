@@ -86,8 +86,9 @@ exports.getTask = (id) => {
 //add a new Task
 exports.createTask = (task) => {
   return new Promise((resolve, reject) => {
-    const query = `INSERT into tasks VALUES (?, ?, ?, ?, ?, 0, 1)` 
-    db.run(query, [task.id, task.description, task.important, task.privacy, task.deadline], function(err) {
+    const query = `INSERT into tasks (description, important, private, deadline, completed, user) VALUES (?, ?, ?, ?, 0, 1)` 
+    console.log(task.description + task.important + task.privacy + task.deadline) ;
+    db.run(query, [task.description, task.important, task.privacy, task.deadline], function(err) {
       if (err) {
         reject(err) ;
         return ;
