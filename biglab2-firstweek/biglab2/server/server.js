@@ -67,7 +67,7 @@ app.post('/api/tasks2',[
     body('description', "Description required!").notEmpty(),
     body('important', "Important should be a Boolean!").isBoolean(),
     body('privacy', "Private should be a Boolean!").isBoolean(),
-    body('deadline', "Deadline must be a valid date!").matches(/^\d\d\d\d\/([0-1][0-2])\/([0-2][0-9]|3[0-1])\s([0-1][0-9]|2[0-3]):[0-5]\d$/) 
+    body('deadline', "Deadline must be a valid date!('YYYY-MM-DD HH:mm'").matches(/^\d\d\d\d\-([0-1][0-2])\-([0-2][0-9]|3[0-1])\s([0-1][0-9]|2[0-3]):[0-5]\d$/) 
     ],
     async (req, res) => {
     const errors = validationResult(req) ;
@@ -89,7 +89,16 @@ app.post('/api/tasks2',[
  }) ;
 
 //function to update an existing task
-app.put('/api/tasks/:id', async (req, res) => {
+app.put('/api/tasks/:id',[
+    body('description', "Description required!").notEmpty(),
+    body('important', "Important should be a Boolean!").isBoolean(),
+    body('privacy', "Private should be a Boolean!").isBoolean(),
+    body('deadline', "Deadline must be a valid date!(YYYY-MM-DD HH:mm").matches(/^\d\d\d\d\-([0-1][0-2])\-([0-2][0-9]|3[0-1])\s([0-1][0-9]|2[0-3]):[0-5]\d$/) 
+    ], async (req, res) => {
+    const errors = validationResult(req) ;
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() }) ;
+    }
     let id = req.params.id ;
     let description = req.body.description ;
     let important = req.body.important ;

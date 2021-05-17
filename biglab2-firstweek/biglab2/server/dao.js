@@ -22,13 +22,13 @@ exports.getTasks = (filter) => {
         query = "SELECT * FROM tasks  WHERE important = true" ;
         break ;
       case "Today":
-        const today = `${dayjs().format("YYYY-MM-DD").toString()}%` ;
+        const today = `${dayjs().format("YYYY-MM-DD")}%` ;
         query = `SELECT * FROM tasks  WHERE deadline LIKE "${today}"` ;
         break ;
       case "Next7Days":
         const tomorrow = dayjs().add(1, 'day').format("YYYY-MM-DD") ;
         const plusEight = dayjs().add(8, 'day').format("YYYY-MM-DD") ;
-        query = `SELECT * FROM tasks  WHERE deadline <= ${plusEight} AND deadline >= ${tomorrow}` ;
+        query = `SELECT * FROM tasks  WHERE deadline <= "${plusEight}" AND deadline >= "${tomorrow.toString()}"` ;
         break ;
       case "Private":
       query = "SELECT * FROM tasks  WHERE private = true" ;
@@ -87,7 +87,6 @@ exports.getTask = (id) => {
 exports.createTask = (task) => {
   return new Promise((resolve, reject) => {
     const query = `INSERT into tasks (description, important, private, deadline, completed, user) VALUES (?, ?, ?, ?, 0, 1)` 
-    console.log(task.description + task.important + task.privacy + task.deadline) ;
     db.run(query, [task.description, task.important, task.privacy, task.deadline], function(err) {
       if (err) {
         reject(err) ;
