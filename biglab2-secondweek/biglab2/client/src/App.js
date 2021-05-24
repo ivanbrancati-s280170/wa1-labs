@@ -20,7 +20,7 @@ function Task(id, description, urgent = false, privacy = true, deadline = undefi
   this.deadline = deadline? dayjs(deadline) : undefined ;
 } ;
 
-//TaskList object constructor
+/*//TaskList object constructor
 function TaskList(){
   this.tasks = [] ;
 
@@ -35,23 +35,56 @@ const t3 = new Task(3, "Read a good book!", true, true) ;
 const tl = new TaskList() ;
 tl.addTask(t1) ;
 tl.addTask(t2) ;
-tl.addTask(t3) ;
+tl.addTask(t3) ;*/
 
 const filters = ['All', 'Important', 'Today', 'Next 7 Days', 'Private'] ;
 
 function App() {
 
   //state to manage tasks addition
-  const [tasks, setTasks] = useState(tl.tasks) ;
+  //const [tasks, setTasks] = useState(tl.tasks) ;
+  //TODO: continua da qui
+  const [tasks, setTasks] = useState([]) ;
+  
+  useEffect(() => {
+    async function loadTasks(){
+      const response = await fetch('/api/tasks') ;
+      const fetchedTasks = await response.json() ;
+      const taskList = fetchedTasks.map( t => new Task(t.id, t.description, t.important, t.private, t.deadline)) ;
+      setTasks(taskList) ;
+    } ;
+    loadTasks() ;
+  }, []) ;
 
   //state representing max task id
+  //TODO: maxId from db
   const [maxId, setMaxId] = useState(Math.max(...tasks.map((task)=> task.id)))
+
+  //api to add a task to the db (TODO: sposta nel file con le api)
+  async function addFetchTask(task) {
+    const response = await fetch('/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+        "description": task.description, 
+        "important": task.urgent, 
+        "privacy": task.privacy, 
+        "deadline": task.deadline || ''
+      } )
+    });
+    if (response.ok) {
+        return null;
+    } else return { 'err': 'POST error' };
+}
 
   //function to add a task
   const addTask = (newTask) => {
     const t = new Task(maxId+1, newTask.description, newTask.urgent, newTask.privacy, newTask.deadline)
     setMaxId( oldMaxId => oldMaxId + 1) ;
     setTasks( oldTasks => [...oldTasks, t]) ;
+
+    //TODO: sistema con file api
+    addFetchTask(t) ;
 } ;
 
 //function to edit a task
