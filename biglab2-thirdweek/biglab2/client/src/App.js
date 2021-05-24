@@ -8,6 +8,7 @@ import { Container, Row } from 'react-bootstrap' ;
 import { useState, useEffect } from 'react' ;
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom' ;
 import confused from './confused.gif'
+import API from './API.js'
 
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined){
@@ -47,44 +48,24 @@ function App() {
   const [tasks, setTasks] = useState([]) ;
   
   useEffect(() => {
-    async function loadTasks(){
-      const response = await fetch('/api/tasks') ;
-      const fetchedTasks = await response.json() ;
-      const taskList = fetchedTasks.map( t => new Task(t.id, t.description, t.important, t.private, t.deadline)) ;
-      setTasks(taskList) ;
-    } ;
-    loadTasks() ;
+    
+    API.loadTasks().then((retrievedTasks)=> setTasks(retrievedTasks.map( t => new Task(t.id, t.description, t.important, t.private, t.deadline))) ) ;
+
   }, []) ;
 
   //state representing max task id
   //TODO: maxId from db
   const [maxId, setMaxId] = useState(Math.max(...tasks.map((task)=> task.id)))
 
-  //api to add a task to the db (TODO: sposta nel file con le api)
-  async function addFetchTask(task) {
-    const response = await fetch('/api/tasks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-        "description": task.description, 
-        "important": task.urgent, 
-        "privacy": task.privacy, 
-        "deadline": task.deadline || ''
-      } )
-    });
-    if (response.ok) {
-        return null;
-    } else return { 'err': 'POST error' };
-}
-
   //function to add a task
+  //TODO:c'è qualche problema nella post con la deadline
   const addTask = (newTask) => {
     const t = new Task(maxId+1, newTask.description, newTask.urgent, newTask.privacy, newTask.deadline)
     setMaxId( oldMaxId => oldMaxId + 1) ;
     setTasks( oldTasks => [...oldTasks, t]) ;
 
     //TODO: sistema con file api
-    addFetchTask(t) ;
+    API.addTask(t) ;
 } ;
 
 //function to edit a task

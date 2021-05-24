@@ -3,6 +3,8 @@ const morgan = require('morgan') ;
 const dao = require('./dao.js') ;
 const { body, validationResult } = require('express-validator') ;
 
+//TODO: 0/1 anzichè true/false
+
 const PORT = 3001;
 
 app = new express(); //TODO: why not const app = express() ?
