@@ -11,7 +11,7 @@ import confused from './confused.gif'
 import API from './API.js'
 
 //Task object constructor
-function Task(id, description, urgent = false, privacy = true, deadline = undefined){
+function Task(id, description, urgent = false, privacy = true, deadline = undefined, completed = false){
   if (!id) throw new Error('ID is required!') ;
   else if (!description) throw new Error('Description is required!') ;
   this.id = id ; 
@@ -19,6 +19,7 @@ function Task(id, description, urgent = false, privacy = true, deadline = undefi
   this.urgent = urgent ;
   this.privacy = privacy ;
   this.deadline = deadline? dayjs(deadline) : undefined ;
+  this.completed = completed ;
 } ;
 
 /*//TaskList object constructor
@@ -43,19 +44,22 @@ const filters = ['All', 'Important', 'Today', 'Next 7 Days', 'Private'] ;
 function App() {
 
   //state to manage tasks addition
-  //const [tasks, setTasks] = useState(tl.tasks) ;
-  //TODO: continua da qui
   const [tasks, setTasks] = useState([]) ;
   
+  //Rehydrate with all tasks at mount time
   useEffect(() => {
-    
-    API.loadTasks().then((retrievedTasks)=> setTasks(retrievedTasks.map( t => new Task(t.id, t.description, t.important, t.private, t.deadline))) ) ;
-
+    API.loadTasks().then((retrievedTasks)=> setTasks(retrievedTasks.map( t => new Task(t.id, t.description, t.important, t.private, t.deadline, t.completed))) ) ;
   }, []) ;
 
   //state representing max task id
   //TODO: maxId from db
-  const [maxId, setMaxId] = useState(Math.max(...tasks.map((task)=> task.id)))
+  //const [maxId, setMaxId] = useState(Math.max(...tasks.map((task)=> task.id)))
+  const [maxId, setMaxId] = useState('') ;
+  //Rehydrate with max task id
+  useEffect(() => {
+    API.retrieveMaxId().then((retrievedId)=> setMaxId(retrievedId.maxid) ) ;
+  }, []) ;
+
 
   //function to add a task
   //TODO:c'è qualche problema nella post con la deadline
@@ -80,7 +84,9 @@ const editTask = (taskId, newDescription, newUrgent , newPrivacy, newDeadline) =
 
 //function to remove a task
 const removeTask = (taskId) => {
+  console.log(taskId) ;
   setTasks( oldTasks => oldTasks.filter( (task) => task.id !== taskId )) ;
+  API.deleteTask(taskId) ;
 } ;
   
 

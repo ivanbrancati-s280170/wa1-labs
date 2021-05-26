@@ -143,4 +143,14 @@ app.delete('/api/tasks/:id', async (req, res) => {
     }
  }) ;
 
+ //function to retrieve max task id
+app.get('/api/maxtaskid', async (req,res) => {
+    try {
+        let result = await dao.getMaxId() ;
+        res.json(result) ;
+        } catch(error) {
+            res.status(500).json(error) ;
+        }
+}) ;
+
 app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT}/`));

@@ -151,3 +151,23 @@ exports.deleteTask = (id) => {
     }) ;
   }) ;
 } ;
+
+// get max Task id
+exports.getMaxId = () => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT MAX(id) as maxid FROM tasks';
+    db.get(sql, [], (err, row) => {
+      if (err) {
+        reject(err) ;
+        return ; 
+      }
+      if (row == undefined) {
+        resolve({error: 'Error retrieving max id.'});
+      } else {
+        const result = {
+          maxid : row.maxid } ;
+        resolve(result);
+      }
+    });
+  });
+};

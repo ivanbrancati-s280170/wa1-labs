@@ -41,7 +41,7 @@ const TaskInfo = (props) => {
     return (
             <>
             <Form.Check className='d-flex w-50 justify-content-start'>
-                <Form.Check.Input className="me-1"  type="checkbox" value=""/>
+                <Form.Check.Input className="me-1" checked={props.task.completed} onChange={console.log('a')}/>
                     <Form.Label className={
                     /*if task is important make it red otherwise don't*/
                     props.task.urgent?"important-task ":""}>
