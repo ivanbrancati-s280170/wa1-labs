@@ -25,10 +25,9 @@ const ToDoSidebar = (props) => {
 } ;
 
 
-const FilterTitle = (props) => <h1 className="tasks-title">{props.title.split(/(?=[A-Z|0-9])/).join(" ")}{//TODO: anzichè loading bordo/colore
-    //TODO: continua da qui (loading o updating??)
-    props.updating||props.loading? <img src={charging} className="charging-gif"/> : <></>
-    }</h1> ;
+const FilterTitle = (props) => <h1 className="tasks-title">{props.title.split(/(?=[A-Z|0-9])/).join(" ")}
+                                {props.updating||props.loading? <img src={charging} className="charging-gif"/> : <></>}
+                                </h1> ;
 
 const TaskRow = (props) => {
     return (<ListGroup.Item className="tasklist-elem todo-main" key={props.task.id}>
