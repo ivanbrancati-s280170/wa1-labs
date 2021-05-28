@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
 import { Link } from 'react-router-dom';
+import API from './API' ;
+import charging from './charging.gif'
 
 const ToDoSidebar = (props) => {
     const elements = props.elements ;
     const listItems = elements.map( (element) => 
-        <Link to={`/${element.replaceAll(" ", "")}`} style={{ textDecoration: 'none' }} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"}>
+        <Link to={`/${element.replaceAll(" ", "")}`} style={{ textDecoration: 'none' }} key = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} >
             <ListGroup.Item action className={`sidebar-left-elem ${props.title.split(/(?=[A-Z|0-9])/).join(" ") === element? "sidebar-left-elem-active": ""}`}  
             id = {element.split(" ").join("-").charAt(0).toUpperCase() + element.slice(1, element.length)+"-sidebar"} 
-            onClick={()=>{props.toggleSidebar() ;}}>
+            onClick={()=>{props.toggleSidebar() ; props.changeFilter(element.replaceAll(" ", ""));}}>
                 {element}
             </ListGroup.Item>
         </Link>) ;
@@ -23,7 +25,10 @@ const ToDoSidebar = (props) => {
 } ;
 
 
-const FilterTitle = (props) => <h1 className="tasks-title">{props.title.split(/(?=[A-Z|0-9])/).join(" ")}</h1> ;
+const FilterTitle = (props) => <h1 className="tasks-title">{props.title.split(/(?=[A-Z|0-9])/).join(" ")}{//TODO: anzichè loading bordo/colore
+    //TODO: continua da qui (loading o updating??)
+    props.updating||props.loading? <img src={charging} className="charging-gif"/> : <></>
+    }</h1> ;
 
 const TaskRow = (props) => {
     return (<ListGroup.Item className="tasklist-elem todo-main" key={props.task.id}>
@@ -38,10 +43,12 @@ const TaskRow = (props) => {
 } ;
 
 const TaskInfo = (props) => {
+    const [checked, setChecked] = useState(props.task.completed) ;
+    
     return (
             <>
             <Form.Check className='d-flex w-50 justify-content-start'>
-                <Form.Check.Input className="me-1" checked={props.task.completed} onChange={console.log('a')}/>
+                <Form.Check.Input className="me-1" checked={checked} onChange={ (event) => {setChecked(event.target.checked) ; API.toggleCompleted(props.task.id) ; props.updatingPage() ;} }/>
                     <Form.Label className={
                     /*if task is important make it red otherwise don't*/
                     props.task.urgent?"important-task ":""}>
@@ -90,7 +97,7 @@ const TaskControls = (props) => {
 const ToDoTaskList = (props) => {
     return (
             <ListGroup as="ul" variant="flush" className="tasklist">
-                { props.elements.map( (e) => <TaskRow task={e} key={e.id} removeTask={props.removeTask} openModal={props.openModal} handleToEdit={props.handleToEdit} editTask={props.editTask}/>)}
+                { props.elements.map( (e) => <TaskRow task={e} key={e.id} removeTask={props.removeTask} openModal={props.openModal} handleToEdit={props.handleToEdit} editTask={props.editTask} updatingPage={props.updatingPage}/>)}
             </ListGroup>
             ) ;
 } ;
@@ -283,8 +290,8 @@ const ToDoMain = (props) => {
     return (
             <Col as='main' xs={12} sm={8}>
                 <div id="tasklist-container">
-                    <FilterTitle title={props.title}></FilterTitle>   
-                    <ToDoTaskList elements={props.tasks} removeTask={props.removeTask} openModal={openModal} handleToEdit={handleToEdit}></ToDoTaskList>
+                    <FilterTitle title={props.title} loading={props.loading} updating={props.updating}></FilterTitle>
+                    <ToDoTaskList elements={props.tasks} removeTask={props.removeTask} openModal={openModal} handleToEdit={handleToEdit} updatingPage={props.updatingPage}></ToDoTaskList>  
                     <AddButton showModal={showModal} openModal={openModal} ></AddButton>
                     <AddModal showModal={showModal} closeModal={closeModal} handleToEdit={handleToEdit} addTask={props.addTask} editTask={props.editTask} tasks={props.tasks} taskToEdit={taskToEdit}></AddModal>
                 </div>

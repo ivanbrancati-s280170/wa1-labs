@@ -75,4 +75,9 @@ body{
     box-shadow: 0 0 5px #e03131;
 }
 
+.charging-gif{
+  height: 40px;
+  width: 40px;
+}
+
 

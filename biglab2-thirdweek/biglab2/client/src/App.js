@@ -20,24 +20,8 @@ function Task(id, description, urgent = false, privacy = true, deadline = undefi
   this.privacy = privacy ;
   this.deadline = deadline? dayjs(deadline) : undefined ;
   this.completed = completed ;
+  //TODO: add user
 } ;
-
-/*//TaskList object constructor
-function TaskList(){
-  this.tasks = [] ;
-
-  //method to add a task to the tasks list
-  this.addTask = (task) => this.tasks.push(task) ;
-} ;
-
-const t1 = new Task(1, "Complete Lab 2", false, false, "2021-03-22 14:30") ;
-const t2 = new Task(2, "Buy some groceries", false, true,  "2021-04-10 11:00") ;
-const t3 = new Task(3, "Read a good book!", true, true) ;
-
-const tl = new TaskList() ;
-tl.addTask(t1) ;
-tl.addTask(t2) ;
-tl.addTask(t3) ;*/
 
 const filters = ['All', 'Important', 'Today', 'Next 7 Days', 'Private'] ;
 
@@ -45,53 +29,69 @@ function App() {
 
   //state to manage tasks addition
   const [tasks, setTasks] = useState([]) ;
-  
-  //Rehydrate with all tasks at mount time
-  useEffect(() => {
-    API.loadTasks().then((retrievedTasks)=> setTasks(retrievedTasks.map( t => new Task(t.id, t.description, t.important, t.private, t.deadline, t.completed))) ) ;
-  }, []) ;
-
   //state representing max task id
-  //TODO: maxId from db
-  //const [maxId, setMaxId] = useState(Math.max(...tasks.map((task)=> task.id)))
   const [maxId, setMaxId] = useState('') ;
-  //Rehydrate with max task id
+  //state for task loading at mount time
+  const [loading, setLoading] = useState(true) ;
+  //state for task updating
+  const [updating, setUpdating] = useState(true) ;
+  
+  //function needed in ToDoMain -> ToDoTaskList -> TaskRow -> TaskInfo
+  const updatingPage = () => {
+    setUpdating(true) ;
+  } ;
+
+  //state to manage tasks filter
+  //TODO: usare anche per titoli
+  const [filter, setFilter] = useState('All') ;
+  
+  const changeFilter = (newFilter) => {
+    console.log("DEBUG:FILTER CHANGE: "+newFilter) ;
+    setFilter( oldFilter => newFilter ) ;
+    setUpdating(true) ;
+  } ;
+
+  //Rehydrate with all tasks at mount time, when a filter is selected and when a task is added/deleted/updated
   useEffect(() => {
-    API.retrieveMaxId().then((retrievedId)=> setMaxId(retrievedId.maxid) ) ;
-  }, []) ;
+      API.loadTasks(filter).then((retrievedTasks)=> {
+        console.log("DEBUG: task reloaded") ;
+        setTasks(retrievedTasks.length?retrievedTasks.map( t => new Task(t.id, t.description, t.important, t.private, t.deadline, t.completed)):retrievedTasks) ;
+        setLoading(false) ;
+        setUpdating(false) ;
+      }) ;
+      API.retrieveMaxId().then((retrievedId)=> setMaxId(retrievedId.maxid) ) ;
+  }, [updating, filter]) ;
+  
 
 
   //function to add a task
-  //TODO:c'è qualche problema nella post con la deadline
   const addTask = (newTask) => {
-    const t = new Task(maxId+1, newTask.description, newTask.urgent, newTask.privacy, newTask.deadline)
-    setMaxId( oldMaxId => oldMaxId + 1) ;
-    setTasks( oldTasks => [...oldTasks, t]) ;
-
-    //TODO: sistema con file api
-    API.addTask(t) ;
+    const t = new Task(maxId+1, newTask.description, newTask.urgent, newTask.privacy, newTask.deadline) ;
+    //setMaxId( oldMaxId => oldMaxId + 1) ; //TODO: gestire meglio
+    //setTasks( oldTasks => [...oldTasks, t]) ;
+    API.addTask(t).then(setUpdating(true)) ;
 } ;
 
 //function to edit a task
 const editTask = (taskId, newDescription, newUrgent , newPrivacy, newDeadline) => {
-  setTasks( oldTasks => oldTasks.map( (task) => 
+  /*setTasks( oldTasks => oldTasks.map( (task) => 
     task.id === taskId ?
       new Task(taskId, newDescription, newUrgent, newPrivacy, newDeadline) :
       task 
-  )) ;
+  )) ;*/
+  API.editTask(taskId, newDescription, newUrgent , newPrivacy, newDeadline).then(setUpdating(true)) ;
 } ;
 
 
 //function to remove a task
 const removeTask = (taskId) => {
-  console.log(taskId) ;
-  setTasks( oldTasks => oldTasks.filter( (task) => task.id !== taskId )) ;
-  API.deleteTask(taskId) ;
+  //setTasks( oldTasks => oldTasks.filter( (task) => task.id !== taskId )) ;
+  API.deleteTask(taskId).then(setUpdating(true)) ;
 } ;
   
 
   //function to show tasks according to filter
-  const filterTasks = (oldTasks, filter) => {
+  /*const filterTasks = (oldTasks, filter) => {
     
     switch (filter) {
       case "All":
@@ -115,7 +115,7 @@ const removeTask = (taskId) => {
       case "Private":
         return oldTasks.filter( task => task.privacy ) ;
     }
-  }
+  }*/
 
   //state to manage toggle sidebar
   const [collapsed, setCollapsed] = useState(true) ;
@@ -134,31 +134,29 @@ const removeTask = (taskId) => {
       <div className="App">
       <ToDoNavbar toggleSidebar={toggleSidebar}></ToDoNavbar>
       <Switch>
-      <Route exact path='/'>
-          <Redirect to='/All'></Redirect>
+        <Route exact path='/'>
+            <Redirect to='/All'></Redirect>
         </Route>
-
         <Route path='/:filter'
-          children={({match}) => filters.includes(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")) ? 
-                                  (
-                                    <Container fluid>
-                                          <Row className="vheight-100">
-                                            <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} title={match.params.filter} ></ToDoSidebar>
-                                            <ToDoMain title={match.params.filter} tasks={filterTasks(tasks, match.params.filter)} addTask={addTask} removeTask={removeTask} editTask={editTask}></ToDoMain>
-                                          </Row>
-                                    </Container>
-                                  ) :
-                                  (
-                                    <>
-                                      <img src={confused}  className="d-block mx-auto img-fluid w-50"/>
-                                      <h1 className='validity-error text-center'>Error!</h1>
-                                      <h3 className='text-center'>The page you requested doesn't exist. You will be redirected to the home page in few seconds...</h3>
-                                      <p hidden='true'>{setTimeout(() => window.location.replace('/All'), 5000)}</p>
-                                    </>
-                                  )
-                                }
-        />
-        
+            children={({match}) => filters.includes(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")) ? 
+                                    (
+                                      <Container fluid>
+                                            <Row className="vheight-100">
+                                              <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} title={match.params.filter} changeFilter={changeFilter}></ToDoSidebar>
+                                              <ToDoMain title={match.params.filter} tasks={tasks/*filterTasks(tasks, match.params.filter)*/} addTask={addTask} removeTask={removeTask} editTask={editTask} loading={loading} updating={updating} updatingPage={updatingPage}></ToDoMain>
+                                            </Row>
+                                      </Container>
+                                    ) :
+                                    (
+                                      <>
+                                        <img src={confused}  className="d-block mx-auto img-fluid w-50"/>
+                                        <h1 className='validity-error text-center'>Error!</h1>
+                                        <h3 className='text-center'>The page you requested doesn't exist. You will be redirected to the home page in few seconds...</h3>
+                                        <p hidden='true'>{setTimeout(() => window.location.replace('/All'), 5000)}</p>
+                                      </>
+                                    )
+                                  }
+        /> 
       </Switch>
   </div>
       

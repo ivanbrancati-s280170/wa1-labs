@@ -111,7 +111,7 @@ Provide a short description for API with the required parameters, follow the pro
 {"description": "description", 
 "important": true, 
 "privacy": true, 
-"deadline": "2020/10/10 14:30"}
+"deadline": "2020-10-10 14:30"}
 ```
 * Sample Response: "50"(last id)
 * Error Response:
