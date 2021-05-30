@@ -1,9 +1,9 @@
-//TODO: validation with express-validator middleware
-//TODO: method to get lastid?
 const express = require('express') ;
 const morgan = require('morgan') ;
 const dao = require('./dao.js') ;
 const { body, validationResult } = require('express-validator') ;
+
+//TODO: 0/1 anzichè true/false
 
 const PORT = 3001;
 
@@ -49,6 +49,8 @@ app.get('/api/tasks/:id', async (req,res) => {
 }) ;
 
 //function to create a new task
+//OLD
+/*
 app.post('/api/tasks', async (req, res) => {
     let description = req.body.description ;
     let important = req.body.important ;
@@ -63,13 +65,14 @@ app.post('/api/tasks', async (req, res) => {
         res.status(500).json(error) ;
     }
 }) ;
+*/
     
 //function to create a new task(with validation)
-app.post('/api/tasks2',[
+app.post('/api/tasks',[
     body('description', "Description required!").notEmpty(),
     body('important', "Important should be a Boolean!").isBoolean(),
     body('privacy', "Private should be a Boolean!").isBoolean(),
-    body('deadline', "Deadline must be a valid date!('YYYY-MM-DD HH:mm'").matches(/^\d\d\d\d\-([0-1][0-2])\-([0-2][0-9]|3[0-1])\s([0-1][0-9]|2[0-3]):[0-5]\d$/) 
+    body('deadline', "Deadline must be a valid date('YYYY-MM-DD HH:mm' or empty!").matches(/^\d\d\d\d\-([0]\d|[0-1][0-2])\-([0-2][0-9]|3[0-1])\s([0-1][0-9]|2[0-3]):[0-5]\d|^$/) 
     ],
     async (req, res) => {
     const errors = validationResult(req) ;
@@ -95,7 +98,7 @@ app.put('/api/tasks/:id',[
     body('description', "Description required!").notEmpty(),
     body('important', "Important should be a Boolean!").isBoolean(),
     body('privacy', "Private should be a Boolean!").isBoolean(),
-    body('deadline', "Deadline must be a valid date!(YYYY-MM-DD HH:mm").matches(/^\d\d\d\d\-([0-1][0-2])\-([0-2][0-9]|3[0-1])\s([0-1][0-9]|2[0-3]):[0-5]\d$/) 
+    body('deadline', "Deadline must be a valid date!(YYYY-MM-DD HH:mm)").matches(/^\d\d\d\d\-([0]\d|[0-1][0-2])\-([0-2][0-9]|3[0-1])\s([0-1][0-9]|2[0-3]):[0-5]\d|^$/) 
     ], async (req, res) => {
     const errors = validationResult(req) ;
     if (!errors.isEmpty()) {
@@ -142,5 +145,15 @@ app.delete('/api/tasks/:id', async (req, res) => {
         res.status(500).json(error) ;
     }
  }) ;
+
+ //function to retrieve max task id
+app.get('/api/maxtaskid', async (req,res) => {
+    try {
+        let result = await dao.getMaxId() ;
+        res.json(result) ;
+        } catch(error) {
+            res.status(500).json(error) ;
+        }
+}) ;
 
 app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT}/`));

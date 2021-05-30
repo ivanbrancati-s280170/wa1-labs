@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "dayjs": "^1.10.4",
+    "dayjs": "^1.10.5",
     "react-router-dom": "^5.2.0",
     "sqlite3": "^5.0.2"
   }

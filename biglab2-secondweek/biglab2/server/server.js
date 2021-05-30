@@ -1,5 +1,3 @@
-//TODO: validation with express-validator middleware
-//TODO: method to get lastid?
 const express = require('express') ;
 const morgan = require('morgan') ;
 const dao = require('./dao.js') ;

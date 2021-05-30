@@ -91,6 +91,17 @@ Provide a short description for API with the required parameters, follow the pro
 ```
 * Error Response:
 
+### Get max Task ID
+
+* HTTP Method: GET URL: `/api/maxtaskid`
+* Description: Retrieve the highest Task ID
+* Sample Request: EMPTY
+* Sample Response:
+```
+{"id":6}
+```
+* Error Response:
+
 ### Create a Task
 
 * HTTP Method: POST URL: `/api/tasks`
@@ -100,7 +111,7 @@ Provide a short description for API with the required parameters, follow the pro
 {"description": "description", 
 "important": true, 
 "privacy": true, 
-"deadline": "2020/10/10 14:30"}
+"deadline": "2020-10-10 14:30"}
 ```
 * Sample Response: "50"(last id)
 * Error Response:
