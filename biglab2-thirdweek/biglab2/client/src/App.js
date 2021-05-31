@@ -21,7 +21,7 @@ function Task(id, description, urgent = false, privacy = true, deadline = undefi
   this.description = description ;
   this.urgent = urgent ;
   this.privacy = privacy ;
-  this.deadline = deadline? dayjs(deadline) : undefined ;
+  this.deadline = deadline? dayjs(deadline) : "" ; //TODO: modified: this was the problem??
   this.completed = completed ;
   //TODO: add user
 } ;
