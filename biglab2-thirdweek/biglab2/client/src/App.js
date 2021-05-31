@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import confused from './confused.gif'
 import API from './API.js'
 
-//TODO: manage filter state when reloading
 //TODO: deadline ogni tanto diventa null (?!)
 
 //Task object constructor
@@ -108,7 +107,7 @@ return (
               children={({match}) => filters.includes(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")) ? 
                                       ( 
                                         <Container fluid>
-                                              <>{filter!==match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")?changeFilter(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")):""}</>
+                                              <>{filter!==match.params.filter?changeFilter(match.params.filter):""}</>
                                               <Row className="vheight-100">
                                                 <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} title={match.params.filter} changeFilter={changeFilter}></ToDoSidebar>
                                                 <ToDoMain title={match.params.filter} tasks={tasks} addTask={addTask} removeTask={removeTask} editTask={editTask} loading={loading} updating={updating} updatingPage={updatingPage} changeFilter={changeFilter}></ToDoMain>
