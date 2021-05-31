@@ -11,6 +11,7 @@ import confused from './confused.gif'
 import API from './API.js'
 
 //TODO: deadline ogni tanto diventa null (?!)
+//TODO: gestire meglio filter/title
 
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined, completed = false){
@@ -48,12 +49,13 @@ function App() {
   
   const changeFilter = (newFilter) => {
     console.log("DEBUG:FILTER CHANGE: "+newFilter) ;
-    setFilter( oldFilter => newFilter ) ;
+    setFilter( newFilter ) ;
     setUpdating(true) ;
   } ;
 
   //Rehydrate with all tasks at mount time, when a filter is selected and when a task is added/deleted/updated
   useEffect(() => {
+    if(updating){
       API.loadTasks(filter).then((retrievedTasks)=> {
         console.log("DEBUG: task reloaded") ;
         setTasks(retrievedTasks.length?retrievedTasks.map( t => new Task(t.id, t.description, t.important, t.private, t.deadline, t.completed)):retrievedTasks) ;
@@ -61,6 +63,7 @@ function App() {
         setUpdating(false) ;
       }) ;
       API.retrieveMaxId().then((retrievedId)=> setMaxId(retrievedId.maxid) ) ;
+    } ;
   }, [updating, filter]) ;
   
 
