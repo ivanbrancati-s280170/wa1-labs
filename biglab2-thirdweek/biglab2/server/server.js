@@ -109,10 +109,10 @@ app.put('/api/tasks/:id',[
     let important = req.body.important ;
     let privacy = req.body.privacy ;
     let deadline = req.body.deadline ;
-    let completed = req.body.completed ;
+    //let completed = 0 ;
 
     try{
-    let ID = await dao.updateTask({id: id, description: description, important: important, privacy: privacy, deadline: deadline, completed: completed}) ;
+    let ID = await dao.updateTask({id: id, description: description, important: important, privacy: privacy, deadline: deadline}) ;
     res.json(ID) ;
     res.end() ;
     } catch(error) {

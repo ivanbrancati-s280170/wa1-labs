@@ -10,6 +10,9 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import confused from './confused.gif'
 import API from './API.js'
 
+//TODO: manage filter state when reloading
+//TODO: deadline ogni tanto diventa null (?!)
+
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined, completed = false){
   if (!id) throw new Error('ID is required!') ;
@@ -103,7 +106,7 @@ return (
           </Route>
           <Route path='/:filter'
               children={({match}) => filters.includes(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")) ? 
-                                      (
+                                      ( 
                                         <Container fluid>
                                               <Row className="vheight-100">
                                                 <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} title={match.params.filter} changeFilter={changeFilter}></ToDoSidebar>
