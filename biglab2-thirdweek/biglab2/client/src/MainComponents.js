@@ -289,6 +289,7 @@ const ToDoMain = (props) => {
     return (
             <Col as='main' xs={12} sm={8}>
                 <div id="tasklist-container">
+                    <>{/*props.changeFilter(props.title)*/}</>
                     <FilterTitle title={props.title} loading={props.loading} updating={props.updating}></FilterTitle>
                     <ToDoTaskList elements={props.tasks} removeTask={props.removeTask} openModal={openModal} handleToEdit={handleToEdit} updatingPage={props.updatingPage}></ToDoTaskList>  
                     <AddButton showModal={showModal} openModal={openModal} ></AddButton>

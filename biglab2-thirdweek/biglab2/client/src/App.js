@@ -108,9 +108,10 @@ return (
               children={({match}) => filters.includes(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")) ? 
                                       ( 
                                         <Container fluid>
+                                              <>{filter!==match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")?changeFilter(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")):""}</>
                                               <Row className="vheight-100">
                                                 <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} title={match.params.filter} changeFilter={changeFilter}></ToDoSidebar>
-                                                <ToDoMain title={match.params.filter} tasks={tasks} addTask={addTask} removeTask={removeTask} editTask={editTask} loading={loading} updating={updating} updatingPage={updatingPage}></ToDoMain>
+                                                <ToDoMain title={match.params.filter} tasks={tasks} addTask={addTask} removeTask={removeTask} editTask={editTask} loading={loading} updating={updating} updatingPage={updatingPage} changeFilter={changeFilter}></ToDoMain>
                                               </Row>
                                         </Container>
                                       ) :
