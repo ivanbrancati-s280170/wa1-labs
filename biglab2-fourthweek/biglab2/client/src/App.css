@@ -41,7 +41,7 @@ body{
   border-radius: 20px  !important;
   border: 1px solid rgba(0,0,0,0)!important;
 }
-.list-group-item.mylistmain{
+.list-group-item.todo-main{
  
   padding: 1.75rem 1.75rem;
   margin-bottom: 12px;
@@ -53,7 +53,7 @@ body{
 
 }
 
-.list-group-item.mylistmain:hover{
+.list-group-item.todo-main:hover{
  
   background-color: ghostwhite;
 
@@ -75,22 +75,9 @@ body{
     box-shadow: 0 0 5px #e03131;
 }
 
-/* Old styles, maybe useful for filters
-   and callbacks
-
-.sidebar-left > .list-group-item {
-  background: #f7f8f9;
+.charging-gif{
+  height: 40px;
+  width: 40px;
 }
-
-.sidebar-left > .mouseover{
-  background-color:#9ce29a;
-  color: #28a745
-}
-
-.sidebar-left > .sidebar-left-elem-active{
-  background-color: #28a745;
-  color: white
-}
-*/
 
 

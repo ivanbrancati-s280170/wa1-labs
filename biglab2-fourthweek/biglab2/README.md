@@ -1,70 +1,148 @@
-# Getting Started with Create React App
+# BigLab 2 - Class: 2021 WA1
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Team name: BIGM
 
-## Available Scripts
+Team members:
+* s282380 CORALLO GIULIO
+* s281576 BAHIZI ALAIN DIVIN
+* s280170 BRANCATI IVAN
+* s287821 MOHAMAD MOHAMAD
 
-In the project directory, you can run:
+## Instructions
 
-### `npm start`
+A general description of the BigLab 2 is avaible in the `course-materials` repository, [under _labs_](https://github.com/polito-WA1-AW1-2021/course-materials/tree/main/labs/BigLab2/BigLab2.pdf). In the same repository, you can find the [instructions for GitHub Classroom](https://github.com/polito-WA1-AW1-2021/course-materials/tree/main/labs/GH-Classroom-BigLab-Instructions.pdf), covering this and the next BigLab.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Once cloned this repository, instead, write your names in the above section.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+When committing on this repository, please, do **NOT** commit the `node_modules` directory, so that it is not pushed to GitHub.
+This should be already automatically excluded from the `.gitignore` file, but double-check.
 
-### `npm test`
+When another member of the team pulls the updated project from the repository, remember to run `npm install` in the project directory to recreate all the Node.js dependencies locally, in the `node_modules` folder.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Finally, remember to add the `final` tag for the final submission, otherwise it will not be graded.
 
-### `npm run build`
+## List of APIs offered by the server
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Provide a short description for API with the required parameters, follow the proposed structure.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* [HTTP Method] [URL, with any parameter]
+* [One-line about what this API is doing]
+* [Sample request, with body (if any)]
+* [Sample response, with body (if any)]
+* [Error responses, if any]
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### List Tasks
 
-### `npm run eject`
+* HTTP Method: GET URL: `/api/tasks`
+* Description: Retrieve a list of tasks
+* Sample Request: EMPTY
+* Sample Response: 
+```
+[{"id":2,
+"description":"Go for a walk",
+"important":1,
+"private":1,
+"deadline":"2021-04-14 08:30",
+"completed":1},
+{"id":4,
+"description":"Watch the Express videolecture",
+"important":1,
+"private":1,
+"deadline":"2021-05-24 09:00",
+"completed":1}]
+```
+* Error Response:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### List Tasks (with filter)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* HTTP Method: GET URL: `/api/tasks/filters/:filter`
+* Description: Retrieve a list of Tasks of a given filter
+* Sample Request: EMPTY
+* Sample Response:
+```
+[{"id":2,
+"description":"Go for a walk",
+"important":1,
+"private":1,
+"deadline":"2021-04-14 08:30",
+"completed":1},
+{"id":4,
+"description":"Watch the Express videolecture",
+"important":1,
+"private":1,
+"deadline":"2021-05-24 09:00",
+"completed":1}]
+```
+* Error Response:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Get a Task 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* HTTP Method: GET URL: `/api/tasks/:id`
+* Description: Retrieve the Task with the gived id
+* Sample Request: EMPTY
+* Sample Response:
+```
+{"id":6,
+"description":"Organize a party",
+"important":0,
+"private":0,
+"deadline":"2021-05-22 20:30",
+"completed":0}
+```
+* Error Response:
 
-## Learn More
+### Get max Task ID
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* HTTP Method: GET URL: `/api/maxtaskid`
+* Description: Retrieve the highest Task ID
+* Sample Request: EMPTY
+* Sample Response:
+```
+{"id":6}
+```
+* Error Response:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Create a Task
 
-### Code Splitting
+* HTTP Method: POST URL: `/api/tasks`
+* Description: Create a new Task
+* Sample Request:
+```
+{"description": "description", 
+"important": true, 
+"privacy": true, 
+"deadline": "2020-10-10 14:30"}
+```
+* Sample Response: "50"(last id)
+* Error Response:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Update a Task
 
-### Analyzing the Bundle Size
+* HTTP Method: PUT URL: `/api/tasks/:id`
+* Description: Update a Task
+* Sample Request: 
+```
+{"description": "description", 
+"important": true, 
+"privacy": true, 
+"deadline": "2020-11-11 15:30",
+"completed": false}
+```
+* Sample Response: "50"(id)
+* Error Response:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Mark a Task as Completed/Uncompleted
 
-### Making a Progressive Web App
+* HTTP Method: PUT URL: `/api/tasks/toggleCompleted/:id`
+* Description: Update a Task ( Complete=false -> true, Complete=true -> false)
+* Sample Request: EMPTY
+* Sample Response: "50"(id)
+* Error Response:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Delete a Task
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* HTTP Method: DELETE URL: `/api/tasks/:id`
+* Description: Delete a Task
+* Sample Request: EMPTY
+* Sample Response: "50"(id)
+* Error Response:
