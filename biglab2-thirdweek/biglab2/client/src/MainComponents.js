@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
 import { Link } from 'react-router-dom';
 import API from './API' ;
@@ -285,6 +285,11 @@ const ToDoMain = (props) => {
 
     //function to set the task(id) to edit
     const handleToEdit = (id) => setTaskToEdit(() => id) ;
+
+    useEffect(() => {
+        // Update the document title using the browser API
+        document.title = `${props.title} | ToDo Manager`;
+      });
 
     return (
             <Col as='main' xs={12} sm={8}>

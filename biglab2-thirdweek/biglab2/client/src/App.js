@@ -7,8 +7,8 @@ import { ToDoSidebar, ToDoMain } from './MainComponents.js' ;
 import { Container, Row } from 'react-bootstrap' ;
 import { useState, useEffect } from 'react' ;
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom' ;
-import confused from './confused.gif'
-import API from './API.js'
+import confused from './confused.gif' ;
+import API from './API.js' ;
 
 //TODO: deadline ogni tanto diventa null (?!)
 //TODO: gestire meglio filter/title
@@ -33,7 +33,7 @@ function App() {
   //state to manage tasks addition
   const [tasks, setTasks] = useState([]) ;
   //state representing max task id
-  const [maxId, setMaxId] = useState('') ;
+  const [maxId, setMaxId] = useState('') ; //TODO: needed?
   //state for task loading at mount time
   const [loading, setLoading] = useState(true) ;
   //state for task updating
@@ -68,10 +68,10 @@ function App() {
   
 
 
-  //function to add a task
-  const addTask = (newTask) => {
-    const t = new Task(maxId+1, newTask.description, newTask.urgent, newTask.privacy, newTask.deadline) ;
-    API.addTask(t).then(setUpdating(true)) ;
+//function to add a task
+const addTask = (newTask) => {
+  const t = new Task(maxId+1, newTask.description, newTask.urgent, newTask.privacy, newTask.deadline) ;
+  API.addTask(t).then(setUpdating(true)) ;
 } ;
 
 //function to edit a task
