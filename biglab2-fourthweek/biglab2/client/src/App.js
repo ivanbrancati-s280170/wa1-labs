@@ -10,9 +10,6 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import confused from './confused.gif' ;
 import API from './API.js' ;
 
-//TODO: deadline ogni tanto diventa null (?!)
-//TODO: gestire meglio filter/title
-
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined, completed = false){
   if (!id) throw new Error('ID is required!') ;
@@ -21,7 +18,7 @@ function Task(id, description, urgent = false, privacy = true, deadline = undefi
   this.description = description ;
   this.urgent = urgent ;
   this.privacy = privacy ;
-  this.deadline = deadline? dayjs(deadline) : "" ; //TODO: modified: this was the problem??
+  this.deadline = deadline? dayjs(deadline) : "" ; 
   this.completed = completed ;
   //TODO: add user
 } ;
@@ -45,7 +42,7 @@ function App() {
   } ;
 
   //state to manage tasks filter
-  const [filter, setFilter] = useState('All') ;
+  const [filter, setFilter] = useState('') ;
   
   const changeFilter = (newFilter) => {
     console.log("DEBUG:FILTER CHANGE: "+newFilter) ;
@@ -55,7 +52,7 @@ function App() {
 
   //Rehydrate with all tasks at mount time, when a filter is selected and when a task is added/deleted/updated
   useEffect(() => {
-    if(updating){
+    if(updating && filter){
       API.loadTasks(filter).then((retrievedTasks)=> {
         console.log("DEBUG: task reloaded") ;
         setTasks(retrievedTasks.length?retrievedTasks.map( t => new Task(t.id, t.description, t.important, t.private, t.deadline, t.completed)):retrievedTasks) ;
