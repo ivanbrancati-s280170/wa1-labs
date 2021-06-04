@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import {ListGroup, Col, Form, Modal, Button} from 'react-bootstrap' ;
+import { ListGroup, Col, Form, Modal, Button } from 'react-bootstrap' ;
 import { Link } from 'react-router-dom';
 import API from './API' ;
-import charging from './charging.gif'
+import charging from './charging.gif' ;
 
 const ToDoSidebar = (props) => {
     const elements = props.elements ;

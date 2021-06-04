@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react' ;
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom' ;
 import confused from './confused.gif' ;
 import API from './API.js' ;
+import { LoginPage } from './LoginComponents' ;
 
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined, completed = false){
@@ -100,6 +101,9 @@ return (
       <div className="App">
         <ToDoNavbar toggleSidebar={toggleSidebar}></ToDoNavbar>
         <Switch>
+          <Route exact path='/login'>
+              <LoginPage/>
+          </Route>
           <Route exact path='/'>
               <Redirect to='/All'></Redirect>
           </Route>

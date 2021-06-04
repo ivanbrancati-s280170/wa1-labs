@@ -80,4 +80,22 @@ body{
   width: 40px;
 }
 
+.login-logo{
+  background-color: #17a2b9;
+  color: white;
+  width: 500 px;
+}
+
+.login-modal-text{
+  text-align: center;
+}
+
+.forgot{
+  color: #ef5350
+}
+
+.forgot:hover{
+  color:#b71c1c
+}
+
 
