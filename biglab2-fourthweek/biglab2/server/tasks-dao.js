@@ -1,4 +1,4 @@
-/* Data Access Object (DAO) module for accessing tasks.db */
+/* Data Access Object (DAO) module for accessing tasks table of tasks.db */
 'use strict' ;
 //TODO: response codes?
 

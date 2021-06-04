@@ -1,7 +1,10 @@
 const express = require('express') ;
 const morgan = require('morgan') ;
-const dao = require('./dao.js') ;
+const tasksDao = require('./tasks-dao.js') ;
 const { body, validationResult } = require('express-validator') ;
+
+const passport = require('passport') ;
+const passportLocal = require('passport-local') ;
 
 //TODO: 0/1 anzichè true/false
 
@@ -19,7 +22,7 @@ app.get('/', (req,res) => {
 //function to retrieve all tasks
 app.get('/api/tasks', async (req,res) => {
     try {
-        let tasks = await dao.getTasks("All") ;
+        let tasks = await tasksDao.getTasks("All") ;
         res.json(tasks) ;
         } catch(error) {
             res.status(500).json(error) ;
@@ -30,7 +33,7 @@ app.get('/api/tasks', async (req,res) => {
 app.get('/api/tasks/filters/:filter', async (req,res) => {
     const filter = req.params.filter ;
     try {
-        let tasks = await dao.getTasks(filter) ;
+        let tasks = await tasksDao.getTasks(filter) ;
         res.json(tasks) ;
         } catch(error) {
             res.status(500).json(error) ;
@@ -41,7 +44,7 @@ app.get('/api/tasks/filters/:filter', async (req,res) => {
 app.get('/api/tasks/:id', async (req,res) => {
     const id = req.params.id ;
     try {
-        let task = await dao.getTask(id) ;
+        let task = await tasksDao.getTask(id) ;
         res.json(task) ;
         } catch(error) {
             res.status(500).json(error) ;
@@ -58,7 +61,7 @@ app.post('/api/tasks', async (req, res) => {
     let deadline = req.body.deadline ;
 
     try{
-    let lastID = await dao.createTask({description: description, important: important, privacy: privacy, deadline: deadline}) ;
+    let lastID = await tasksDao.createTask({description: description, important: important, privacy: privacy, deadline: deadline}) ;
     res.json(lastID) ;
     res.end() ;
     } catch(error) {
@@ -85,7 +88,7 @@ app.post('/api/tasks',[
     let deadline = req.body.deadline ;
 
     try{
-    let lastID = await dao.createTask({description: description, important: important, privacy: privacy, deadline: deadline}) ;
+    let lastID = await tasksDao.createTask({description: description, important: important, privacy: privacy, deadline: deadline}) ;
     res.json(lastID) ;
     res.end() ;
     } catch(error) {
@@ -112,7 +115,7 @@ app.put('/api/tasks/:id',[
     //let completed = 0 ;
 
     try{
-    let ID = await dao.updateTask({id: id, description: description, important: important, privacy: privacy, deadline: deadline}) ;
+    let ID = await tasksDao.updateTask({id: id, description: description, important: important, privacy: privacy, deadline: deadline}) ;
     res.json(ID) ;
     res.end() ;
     } catch(error) {
@@ -125,7 +128,7 @@ app.put('/api/tasks/toggleCompleted/:id', async (req, res) => {
     let id = req.params.id ;
 
     try{
-    let ID = await dao.toggleCompleted(id) ;
+    let ID = await tasksDao.toggleCompleted(id) ;
     res.json(ID) ;
     res.end() ;
     } catch(error) {
@@ -138,7 +141,7 @@ app.delete('/api/tasks/:id', async (req, res) => {
     let id = req.params.id ;
 
     try{
-    let ID = await dao.deleteTask(id) ;
+    let ID = await tasksDao.deleteTask(id) ;
     res.json(ID) ;
     res.end() ;
     } catch(error) {
@@ -149,7 +152,7 @@ app.delete('/api/tasks/:id', async (req, res) => {
  //function to retrieve max task id
 app.get('/api/maxtaskid', async (req,res) => {
     try {
-        let result = await dao.getMaxId() ;
+        let result = await tasksDao.getMaxId() ;
         res.json(result) ;
         } catch(error) {
             res.status(500).json(error) ;
