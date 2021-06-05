@@ -75,7 +75,7 @@ app.get('/', (req,res) => {
 //function to retrieve all tasks
 app.get('/api/tasks', isLoggedIn, async (req,res) => {
     try {
-        let tasks = await tasksDao.getTasks("All") ;
+        let tasks = await tasksDao.getTasks("All", req.user.id) ;
         res.json(tasks) ;
         } catch(error) {
             res.status(500).json(error) ;
@@ -86,14 +86,15 @@ app.get('/api/tasks', isLoggedIn, async (req,res) => {
 app.get('/api/tasks/filters/:filter', isLoggedIn, async (req,res) => {
     const filter = req.params.filter ;
     try {
-        let tasks = await tasksDao.getTasks(filter) ;
+        console.log(req.user.id) ;
+        let tasks = await tasksDao.getTasks(filter, req.user.id) ;
         res.json(tasks) ;
         } catch(error) {
             res.status(500).json(error) ;
         }
 }) ;
 
-//function to retrieve a task by id
+//function to retrieve a task by id(TODO: needed?)
 app.get('/api/tasks/:id', isLoggedIn, async (req,res) => {
     const id = req.params.id ;
     try {
@@ -142,7 +143,7 @@ app.post('/api/tasks',[
     let deadline = req.body.deadline ;
 
     try{
-    let lastID = await tasksDao.createTask({description: description, important: important, privacy: privacy, deadline: deadline}) ;
+    let lastID = await tasksDao.createTask({description: description, important: important, privacy: privacy, deadline: deadline}, req.user.id) ;
     res.json(lastID) ;
     res.end() ;
     } catch(error) {
@@ -166,7 +167,6 @@ app.put('/api/tasks/:id',[
     let important = req.body.important ;
     let privacy = req.body.privacy ;
     let deadline = req.body.deadline ;
-    //let completed = 0 ;
 
     try{
     let ID = await tasksDao.updateTask({id: id, description: description, important: important, privacy: privacy, deadline: deadline}) ;

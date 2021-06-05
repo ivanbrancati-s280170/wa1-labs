@@ -8,27 +8,27 @@ const dayjs = require('dayjs') ;
 
 
 //get all tasks, according to the selected {filter}
-exports.getTasks = (filter) => {
+exports.getTasks = (filter, id) => {
   return new Promise(( resolve, reject ) => {
     let query ="" ;
     switch (filter) {
       case "All":
-        query = "SELECT * FROM tasks ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline" ;
+        query = `SELECT * FROM tasks WHERE user = "${id}" ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline`;
         break ;
       case "Important":
-        query = "SELECT * FROM tasks  WHERE important = true ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline" ;
+        query = `SELECT * FROM tasks  WHERE important = true AND user = "${id}" ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline` ;
         break ;
       case "Today":
         const today = `${dayjs().format("YYYY-MM-DD")}%` ;
-        query = `SELECT * FROM tasks  WHERE deadline LIKE "${today}" ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline` ;
+        query = `SELECT * FROM tasks  WHERE deadline LIKE "${today}" AND user = "${id}" ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline` ;
         break ;
       case "Next7Days":
         const tomorrow = dayjs().add(1, 'day').format("YYYY-MM-DD") ;
         const plusEight = dayjs().add(8, 'day').format("YYYY-MM-DD") ;
-        query = `SELECT * FROM tasks  WHERE deadline <= "${plusEight}" AND deadline >= "${tomorrow.toString()}" ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline` ;
+        query = `SELECT * FROM tasks  WHERE deadline <= "${plusEight}" AND deadline >= "${tomorrow.toString()}" AND user = "${id}" ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline AND user = "${id}"` ;
         break ;
       case "Private":
-      query = "SELECT * FROM tasks  WHERE private = true ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline" ;
+      query = `SELECT * FROM tasks  WHERE private = true AND user = "${id}" ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline AND user = "${id}"` ;
       break ;
     } ;
 
@@ -45,7 +45,7 @@ exports.getTasks = (filter) => {
           private : t.private,
           deadline : t.deadline,
           completed : t.completed
-        /*TODO: user not needed now*/ }) ) ;
+         }) ) ;
 
         resolve(tasks) ;
 
@@ -54,7 +54,7 @@ exports.getTasks = (filter) => {
 } ;
 
 
-// get the Task identified by {id}
+// get the Task identified by {id} //TODO: needed?
 exports.getTask = (id) => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM tasks WHERE id=?';
@@ -81,10 +81,10 @@ exports.getTask = (id) => {
 };
 
 //add a new Task
-exports.createTask = (task) => {
+exports.createTask = (task, user) => {
   return new Promise((resolve, reject) => {
-    const query = `INSERT into tasks (description, important, private, deadline, completed, user) VALUES (?, ?, ?, ?, 0, 1)` 
-    db.run(query, [task.description, task.important, task.privacy, task.deadline], function(err) {
+    const query = `INSERT into tasks (description, important, private, deadline, completed, user) VALUES (?, ?, ?, ?, 0, ?)` 
+    db.run(query, [task.description, task.important, task.privacy, task.deadline, user], function(err) {
       if (err) {
         reject(err) ;
         return ;
