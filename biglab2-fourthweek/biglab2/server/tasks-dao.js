@@ -13,22 +13,22 @@ exports.getTasks = (filter) => {
     let query ="" ;
     switch (filter) {
       case "All":
-        query = "SELECT * FROM tasks" ;
+        query = "SELECT * FROM tasks ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline" ;
         break ;
       case "Important":
-        query = "SELECT * FROM tasks  WHERE important = true" ;
+        query = "SELECT * FROM tasks  WHERE important = true ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline" ;
         break ;
       case "Today":
         const today = `${dayjs().format("YYYY-MM-DD")}%` ;
-        query = `SELECT * FROM tasks  WHERE deadline LIKE "${today}"` ;
+        query = `SELECT * FROM tasks  WHERE deadline LIKE "${today}" ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline` ;
         break ;
       case "Next7Days":
         const tomorrow = dayjs().add(1, 'day').format("YYYY-MM-DD") ;
         const plusEight = dayjs().add(8, 'day').format("YYYY-MM-DD") ;
-        query = `SELECT * FROM tasks  WHERE deadline <= "${plusEight}" AND deadline >= "${tomorrow.toString()}"` ;
+        query = `SELECT * FROM tasks  WHERE deadline <= "${plusEight}" AND deadline >= "${tomorrow.toString()}" ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline` ;
         break ;
       case "Private":
-      query = "SELECT * FROM tasks  WHERE private = true" ;
+      query = "SELECT * FROM tasks  WHERE private = true ORDER BY CASE WHEN deadline = '' THEN 1 ELSE 0 END, deadline" ;
       break ;
     } ;
 
