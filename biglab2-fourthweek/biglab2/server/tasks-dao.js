@@ -1,14 +1,11 @@
 /* Data Access Object (DAO) module for accessing tasks table of tasks.db */
+
 'use strict' ;
 //TODO: response codes?
 
-const sqlite = require('sqlite3');
+const db = require('./db') ;
 const dayjs = require('dayjs') ;
 
-// open the database
-const db = new sqlite.Database('tasks.db', (err) => {
-    if(err) throw err;
-  });
 
 //get all tasks, according to the selected {filter}
 exports.getTasks = (filter) => {

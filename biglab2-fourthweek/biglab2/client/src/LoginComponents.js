@@ -2,6 +2,7 @@ import { Container, Row, Button, Modal, Nav, Form, InputGroup } from 'react-boot
 import { useState } from 'react' ;
 
 const LoginPage = (props) => {
+    // state to manage modal opening
     const [modalShow, setModalShow] = useState(false);
 
     return (
@@ -17,13 +18,22 @@ const LoginPage = (props) => {
             </Row>
             <Button onClick={()=> setModalShow(true)} variant="info" size="lg" block>Sign Into ToDo Manager</Button>
             <Button variant="secondary" size="lg" block>Create a new Account</Button>
-            <LoginModal show={modalShow}
+            <LoginModal login={props.login} show={modalShow}
             onHide={() => setModalShow(false)}/>
         </Container>
     )
 } ;
 
 const LoginModal = (props) => {
+    // states to manage the login form
+    const [username, setUsername] = useState('') ;
+    const [password, setPassword] = useState('') ;
+
+    const handleLogin = () => {
+        //TODO: validation
+        const credentials = { username, password } ;
+        props.login(credentials) ;
+    } ;
     return (
       <Modal
         {...props}
@@ -57,6 +67,8 @@ const LoginModal = (props) => {
             aria-label="E-mail"
             aria-describedby="basic-addon1"
             className="form-control-lg"
+            value = {username}
+            onChange = {event => setUsername(event.target.value)}
         />
         </InputGroup>
         </Form.Group>
@@ -75,11 +87,13 @@ const LoginModal = (props) => {
         aria-label="Password"
         aria-describedby="basic-addon1"
         className="form-control-lg"
+        value = {password}
+        onChange = {event => setPassword(event.target.value)}
         /> 
         </InputGroup>    
         </Form.Group>
         <Form.Group>
-        <Button variant="success" size="lg" block>Login{/*TODO: migliora*/}</Button>    
+        <Button variant="success" size="lg" block onClick={handleLogin()}>Login{/*TODO: migliora*/}</Button>    
         <Nav.Link className="h5 login-modal-text w-100 forgot">Forgot Password?</Nav.Link>
         </Form.Group>
         </Form> 

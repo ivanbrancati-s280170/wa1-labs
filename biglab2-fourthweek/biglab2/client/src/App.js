@@ -11,6 +11,8 @@ import confused from './confused.gif' ;
 import API from './API.js' ;
 import { LoginPage } from './LoginComponents' ;
 
+//TODO: fare query con user
+
 //Task object constructor
 function Task(id, description, urgent = false, privacy = true, deadline = undefined, completed = false){
   if (!id) throw new Error('ID is required!') ;
@@ -51,6 +53,28 @@ function App() {
     setUpdating(true) ;
   } ;
 
+  // State to manage login
+  const [loggedIn, setLoggedIn] = useState(false) ;
+  // State to manage the user name
+  const [userName, setUserName] = useState('') ;
+  
+  //Check if the user is already logged in
+  useEffect(()=> {
+    const checkAuth = async() => {
+      try {
+        // here you have the user info, if already logged in
+        // TODO: store them somewhere and use them, if needed
+        const userInfo = await API.getUserInfo();
+        console.log("USER INFO: ")
+        console.log(userInfo) ;
+        setLoggedIn(true);
+      } catch(err) {
+        console.error(err.error);
+      }
+    };
+    checkAuth();
+  }, []);
+
   //Rehydrate with all tasks at mount time, when a filter is selected and when a task is added/deleted/updated
   useEffect(() => {
     if(updating && filter){
@@ -62,7 +86,29 @@ function App() {
       }) ;
       API.retrieveMaxId().then((retrievedId)=> setMaxId(retrievedId.maxid) ) ;
     } ;
-  }, [updating, filter]) ;
+  }, [updating, filter, loggedIn]) ;
+
+  // Function to do the login
+  const doLogIn = async (credentials) => {
+    try {
+      const user = await API.logIn(credentials);
+      setLoggedIn(true);
+      setUserName(user);
+    } catch(err) {
+      //setMessage({msg: err, type: 'danger'}); TODO: come gestire??
+    }
+  }
+
+  // Function to do the logout
+  const doLogOut = async () => {
+    await API.logOut();
+    setLoggedIn(false);
+    // clean up everything
+    setTasks([]) ;
+    setMaxId('') ;
+    setFilter('') ;
+    setUserName('') ;
+  }
   
 
 
@@ -99,17 +145,21 @@ useEffect(() =>
 return (
     <Router>
       <div className="App">
-        <ToDoNavbar toggleSidebar={toggleSidebar}></ToDoNavbar>
+        {loggedIn?<ToDoNavbar toggleSidebar={toggleSidebar} logout={doLogOut}></ToDoNavbar>:''}
         <Switch>
-          <Route exact path='/login'>
-              <LoginPage/>
+          <Route path='/login'>
+              {loggedIn?<Redirect to='/'></Redirect>:<LoginPage login={doLogIn}/>}
           </Route>
           <Route exact path='/'>
-              <Redirect to='/All'></Redirect>
+              {loggedIn?
+                <Redirect to='/All'></Redirect>:
+                <Redirect to='/login'></Redirect>
+              }
           </Route>
           <Route path='/:filter'
               children={({match}) => filters.includes(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")) ? 
                                       ( 
+                                        loggedIn?
                                         <Container fluid>
                                               <>{filter!==match.params.filter?changeFilter(match.params.filter):""}</>
                                               <Row className="vheight-100">
@@ -117,13 +167,15 @@ return (
                                                 <ToDoMain title={match.params.filter} tasks={tasks} addTask={addTask} removeTask={removeTask} editTask={editTask} loading={loading} updating={updating} updatingPage={updatingPage} changeFilter={changeFilter}></ToDoMain>
                                               </Row>
                                         </Container>
+                                        :
+                                        <Redirect to='/login'></Redirect>
                                       ) :
                                       (
                                         <>
                                           <img src={confused}  className="d-block mx-auto img-fluid w-50"/>
                                           <h1 className='validity-error text-center'>Error!</h1>
                                           <h3 className='text-center'>The page you requested doesn't exist. You will be redirected to the home page in few seconds...</h3>
-                                          <p hidden='true'>{setTimeout(() => window.location.replace('/All'), 5000)}</p>
+                                          <p hidden='true'>{setTimeout(() => window.location.replace('/login'), 5000)}</p>
                                         </>
                                       )
                                     }
