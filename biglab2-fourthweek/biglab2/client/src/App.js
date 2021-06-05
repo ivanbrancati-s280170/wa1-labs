@@ -55,16 +55,20 @@ function App() {
 
   // State to manage login
   const [loggedIn, setLoggedIn] = useState(false) ;
-  // State to manage the user name
+  // States to manage the user infos
+  const [userId, setUserId] = useState('') ;
   const [userName, setUserName] = useState('') ;
+  const [userEmail, setUserEmail] = useState('') ;
   
   //Check if the user is already logged in
   useEffect(()=> {
     const checkAuth = async() => {
       try {
-        // here you have the user info, if already logged in
-        // TODO: store them somewhere and use them, if needed
+        
         const userInfo = await API.getUserInfo();
+        setUserId(userInfo.id) ;
+        setUserName(userInfo.name) ;
+        setUserEmail(userInfo.username) ;
         console.log("USER INFO: ")
         console.log(userInfo) ;
         setLoggedIn(true);
@@ -165,7 +169,7 @@ return (
                                               <>{filter!==match.params.filter?changeFilter(match.params.filter):""}</>
                                               <Row className="vheight-100">
                                                 <ToDoSidebar elements={filters} collapsed={collapsed} toggleSidebar={toggleSidebar} title={match.params.filter} changeFilter={changeFilter}></ToDoSidebar>
-                                                <ToDoMain title={match.params.filter} tasks={tasks} addTask={addTask} removeTask={removeTask} editTask={editTask} loading={loading} updating={updating} updatingPage={updatingPage} changeFilter={changeFilter}></ToDoMain>
+                                                <ToDoMain title={match.params.filter} tasks={tasks} addTask={addTask} removeTask={removeTask} editTask={editTask} loading={loading} updating={updating} updatingPage={updatingPage} changeFilter={changeFilter} userName={userName}></ToDoMain>
                                               </Row>
                                         </Container>
                                         :

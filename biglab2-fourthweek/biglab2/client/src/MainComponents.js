@@ -286,6 +286,9 @@ const ToDoMain = (props) => {
     //function to set the task(id) to edit
     const handleToEdit = (id) => setTaskToEdit(() => id) ;
 
+    // state to close the welcome message
+    const [closeMessage, setCloseMessage] = useState(false) ;
+
     useEffect(() => {
         // Update the document title using the browser API
         document.title = `${props.title} | ToDo Manager`;
@@ -295,6 +298,9 @@ const ToDoMain = (props) => {
             <Col as='main' xs={12} sm={8}>
                 <div id="tasklist-container">
                     <>{/*props.changeFilter(props.title)*/}</>
+                    <div className="h3 alert-success login-modal-text" hidden={closeMessage}>{ `Welcome to your ToDo Manager, ${props.userName}!` }
+                    <button type="button" className="close align-items-end" onClick={()=>setCloseMessage(true)}><span>×</span></button>
+                    </div>   
                     <FilterTitle title={props.title} loading={props.loading} updating={props.updating}></FilterTitle>
                     <ToDoTaskList elements={props.tasks} removeTask={props.removeTask} openModal={openModal} handleToEdit={handleToEdit} updatingPage={props.updatingPage}></ToDoTaskList>  
                     <AddButton showModal={showModal} openModal={openModal} ></AddButton>
