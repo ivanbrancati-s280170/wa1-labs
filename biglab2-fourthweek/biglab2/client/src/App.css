@@ -91,11 +91,19 @@ body{
 }
 
 .forgot{
-  color: #ef5350
+  color: #757575 ;
 }
 
 .forgot:hover{
-  color:#b71c1c
+  color:#424242 ;
+}
+
+.login-title{
+  color: #757575 ;
+}
+
+.right-popup-menu{
+  right:0 ;
 }
 
 

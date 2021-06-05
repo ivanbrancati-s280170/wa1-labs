@@ -5,6 +5,10 @@ const LoginPage = (props) => {
     // state to manage modal opening
     const [modalShow, setModalShow] = useState(false);
 
+    const hideModal = () => {
+        setModalShow(false) ;
+    }
+
     return (
         <Container fluid>
             <Row className="justify-content-md-center">
@@ -18,37 +22,94 @@ const LoginPage = (props) => {
             </Row>
             <Button onClick={()=> setModalShow(true)} variant="info" size="lg" block>Sign Into ToDo Manager</Button>
             <Button variant="secondary" size="lg" block>Create a new Account</Button>
-            <LoginModal login={props.login} show={modalShow}
+            <LoginModal login={props.login} show={modalShow} hideModal={hideModal}
             onHide={() => setModalShow(false)}/>
         </Container>
     )
 } ;
 
 const LoginModal = (props) => {
-    // states to manage the login form
+    
+    // states for input fields
     const [username, setUsername] = useState('') ;
     const [password, setPassword] = useState('') ;
 
-    const handleLogin = () => {
-        //TODO: validation
-        const credentials = { username, password } ;
-        props.login(credentials) ;
+    // states for validation(and error messages)
+    const [usernameValidity, setUsernameValidity] = useState(true) ;
+    const [passwordValidity, setPasswordValidity] = useState(true) ;
+
+    // state to manage the login error message
+    const [wrongLogin, setWrongLogin] = useState(false) ;
+
+    
+    // function to check if the email is in a valid form
+    const validateMail = (email) => {
+        return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email) ;
     } ;
+    
+    // function to handle login (with validation)
+    const handleLogin = () => {
+        let username_validity = true ;
+        let password_validity = true ;
+        
+        if(username === '' || !validateMail(username)) {
+            username_validity = false ;
+            setUsernameValidity(false) ;
+        } ;
+
+        if(password === '' || password.length < 8) {
+            password_validity = false ;
+            setPasswordValidity(false) ;
+        } ;
+
+        if (username_validity && password_validity) {
+        const credentials = { username, password } ;
+        const loginResult = props.login(credentials)
+        .then(
+        (loginResult) => {
+        if (loginResult) 
+            setWrongLogin(true) ;
+        } ) ;
+        } ;
+    } ;
+
+    // function to reset form fields
+    const resetForms = () => {
+        setUsername('') ;
+        setUsernameValidity(true) ;
+        setPassword('') ;
+        setPasswordValidity(true) ;
+        setWrongLogin(false) ;
+    } ;
+
     return (
       <Modal
         {...props}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        onHide = {() => {
+                            resetForms() ;
+                            props.hideModal() ;
+                        }}
       >
         <Modal.Header>
         <Row>
-        <button type="button" className="close" onClick={props.onHide}>
+        <button type="button" className="close align-items-end" onClick={() => {props.onHide() ;
+                                                                resetForms() ;
+                                                                }}>
             <span>×</span>
         </button>
        </Row>
-        <Modal.Title as="h1" className="login-modal-text w-100" id="contained-modal-title-vcenter">
-        Sign In
+        <Modal.Title as="h1" className="login-modal-text w-100 login-title" id="contained-modal-title-vcenter">
+        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+       </svg>
+       <br/>
+       <div className="font-weight-bold">
+            Sign In
+        </div>
         </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -66,12 +127,16 @@ const LoginModal = (props) => {
             placeholder="E-mail"
             aria-label="E-mail"
             aria-describedby="basic-addon1"
-            className="form-control-lg"
+            className={`form-control-lg ${usernameValidity?"":"error-border"}`} 
             value = {username}
-            onChange = {event => setUsername(event.target.value)}
+            onChange = {event => {
+                                    setUsername(event.target.value) ;
+                                    setUsernameValidity(true) ;
+                                    setWrongLogin(false) ;
+                                    }}
         />
         </InputGroup>
-        </Form.Group>
+        <span className="validity-error h5" hidden={usernameValidity}>{usernameValidity?"":"E-mail format not correct!"}</span>        </Form.Group>
         <Form.Group>
         <InputGroup>
         <InputGroup.Prepend>
@@ -86,20 +151,26 @@ const LoginModal = (props) => {
         placeholder="Password"
         aria-label="Password"
         aria-describedby="basic-addon1"
-        className="form-control-lg"
+        className={`form-control-lg ${passwordValidity?"":"error-border"}`} 
         value = {password}
-        onChange = {event => setPassword(event.target.value)}
+        onChange = {event => {
+                                setPassword(event.target.value) ;
+                                setPasswordValidity(true) ;
+                                setWrongLogin(false) ;
+                                }}
         /> 
-        </InputGroup>    
+        </InputGroup> 
+        <span className="validity-error h5" hidden={passwordValidity}>{passwordValidity?"":"Password is too short (< 8 characters)!"}</span>   
         </Form.Group>
         <Form.Group>
-        <Button variant="success" size="lg" block onClick={handleLogin()}>Login{/*TODO: migliora*/}</Button>    
+        <Button variant="success" size="lg" block onClick={handleLogin}>{<h3>Login</h3>}{/*TODO: migliora*/}</Button>    
+        <div className="h3 alert-danger login-modal-text" hidden={!wrongLogin}>{!wrongLogin?"":"Invalid E-mail and/or Password!"}</div>   
         <Nav.Link className="h5 login-modal-text w-100 forgot">Forgot Password?</Nav.Link>
         </Form.Group>
         </Form> 
         </Modal.Body>
         <Modal.Footer >
-            <div as="h5" className="login-modal-text w-100">
+            <div className="h5 login-modal-text w-100">
                 Don't have an account? <Nav.Link className="h4">Sign Up</Nav.Link>
             </div>
         </Modal.Footer>

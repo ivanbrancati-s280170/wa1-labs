@@ -95,6 +95,7 @@ function App() {
       setLoggedIn(true);
       setUserName(user);
     } catch(err) {
+      return err ;
       //setMessage({msg: err, type: 'danger'}); TODO: come gestire??
     }
   }
