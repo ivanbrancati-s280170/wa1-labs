@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import confused from './confused.gif' ;
 import API from './API.js' ;
 import { LoginPage } from './LoginComponents' ;
-import { CreateUserForm } from './UserPageComponents' ;
+import { CreateUserForm, ShowUserProfile } from './UserPageComponents' ;
 
 //TODO: fare query con user
 
@@ -174,8 +174,8 @@ return (
           <Route path='/user'
             render={() => 
                 <>{loggedIn ? 
-                  <CreateUserForm/> : 
-                  <CreateUserForm/>
+                  <ShowUserProfile userId={userId} userName={userName} userEmail={userEmail}/> :
+                  <CreateUserForm/> 
                   }
                 </>
             }

@@ -37,7 +37,7 @@ const UserIcon = (props) => {
                 </svg>
             </Nav>
             <div className={`dropdown-menu ${showUserMenu?"show":""} dropdown-menu-right`} aria-labelledby="navbarDropdown">
-            <div className="dropdown-item" >User Profile</div>
+            <Link to="/user"><div className="dropdown-item">User Profile</div></Link>
             <div className="dropdown-item validity-error" onClick={props.logout}>Logout</div>
             </div>
             </Link>
