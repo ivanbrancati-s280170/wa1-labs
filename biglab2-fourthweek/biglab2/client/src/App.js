@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import confused from './confused.gif' ;
 import API from './API.js' ;
 import { LoginPage } from './LoginComponents' ;
+import { CreateUserForm } from './UserPageComponents' ;
 
 //TODO: fare query con user
 
@@ -152,15 +153,33 @@ return (
       <div className="App">
         {loggedIn?<ToDoNavbar toggleSidebar={toggleSidebar} logout={doLogOut}></ToDoNavbar>:''}
         <Switch>
-          <Route path='/login'>
-              {loggedIn?<Redirect to='/'></Redirect>:<LoginPage login={doLogIn}/>}
-          </Route>
-          <Route exact path='/'>
-              {loggedIn?
-                <Redirect to='/All'></Redirect>:
-                <Redirect to='/login'></Redirect>
-              }
-          </Route>
+          <Route exact path='/'
+            render={() =>
+              <>{loggedIn ?
+                <Redirect to='/All' /> :
+                <Redirect to='/login'/>
+                }
+              </> 
+            }
+          />
+          <Route path='/login'
+            render={() => 
+                <>{loggedIn ? 
+                  <Redirect to="/All" /> : 
+                  <LoginPage login={doLogIn} />
+                  }
+                </>
+            }
+          />
+          <Route path='/user'
+            render={() => 
+                <>{loggedIn ? 
+                  <CreateUserForm/> : 
+                  <CreateUserForm/>
+                  }
+                </>
+            }
+          />
           <Route path='/:filter'
               children={({match}) => filters.includes(match.params.filter.split(/(?=[A-Z|0-9])/).join(" ")) ? 
                                       ( 

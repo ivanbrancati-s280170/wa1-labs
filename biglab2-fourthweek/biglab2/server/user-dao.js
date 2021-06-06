@@ -43,3 +43,17 @@ exports.getUserById = (id) => {
     });
   };
 
+// Function to create a new user
+exports.createUser = (email, name, password) => {
+    return new Promise((resolve, reject) => {
+      const query = `INSERT into users (email, name, hash) VALUES (?, ?, ?)` 
+      db.run(query, [email, name, password], function(err) {
+        if (err) {
+          reject(err) ;
+          return ;
+        } 
+        resolve(this.lastID) ;
+      }) ;
+    }) ;
+  } ;
+
