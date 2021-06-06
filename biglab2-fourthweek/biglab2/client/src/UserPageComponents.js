@@ -250,6 +250,10 @@ const CreateUserForm = (props) => {
 } ;
 
 const ShowUserProfile = (props) => {
+    useEffect(() => {
+        // Update the document title using the browser API
+        document.title = `User Profile | ToDo Manager`;
+      });
     return (
             <>
             <h1>{props.userId}</h1>
