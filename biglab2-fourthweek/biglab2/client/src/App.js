@@ -66,12 +66,18 @@ function App() {
     const checkAuth = async() => {
       try {
         
-        const userInfo = await API.getUserInfo();
+        const userInfo = await API.getUserInfo()
+        .then( ( userInfo ) => {
         setUserId(userInfo.id) ;
         setUserName(userInfo.name) ;
         setUserEmail(userInfo.username) ;
+        }) ;
         console.log("USER INFO: ")
         console.log(userInfo) ;
+        console.log("STATES:")
+        console.log(userId)
+        console.log(userName)
+        console.log(userEmail)
         setLoggedIn(true);
       } catch(err) {
         console.error(err.error);

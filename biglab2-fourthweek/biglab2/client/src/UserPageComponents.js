@@ -116,7 +116,7 @@ const CreateUserForm = (props) => {
                                 aria-label="Name"
                                 aria-describedby="basic-addon1"
                                 className={`form-control-lg ${nameValidity?"":"error-border"}`} 
-                                value = {username}
+                                value = {name}
                                 onChange = {event => {
                                                         setName(event.target.value) ;
                                                         setNameValidity(true) ;
@@ -208,7 +208,7 @@ const CreateUserForm = (props) => {
                                 value = {confirmPassword}
                                 onChange = {event => {
                                                         setConfirmPassword(event.target.value) ;
-                                                        setPasswordValidity(true) ;
+                                                        setConfirmPasswordValidity(true) ;
                                                         /*setWrongLogin(false) ;*/
                                                         }}
                                 /> 
